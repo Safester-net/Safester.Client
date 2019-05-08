@@ -16,11 +16,11 @@ It contains all source code of both [Safester for Android](https://safester.net/
 
 ## Cryptography & OpenPGP
 
-Safester.Client text and file encryptions are made with the  [OpenPGP](https://www.openpgp.org/)  cryptography protocol. 
+Safester.Client text and file encryptions are made with the [OpenPGP](https://www.openpgp.org/)  cryptography protocol. 
 
 The underlying base OpenPGP crypto library used is [Bouncy Castle](http://www.bouncycastle.org/csharp/). 
 
-The [OpenPGP](https://www.openpgp.org/) and cryptographic calls are all wrapped using the [Safester.Cryptolibrary](https://github.com/kawansoft/Safester.CryptoLibrary) intermediate C# library.
+The [OpenPGP](https://www.openpgp.org/) and cryptographic calls a are all wrapped using a dedicated C# encryption library: [Safester.Cryptolibrary](https://github.com/kawansoft/Safester.CryptoLibrary)
 
 ## License
 
