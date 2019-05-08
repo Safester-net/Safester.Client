@@ -1,6 +1,6 @@
 # Safester.Client
 
-## Safester Client & UI C# code - v1.2.2 - May 2019, 6
+## Safester Client / UI C# code - v1.2.2 - May 2019, 6
 
 
 
@@ -14,13 +14,15 @@ It contains all source code of both [Safester for Android](https://safester.net/
 
 ## Cryptography & OpenPGP
 
-Safester.Client text and file encryptions are made with the  [OpenPGP](https://www.openpgp.org/)  cryptography protocol. The underlying base OpenPGP crypto library used is [Bouncy Castle](http://www.bouncycastle.org/csharp/). 
+Safester.Client text and file encryptions are made with the  [OpenPGP](https://www.openpgp.org/)  cryptography protocol. 
 
-The [OpenPGP](https://www.openpgp.org/) calls are all wrapped using the [Safester.Cryptolibrary](https://github.com/kawansoft/Safester.CryptoLibrary) intermediate C# library.
+The underlying base OpenPGP crypto library used is [Bouncy Castle](http://www.bouncycastle.org/csharp/). 
+
+The [OpenPGP](https://www.openpgp.org/) and cryptographic calls are all wrapped using the [Safester.Cryptolibrary](https://github.com/kawansoft/Safester.CryptoLibrary) intermediate C# library.
 
 ## License
 
-Safester.Client is licensed with the LGPL  2.1 license. 
+Safester.Client is licensed with the [LGPL  2.1](https://github.com/ndepomereu/Safester.Client/blob/master/LICENSE) license. 
 
 
 
