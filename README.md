@@ -22,7 +22,7 @@ The [OpenPGP](https://www.openpgp.org/) and cryptographic calls are all wrapped 
 
 ## License
 
-Safester.Client is licensed with the [LGPL  2.1](https://github.com/ndepomereu/Safester.Client/blob/master/LICENSE) license. 
+Safester.Client is licensed with the [LGPL  2.1](https://github.com/ndepomereu/Safester.Client/blob/master/LICENSE) license.
 
 
 
