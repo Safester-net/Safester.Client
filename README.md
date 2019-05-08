@@ -10,9 +10,9 @@
 
 Safester.Client is the C# [Xamarin](https://visualstudio.microsoft.com/xamarin/) project of [Safester](https://www.safester.net) Email encryption service. 
 
-It contains all source code of both [Safester for Android](https://safester.net/install_android/) and [Safester for iOS](https://safester.net/install_ios/) Editions. 
+It contains all source code of both [Safester for Android](https://safester.net/install_android/) and [Safester for iOS](https://safester.net/install_ios/) editions. 
 
-(Safester’s source code for [macOS](https://safester.net/install_macos/),  [Linux](https://safester.net/install_linux/) and [Windows](https://safester.net/install_windows/), is being finalized and will be published very soon in Open Source on GitHub.)
+(Safester’s source code for [macOS](https://safester.net/install_macos/),  [Linux](https://safester.net/install_linux/) and [Windows](https://safester.net/install_windows/) editions is being finalized and will be published very soon in Open Source on GitHub.)
 
 ## Cryptography & OpenPGP
 
