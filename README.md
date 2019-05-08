@@ -18,9 +18,9 @@ It contains all source code of both [Safester for Android](https://safester.net/
 
 Safester.Client text and file encryptions are made with the [OpenPGP](https://www.openpgp.org/)  cryptography protocol. 
 
-The underlying base OpenPGP crypto library used is [Bouncy Castle](http://www.bouncycastle.org/csharp/). 
+The cryptographic calls a are all encapsulated in a dedicated C# wrapper library: [Safester.CryptoLibrary](https://github.com/kawansoft/Safester.CryptoLibrary)
 
-The cryptographic calls a are all encapsulated in a dedicated C# wrapper library: [Safester.Cryptolibrary](https://github.com/kawansoft/Safester.CryptoLibrary)
+The underlying OpenPGP crypto library used is [Bouncy Castle](http://www.bouncycastle.org/csharp/). 
 
 ## License
 
