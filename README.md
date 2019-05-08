@@ -8,7 +8,7 @@
 
 
 
-Safester.Client is the C# [Xamarin](https://visualstudio.microsoft.com/xamarin/) project of [Safester](https://www.safester.net) Email encryption service. 
+Safester.Client is the C# [Xamarin](https://visualstudio.microsoft.com/xamarin/) project of [Safester email encryption service](https://www.safester.net).
 
 It contains all source code of both [Safester for Android](https://safester.net/install_android/) and [Safester for iOS](https://safester.net/install_ios/) editions. 
 
@@ -20,7 +20,7 @@ Safester.Client text and file encryptions are made with the [OpenPGP](https://ww
 
 The underlying base OpenPGP crypto library used is [Bouncy Castle](http://www.bouncycastle.org/csharp/). 
 
-The [OpenPGP](https://www.openpgp.org/) and cryptographic calls a are all wrapped using a dedicated C# encryption library: [Safester.Cryptolibrary](https://github.com/kawansoft/Safester.CryptoLibrary)
+The cryptographic calls a are all encapsulated in a dedicated C# wrapper library: [Safester.Cryptolibrary](https://github.com/kawansoft/Safester.CryptoLibrary)
 
 ## License
 
