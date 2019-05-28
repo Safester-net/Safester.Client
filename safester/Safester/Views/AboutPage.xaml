@@ -13,7 +13,7 @@
                 <Label.FormattedText>
                     <FormattedString>
                         <FormattedString.Spans>
-                            <Span Text="Safester v1.2.2 - 06/05/2019" TextColor="White" />
+                            <Span Text="Safester v1.3.5 - 27/05/2019" TextColor="White" />
                         </FormattedString.Spans>
                     </FormattedString>
                 </Label.FormattedText>

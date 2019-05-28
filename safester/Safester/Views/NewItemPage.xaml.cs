@@ -1,26 +1,3 @@
-/*
- * This file is part of Safester.                                    
- * Copyright (C) 2019, KawanSoft SAS
- * (https://www.Safester.net). All rights reserved.                                
- *                                                                               
- * Safester is free software; you can redistribute it and/or                 
- * modify it under the terms of the GNU Lesser General Public                    
- * License as published by the Free Software Foundation; either                  
- * version 2.1 of the License, or (at your option) any later version.            
- *                                                                               
- * Safester is distributed in the hope that it will be useful,               
- * but WITHOUT ANY WARRANTY; without even the implied warranty of                
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU             
- * Lesser General Public License for more details.                               
- *                                                                               
- * You should have received a copy of the GNU Lesser General Public              
- * License along with this library; if not, write to the Free Software           
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
- * 02110-1301  USA
- * 
- * Any modifications to this file must keep this entire header
- * intact.
- */
 ﻿using System;
 using System.Collections.Generic;
 
@@ -88,6 +65,16 @@ namespace Safester.Views
             suggestBoxCc.DataSource = App.Recipients;
             suggestBoxBcc.DataSource = App.Recipients;
 
+            editorBody.Focused += (sender, e) =>
+            {
+                editorBody.HeightRequest = editorHeight / 2;
+            };
+
+            editorBody.Unfocused += (sender, e) =>
+            {
+                editorBody.HeightRequest = editorHeight;
+            };
+
             UpdateDraftData();
         }
 
@@ -102,6 +89,21 @@ namespace Safester.Views
             }
         }
 
+        double editorHeight = 0;
+
+        protected override void LayoutChildren(double x, double y, double width, double height)
+        {
+            base.LayoutChildren(x, y, width, height);
+
+            if (editorBody.Height.Equals(0) == false)
+            {
+                if (editorHeight.Equals(0))
+                    editorHeight = editorBody.Height;
+
+                //editorBody.HeightRequest = editorHeight;
+            }
+        }
+
         private void UpdateDraftData()
         {
             if (DraftMessageData != null)
@@ -109,6 +111,10 @@ namespace Safester.Views
                 if (DraftMessageData.ToRecipients != null && DraftMessageData.ToRecipients.Count > 0)
                 {
                     suggestBoxTo.SelectedItem = DraftMessageData.ToRecipients;
+                    if (suggestBoxTo.SelectedItem != null && (suggestBoxTo.SelectedItem is ObservableCollection<object> == false))
+                    {
+                        suggestBoxTo.Text = string.Join(";", DraftMessageData.ToRecipients);
+                    }
                 }
                 if (DraftMessageData.CcRecipients != null && DraftMessageData.CcRecipients.Count > 0)
                 {
@@ -165,7 +171,7 @@ namespace Safester.Views
             Utils.Utils.SaveDataToFile(App.DraftMessages, Utils.Utils.KEY_FILE_DRAFTMESSAGES);
 
             DisplayAlert("", AppResources.SaveSuccess, AppResources.OK);
-            Navigation.PopAsync();
+            ClosePage();
         }
 
         void Send_Clicked(object sender, EventArgs e)
@@ -304,12 +310,12 @@ namespace Safester.Views
                             int idx = App.DraftMessages.IndexOf(DraftMessageData);
                             App.DraftMessages.RemoveAt(idx);
                             Utils.Utils.SaveDataToFile(App.DraftMessages, Utils.Utils.KEY_FILE_DRAFTMESSAGES);
-                            await Navigation.PopAsync();
+                            ClosePage();
                         });
                     }
                     else
                     {
-                        await Navigation.PopAsync();
+                        ClosePage();
                     }
                 }
                 else
@@ -331,10 +337,13 @@ namespace Safester.Views
             if (suggestBoxTo.SelectedItem != null)
             {
                 var selectedItems = suggestBoxTo.SelectedItem as ObservableCollection<object>;
-                foreach (var item in selectedItems)
+                if (selectedItems != null)
                 {
-                    viewModel.ToRecipients.Add(item as Recipient);
-                    lastRecipientName = (item as Recipient).ToString();
+                    foreach (var item in selectedItems)
+                    {
+                        viewModel.ToRecipients.Add(item as Recipient);
+                        lastRecipientName = (item as Recipient).ToString();
+                    }
                 }
             }
 
@@ -352,10 +361,13 @@ namespace Safester.Views
             if (suggestBoxCc.SelectedItem != null)
             {
                 var selectedItems = suggestBoxCc.SelectedItem as ObservableCollection<object>;
-                foreach (var item in selectedItems)
+                if (selectedItems != null)
                 {
-                    viewModel.CcRecipients.Add(item as Recipient);
-                    lastRecipientName = (item as Recipient).ToString();
+                    foreach (var item in selectedItems)
+                    {
+                        viewModel.CcRecipients.Add(item as Recipient);
+                        lastRecipientName = (item as Recipient).ToString();
+                    }
                 }
             }
             if (string.IsNullOrEmpty(suggestBoxCc.Text) == false && suggestBoxCc.Text.Equals(lastRecipientName) == false)
@@ -372,10 +384,13 @@ namespace Safester.Views
             if (suggestBoxBcc.SelectedItem != null)
             {
                 var selectedItems = suggestBoxBcc.SelectedItem as ObservableCollection<object>;
-                foreach (var item in selectedItems)
+                if (selectedItems != null)
                 {
-                    viewModel.BccRecipients.Add(item as Recipient);
-                    lastRecipientName = (item as Recipient).ToString();
+                    foreach (var item in selectedItems)
+                    {
+                        viewModel.BccRecipients.Add(item as Recipient);
+                        lastRecipientName = (item as Recipient).ToString();
+                    }
                 }
             }
 
@@ -387,6 +402,18 @@ namespace Safester.Views
                 Utils.Utils.ParseEmailString(suggestBoxBcc.Text, out recipientName, out recipientEmail);
                 viewModel.BccRecipients.Add(new Recipient { recipientEmailAddr = recipientEmail, recipientName = recipientName });
             }
+        }
+
+        private void ClosePage()
+        {
+            /*if (Navigation.NavigationStack != null && Navigation.NavigationStack.Count > 1)
+            {
+                Navigation.PopAsync();
+                return;
+            }
+
+            MainPage.MainMasterPage.Detail = new NavigationPage(new NewItemPage());*/
+            Navigation.PopAsync();
         }
 
         private void ShowLoading(bool isShowing)

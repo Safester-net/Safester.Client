@@ -34,6 +34,10 @@
                                 TextColor="Black"
                                 FontSize="14" />
                         </StackLayout>
+                        <ViewCell.ContextActions>
+                            <MenuItem Clicked="OnDelete" CommandParameter="{Binding .}"
+                               Text="{i18n:Translate Delete}" IsDestructive="True" />
+                        </ViewCell.ContextActions>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

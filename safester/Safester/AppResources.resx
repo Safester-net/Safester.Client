@@ -51,6 +51,12 @@
     <data name="Menu" xml:space="preserve">
         <value>Menu</value>
     </data>
+    <data name="Create" xml:space="preserve">
+        <value>Create</value>
+    </data>
+    <data name="Compose" xml:space="preserve">
+        <value>Compose</value>
+    </data>
     <data name="Inbox" xml:space="preserve">
         <value>Inbox</value>
     </data>
@@ -91,7 +97,9 @@
     <data name="ErrorInputUserEmail1" xml:space="preserve">
         <value>Email address should not contain any spaces</value>
     </data>
-    
+    <data name="ErrorInputTwoFactorCode" xml:space="preserve">
+        <value>Please input validation code</value>
+    </data>
     <data name="Version" xml:space="preserve">
         <value>Version: </value>
     </data>
@@ -106,6 +114,9 @@
     </data>
     <data name="ALERT_CONFIRM_EMAIL" xml:space="preserve">
         <value>Please confirm your registration in order to log in.\n\nCheck your inbox for {0} address:\nYou must click on confirmation link on an incoming email sent by Safester.</value>
+    </data>
+    <data name="ALERT_INVALID_2FACODE" xml:space="preserve">
+        <value>Invalid 2FA code. Please retry</value>
     </data>
     <data name="ALERT_ACCOUNT_EXIST" xml:space="preserve">
         <value>This email is already linked to a Safester account.</value>
@@ -124,6 +135,15 @@
     </data>
     <data name="ALERT_NODEFAULTAPP" xml:space="preserve">
         <value>No handler for this type of file</value>
+    </data>
+    <data name="TwoFactorCodeRequired" xml:space="preserve">
+        <value>Validation Code Required</value>
+    </data>
+    <data name="TwoFactorCodeRequiredDetail" xml:space="preserve">
+        <value>Please use your mobile 2FA application to get the required 6 digits validation code.</value>
+    </data>
+    <data name="ValidationCode" xml:space="preserve">
+        <value>Validation Code</value>
     </data>
     <data name="About" xml:space="preserve">
         <value>About</value>
@@ -240,25 +260,31 @@
         <value>Register User</value>
     </data>
     <data name="RegisterUserHint" xml:space="preserve">
-        <value>Use an existing email address as your Safester Account Login. Our Server is going to send you a confirmation email on your chosen email address: please set your anti-spam to accept emails sent by contact@safester.net.</value>
+        <value>Use an existing email address as your Safester Login.</value>
     </data>
     <data name="RegisterUserHint1" xml:space="preserve">
-        <value>Use Existing Address</value>
+        <value>Email (Use existing)</value>
     </data>
     <data name="Name" xml:space="preserve">
         <value>Name:</value>
     </data>
+    <data name="Name1" xml:space="preserve">
+        <value>Name</value>
+    </data>
     <data name="Email" xml:space="preserve">
         <value>Email:</value>
     </data>
+    <data name="Email1" xml:space="preserve">
+        <value>Email</value>
+    </data>
     <data name="Passphrase" xml:space="preserve">
-        <value>Passphrase:</value>
+        <value>Passphrase</value>
     </data>
     <data name="ConfirmPassphrase" xml:space="preserve">
-        <value>Confirm Passphrase:</value>
+        <value>Confirm Passphrase</value>
     </data>
     <data name="Coupon" xml:space="preserve">
-        <value>Coupon:</value>
+        <value>Coupon (Optional)</value>
     </data>
     
     <data name="Product" xml:space="preserve">
@@ -299,5 +325,17 @@
     </data>
     <data name="PickFile" xml:space="preserve">
         <value>Select a File</value>
+    </data>
+    <data name="TwoFactor" xml:space="preserve">
+        <value>Two-factor authentication</value>
+    </data>
+    <data name="TwoFactorAuthentication" xml:space="preserve">
+        <value>2FA Activation</value>
+    </data>
+    <data name="TwoFactorStatus" xml:space="preserve">
+        <value>2FA Activation Status</value>
+    </data>
+    <data name="TwoFactorAlert" xml:space="preserve">
+        <value>Download Safester Desktop Edition in order to conﬁgure 2FA Activation (www.safester.net). </value>
     </data>
 </root>

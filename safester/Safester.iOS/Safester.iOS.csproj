@@ -143,6 +143,9 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\safester-ios-1024.png" />
     <BundleResource Include="Resources\splash_screen.png" />
     <BundleResource Include="Resources\information.png" />
+    <BundleResource Include="Resources\authentication.png" />
+    <BundleResource Include="Resources\compose.png" />
+    <BundleResource Include="Resources\paste.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -156,7 +159,7 @@
       <Version>12.0.1</Version>
     </PackageReference>
     <PackageReference Include="Safester.CryptoLibrary">
-      <Version>1.0.7</Version>
+      <Version>1.0.11</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Plugin.FilePicker">
       <Version>2.0.135</Version>

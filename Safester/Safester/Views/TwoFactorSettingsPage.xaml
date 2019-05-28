@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Safester.Views.TwoFactorSettingsPage"
+             xmlns:i18n="clr-namespace:Safester.Utils"
+             Title="{i18n:Translate TwoFactorAuthentication}">
+<ContentPage.Content>
+        <TableView Intent="Menu" HasUnevenRows="true" x:Name="tableSettings" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <TableRoot >
+                <TableSection Title="" TextColor="{ StaticResource Primary }">
+                    <ViewCell>
+                        <StackLayout Padding="20,10" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                            <Label Text="{i18n:Translate TwoFactorStatus}" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"/>
+                            <Switch x:Name="switchAuthentication" HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </ContentPage.Content>
+</ContentPage>

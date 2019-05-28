@@ -1,26 +1,3 @@
-/*
- * This file is part of Safester.                                    
- * Copyright (C) 2019, KawanSoft SAS
- * (https://www.Safester.net). All rights reserved.                                
- *                                                                               
- * Safester is free software; you can redistribute it and/or                 
- * modify it under the terms of the GNU Lesser General Public                    
- * License as published by the Free Software Foundation; either                  
- * version 2.1 of the License, or (at your option) any later version.            
- *                                                                               
- * Safester is distributed in the hope that it will be useful,               
- * but WITHOUT ANY WARRANTY; without even the implied warranty of                
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU             
- * Lesser General Public License for more details.                               
- *                                                                               
- * You should have received a copy of the GNU Lesser General Public              
- * License along with this library; if not, write to the Free Software           
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
- * 02110-1301  USA
- * 
- * Any modifications to this file must keep this entire header
- * intact.
- */
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,13 +56,16 @@ namespace Safester.Network
 		{
 		}
         
-		public async void Login(string userName, string passWord, Action<bool, string> callback)
+		public async void Login(string userName, string passWord, string twofactorcode, Action<bool, string> callback)
 		{
             var passPhrase = PassphraseUtil.ComputeHashAndSaltedPassphrase(userName, passWord);
 
             var postData = new List<KeyValuePair<string, string>>();
 			postData.Add(new KeyValuePair<string, string>("username", userName));
             postData.Add(new KeyValuePair<string, string>("passphrase", passPhrase));
+
+            if (string.IsNullOrEmpty(twofactorcode) == false)
+                postData.Add(new KeyValuePair<string, string>("2faCode", twofactorcode));
 
             string result = string.Empty;
             result = await CallWithPostAsync("api/login", postData);
@@ -463,6 +443,35 @@ namespace Safester.Network
                 {
                     System.Diagnostics.Debug.WriteLine(ex);
                     return AppResources.CANNOT_CONNECT_SERVER;
+                }
+            }
+        }
+
+        public async Task<TwoFactorSettingsInfo> Get2FASettings(string userName, string token)
+        {
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("username", userName));
+            postData.Add(new KeyValuePair<string, string>("token", token));
+
+            string result = string.Empty;
+            result = await CallWithPostAsync("api/get2faActivationStatus", postData);
+
+            if (string.IsNullOrEmpty(result) == true)
+                return null;
+            else
+            {
+                try
+                {
+                    var ret = (TwoFactorSettingsInfo)JsonConvert.DeserializeObject(result, typeof(TwoFactorSettingsInfo));
+                    if (Errors.IsApiSuccess(ret.status))
+                        return ret;
+                    else
+                        return null;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
                 }
             }
         }

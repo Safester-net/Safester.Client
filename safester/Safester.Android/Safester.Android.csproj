@@ -115,6 +115,7 @@
     <Compile Include="Renderers\CustomEditorRenderer.cs" />
     <Compile Include="Renderers\AndroidHtmlLabelRenderer.cs" />
     <Compile Include="SplashActivity.cs" />
+    <Compile Include="AndroidBug5497WorkaroundForXamarinAndroid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -157,6 +158,9 @@
     <AndroidResource Include="Resources\drawable\mail_reply.png" />
     <AndroidResource Include="Resources\drawable\information.png" />
     <AndroidResource Include="Resources\layout\Splash.axml" />
+    <AndroidResource Include="Resources\drawable\compose.png" />
+    <AndroidResource Include="Resources\drawable\authentication.png" />
+    <AndroidResource Include="Resources\drawable\paste.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable-hdpi\" />
