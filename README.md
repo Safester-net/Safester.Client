@@ -1,6 +1,6 @@
 # Safester.Client
 
-## Safester Client C# Code - v1.2.2 - May 2019, 6 
+## Safester Client C# Code - v1.3.5 - May 2019, 27 
 
 
 
