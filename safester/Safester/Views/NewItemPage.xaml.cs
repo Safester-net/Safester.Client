@@ -15,6 +15,8 @@ using Newtonsoft.Json;
 using Safester.Services;
 using Plugin.Media;
 using System.IO;
+using Safester.Utils;
+using Safester.Controls;
 
 namespace Safester.Views
 {
@@ -54,7 +56,7 @@ namespace Safester.Views
                 if (e.SelectedItem == null)
                     return;
 
-                bool result = await DisplayAlert(AppResources.Warning, AppResources.RemoveAttachment, AppResources.Yes, AppResources.No);
+                bool result = await CustomAlertPage.Show(AppResources.Warning, AppResources.RemoveAttachment, AppResources.Yes, AppResources.No);
                 if (result)
                     viewModel.Attachments.Remove(e.SelectedItem as Attachment);
 
@@ -74,8 +76,6 @@ namespace Safester.Views
             {
                 editorBody.HeightRequest = editorHeight;
             };
-
-            UpdateDraftData();
         }
 
         protected override void OnAppearing()
@@ -85,8 +85,13 @@ namespace Safester.Views
             if (isAppearing == false)
             {
                 isAppearing = true;
+
+                UpdateDraftData();
+
                 editorBody.Focus();
             }
+
+            ChangeTheme();
         }
 
         double editorHeight = 0;
@@ -106,40 +111,43 @@ namespace Safester.Views
 
         private void UpdateDraftData()
         {
-            if (DraftMessageData != null)
+            try
             {
-                if (DraftMessageData.ToRecipients != null && DraftMessageData.ToRecipients.Count > 0)
+                if (DraftMessageData != null)
                 {
-                    suggestBoxTo.SelectedItem = DraftMessageData.ToRecipients;
-                    if (suggestBoxTo.SelectedItem != null && (suggestBoxTo.SelectedItem is ObservableCollection<object> == false))
+                    if (DraftMessageData.ToRecipients != null && DraftMessageData.ToRecipients.Count > 0)
                     {
                         suggestBoxTo.Text = string.Join(";", DraftMessageData.ToRecipients);
                     }
-                }
-                if (DraftMessageData.CcRecipients != null && DraftMessageData.CcRecipients.Count > 0)
-                {
-                    suggestBoxCc.SelectedItem = DraftMessageData.CcRecipients;
-                }
-                if (DraftMessageData.BccRecipients != null && DraftMessageData.BccRecipients.Count > 0)
-                {
-                    suggestBoxBcc.SelectedItem = DraftMessageData.BccRecipients;
-                }
+                    if (DraftMessageData.CcRecipients != null && DraftMessageData.CcRecipients.Count > 0)
+                    {
+                        suggestBoxCc.Text = string.Join(";", DraftMessageData.CcRecipients);
+                    }
+                    if (DraftMessageData.BccRecipients != null && DraftMessageData.BccRecipients.Count > 0)
+                    {
+                        suggestBoxBcc.Text = string.Join(";", DraftMessageData.BccRecipients);
+                    }
 
-                if (string.IsNullOrEmpty(DraftMessageData.subject) == false)
-                    entrySubject.Text = DraftMessageData.subject;
+                    if (string.IsNullOrEmpty(DraftMessageData.subject) == false)
+                        entrySubject.Text = DraftMessageData.subject;
 
-                if (string.IsNullOrEmpty(DraftMessageData.body) == false)
-                    editorBody.Text = DraftMessageData.body;
+                    if (string.IsNullOrEmpty(DraftMessageData.body) == false)
+                        editorBody.Text = DraftMessageData.body;
+                }
+                
+                if (string.IsNullOrEmpty(editorBody.Text))
+                {
+                    var _settingsService = DependencyService.Get<SettingsService>();
+                    var enableSignature = _settingsService.LoadSettings("enable_mobile_signature");
+                    if (string.IsNullOrEmpty(enableSignature) == false && enableSignature.Equals("1"))
+                    {
+                        editorBody.Text = string.Format("\n\n{0}", _settingsService.LoadSettings("mobile_signature"));
+                    }
+                }
             }
-
-            if (string.IsNullOrEmpty(editorBody.Text))
+            catch (Exception ex)
             {
-                var _settingsService = DependencyService.Get<SettingsService>();
-                var enableSignature = _settingsService.LoadSettings("enable_mobile_signature");
-                if (string.IsNullOrEmpty(enableSignature) == false && enableSignature.Equals("1"))
-                {
-                    editorBody.Text = string.Format("\n\n{0}", _settingsService.LoadSettings("mobile_signature"));
-                }
+                Console.WriteLine(ex);
             }
         }
 
@@ -168,9 +176,9 @@ namespace Safester.Views
             }
 
             Utils.Utils.AddOrUpdateDraft(DraftMessageData);
-            Utils.Utils.SaveDataToFile(App.DraftMessages, Utils.Utils.KEY_FILE_DRAFTMESSAGES);
+            Utils.Utils.SaveDataToFile(App.DraftMessages, Utils.Utils.KEY_FILE_DRAFTMESSAGES, true);
 
-            DisplayAlert("", AppResources.SaveSuccess, AppResources.OK);
+            CustomAlertPage.Show("", AppResources.SaveSuccess, AppResources.OK);
             ClosePage();
         }
 
@@ -183,13 +191,49 @@ namespace Safester.Views
 
             if (viewModel.ToRecipients.Count == 0)
             {
-                DisplayAlert(AppResources.Warning, AppResources.InputReceiverEmail, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Warning, AppResources.InputReceiverEmail, AppResources.OK);
                 return;
+            }
+
+            if (viewModel.ToRecipients.Count > 0)
+            {
+                foreach (var item in viewModel.ToRecipients)
+                {
+                    if (Utils.Utils.IsValidEmail(item.recipientEmailAddr) == false)
+                    {
+                        CustomAlertPage.Show(AppResources.Warning, AppResources.InputReceiverEmail, AppResources.OK);
+                        return;
+                    }
+                }
+            }
+
+            if (viewModel.CcRecipients.Count > 0)
+            {
+                foreach (var item in viewModel.CcRecipients)
+                {
+                    if (Utils.Utils.IsValidEmail(item.recipientEmailAddr) == false)
+                    {
+                        CustomAlertPage.Show(AppResources.Warning, AppResources.InputReceiverEmail, AppResources.OK);
+                        return;
+                    }
+                }
+            }
+
+            if (viewModel.BccRecipients.Count > 0)
+            {
+                foreach (var item in viewModel.BccRecipients)
+                {
+                    if (Utils.Utils.IsValidEmail(item.recipientEmailAddr) == false)
+                    {
+                        CustomAlertPage.Show(AppResources.Warning, AppResources.InputReceiverEmail, AppResources.OK);
+                        return;
+                    }
+                }
             }
 
             if (string.IsNullOrEmpty(viewModel.Subject))
             {
-                DisplayAlert(AppResources.Warning, AppResources.InputSubject, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Warning, AppResources.InputSubject, AppResources.OK);
                 return;
             }
 
@@ -209,8 +253,11 @@ namespace Safester.Views
             if (string.IsNullOrEmpty(option))
                 return;
 
-            string filename = string.Empty;
-            string filepath = string.Empty;
+            Attachment attachment = new Attachment();
+            attachment.filename = string.Empty;
+            attachment.filepath = string.Empty;
+            attachment.size = 0;
+            attachment.fileData = null;
 
             if (option.Equals(AppResources.TakePhoto)) // Take Photo from Camera
             {
@@ -221,18 +268,18 @@ namespace Safester.Views
                     return;
                 }
 
-                filename = String.Format("camera_{0}.jpg", System.DateTime.Now.ToString("yyyyMMddHHmmss"));
+                attachment.filename = String.Format("camera_{0}.jpg", System.DateTime.Now.ToString("yyyyMMddHHmmss"));
                 var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
                 {
                     Directory = "Sample",
-                    Name = filename,
+                    Name = attachment.filename,
                     PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight,
                     MaxWidthHeight = 1024,
                     CompressionQuality = 80,
                 });
 
                 if (file != null)
-                    filepath = file.Path;
+                    attachment.filepath = file.Path;
             }
             else if (option.Equals(AppResources.SelectPhoto))// Take Photo from Library
             { 
@@ -252,39 +299,61 @@ namespace Safester.Views
 
                 if (file != null)
                 {
-                    filepath = file.Path;
-                    filename = filepath.Substring(filepath.LastIndexOf('/') + 1);
+                    attachment.filepath = file.Path;
+                    attachment.filename = attachment.filepath.Substring(attachment.filepath.LastIndexOf('/') + 1);
                 }
             }
             else if (option.Equals(AppResources.PickFile))// Pick file from the device
             {
-                FileData filedata = new FileData();
-                var crossFileData = CrossFilePicker.Current;
-                filedata = await crossFileData.PickFile();
+                try
+                {
+                    FileData filedata = new FileData();
+                    var crossFileData = CrossFilePicker.Current;
+                    filedata = await crossFileData.PickFile();
 
-                if (filedata == null || string.IsNullOrEmpty(filedata.FilePath))
+                    if (filedata == null || string.IsNullOrEmpty(filedata.FilePath))
+                        return;
+
+                    attachment.filepath = filedata.FilePath;
+                    attachment.filename = filedata.FileName;
+                    attachment.size = filedata.DataArray.Length;
+                    attachment.fileData = filedata.DataArray;
+                }
+                catch (Exception ex)
+                {
+                    await CustomAlertPage.Show(AppResources.Warning, AppResources.FileAttachNameError, AppResources.OK);
                     return;
-
-                filepath = filedata.FilePath;
-                filename = filedata.FilePath.Substring(filedata.FilePath.LastIndexOf('/') + 1);
+                }
             }
 
-            if (string.IsNullOrEmpty(filename) || string.IsNullOrEmpty(filepath))
+            if (string.IsNullOrEmpty(attachment.filename) || string.IsNullOrEmpty(attachment.filepath))
                 return;
 
-            if (viewModel.Attachments.Any(x => string.IsNullOrEmpty(x.filepath) && x.filepath.Equals(filepath)))
+            if (viewModel.Attachments.Any(x => string.IsNullOrEmpty(x.filepath) && x.filepath.Equals(attachment.filepath)))
             {
-                await DisplayAlert("", AppResources.FileAdded, AppResources.OK);
+                await CustomAlertPage.Show("", AppResources.FileAdded, AppResources.OK);
                 return;
             }
 
-            FileInfo info = new FileInfo(filepath);
-            viewModel.Attachments.Add(new Attachment
+            try
             {
-                filepath = filepath,
-                filename = filename,
-                size = info.Length,
-            });
+                if (attachment.size == 0)
+                {
+                    FileInfo info = new FileInfo(attachment.filepath);
+                    attachment.size = info.Length;
+                }
+
+                if (attachment.size > 200 * 1024 * 1024)
+                {
+                    await CustomAlertPage.Show(AppResources.Warning, AppResources.FileAttachSizeError, AppResources.OK);
+                    return;
+                }
+                viewModel.Attachments.Add(attachment);
+            }
+            catch (Exception ex)
+            {
+                await CustomAlertPage.Show(AppResources.Warning, AppResources.FileAttachNameError, AppResources.OK);
+            }
         }
 
         void ClearAll_Clicked(object sender, System.EventArgs e)
@@ -292,7 +361,7 @@ namespace Safester.Views
             viewModel.Attachments = new ObservableCollection<Attachment>();
         }
 
-        async void FinishedAction(bool success)
+        async void FinishedAction(bool success, string errorMsg)
         {
             isSending = false;
             ShowLoading(false);
@@ -301,7 +370,7 @@ namespace Safester.Views
                 if (isDraft == false)
                 {
                     editorBody.Text = viewModel.BodyEncrypted;
-                    await DisplayAlert(AppResources.Success, AppResources.MessageEncrypted, AppResources.OK);
+                    await CustomAlertPage.Show(AppResources.Success, AppResources.MessageEncrypted, AppResources.OK);
 
                     if (DraftMessageData != null && DraftMessageData.Id > 0)
                     {
@@ -309,7 +378,7 @@ namespace Safester.Views
                         {
                             int idx = App.DraftMessages.IndexOf(DraftMessageData);
                             App.DraftMessages.RemoveAt(idx);
-                            Utils.Utils.SaveDataToFile(App.DraftMessages, Utils.Utils.KEY_FILE_DRAFTMESSAGES);
+                            Utils.Utils.SaveDataToFile(App.DraftMessages, Utils.Utils.KEY_FILE_DRAFTMESSAGES, true);
                             ClosePage();
                         });
                     }
@@ -320,12 +389,12 @@ namespace Safester.Views
                 }
                 else
                 {
-                    await DisplayAlert(AppResources.Success, AppResources.SaveSuccess, AppResources.OK);
+                    await CustomAlertPage.Show(AppResources.Success, AppResources.SaveSuccess, AppResources.OK);
                 }
             }
             else
             {
-                await DisplayAlert(AppResources.Warning, AppResources.ErrorOccured, AppResources.OK);
+                await CustomAlertPage.Show(AppResources.Warning, errorMsg, AppResources.OK);
             }
         }
 
@@ -334,63 +403,102 @@ namespace Safester.Views
             string lastRecipientName = string.Empty;
 
             viewModel.ToRecipients = new ObservableCollection<Recipient>();
-            if (suggestBoxTo.SelectedItem != null)
+            if (suggestBoxTo.SelectedIndices != null && suggestBoxTo.SelectedIndices is List<int>)
             {
-                var selectedItems = suggestBoxTo.SelectedItem as ObservableCollection<object>;
-                if (selectedItems != null)
+                try
                 {
-                    foreach (var item in selectedItems)
+                    var indicies = suggestBoxTo.SelectedIndices as List<int>;
+                    foreach (var item in indicies)
                     {
-                        viewModel.ToRecipients.Add(item as Recipient);
-                        lastRecipientName = (item as Recipient).ToString();
-                    }
+                        viewModel.ToRecipients.Add(App.Recipients[item]);
+                    }                    
+                }
+                catch (Exception ex)
+                {
+
                 }
             }
 
-            if (string.IsNullOrEmpty(suggestBoxTo.Text) == false && suggestBoxTo.Text.Equals(lastRecipientName) == false)
+            if (string.IsNullOrEmpty(suggestBoxTo.Text) == false)
             {
                 string recipientName = string.Empty;
                 string recipientEmail = string.Empty;
 
-                Utils.Utils.ParseEmailString(suggestBoxTo.Text, out recipientName, out recipientEmail);
-                viewModel.ToRecipients.Add(new Recipient { recipientEmailAddr = recipientEmail, recipientName = recipientName });
+                string[] recipients = suggestBoxTo.Text.Split(';');
+                if (recipients != null && recipients.Length > 0)
+                {
+                    foreach (var recipient in recipients)
+                    {
+                        Utils.Utils.ParseEmailString(recipient, out recipientName, out recipientEmail);
+
+                        if (string.IsNullOrWhiteSpace(recipientEmail))
+                            continue;
+
+                        bool isExist = false;
+                        if (viewModel.ToRecipients != null && viewModel.ToRecipients.Any(x => x.recipientEmailAddr.Equals(recipientEmail)))
+                            isExist = true;
+
+                        if (isExist  == false)
+                            viewModel.ToRecipients.Add(new Recipient { recipientEmailAddr = recipientEmail, recipientName = recipientName });
+                    }
+                }                
             }
 
-            lastRecipientName = string.Empty;
             viewModel.CcRecipients = new ObservableCollection<Recipient>();
-            if (suggestBoxCc.SelectedItem != null)
+            if (suggestBoxCc.SelectedIndices != null && suggestBoxCc.SelectedIndices is List<int>)
             {
-                var selectedItems = suggestBoxCc.SelectedItem as ObservableCollection<object>;
-                if (selectedItems != null)
+                try
                 {
-                    foreach (var item in selectedItems)
+                    var indicies = suggestBoxCc.SelectedIndices as List<int>;
+                    foreach (var item in indicies)
                     {
-                        viewModel.CcRecipients.Add(item as Recipient);
-                        lastRecipientName = (item as Recipient).ToString();
+                        viewModel.CcRecipients.Add(App.Recipients[item]);
                     }
                 }
+                catch (Exception ex)
+                {
+
+                }
             }
+
             if (string.IsNullOrEmpty(suggestBoxCc.Text) == false && suggestBoxCc.Text.Equals(lastRecipientName) == false)
             {
                 string recipientName = string.Empty;
                 string recipientEmail = string.Empty;
 
-                Utils.Utils.ParseEmailString(suggestBoxCc.Text, out recipientName, out recipientEmail);
-                viewModel.CcRecipients.Add(new Recipient { recipientEmailAddr = recipientEmail, recipientName = recipientName });
+                string[] recipients = suggestBoxCc.Text.Split(';');
+                if (recipients != null && recipients.Length > 0)
+                {
+                    foreach (var recipient in recipients)
+                    {
+                        Utils.Utils.ParseEmailString(recipient, out recipientName, out recipientEmail);
+                        if (string.IsNullOrWhiteSpace(recipientEmail))
+                            continue;
+
+                        bool isExist = false;
+                        if (viewModel.CcRecipients != null && viewModel.CcRecipients.Any(x => x.recipientEmailAddr.Equals(recipientEmail)))
+                            isExist = true;
+
+                        if (isExist == false)
+                            viewModel.CcRecipients.Add(new Recipient { recipientEmailAddr = recipientEmail, recipientName = recipientName });
+                    }
+                }
             }
 
-            lastRecipientName = string.Empty;
             viewModel.BccRecipients = new ObservableCollection<Recipient>();
-            if (suggestBoxBcc.SelectedItem != null)
+            if (suggestBoxBcc.SelectedIndices != null && suggestBoxBcc.SelectedIndices is List<int>)
             {
-                var selectedItems = suggestBoxBcc.SelectedItem as ObservableCollection<object>;
-                if (selectedItems != null)
+                try
                 {
-                    foreach (var item in selectedItems)
+                    var indicies = suggestBoxBcc.SelectedIndices as List<int>;
+                    foreach (var item in indicies)
                     {
-                        viewModel.BccRecipients.Add(item as Recipient);
-                        lastRecipientName = (item as Recipient).ToString();
+                        viewModel.BccRecipients.Add(App.Recipients[item]);
                     }
+                }
+                catch (Exception ex)
+                {
+
                 }
             }
 
@@ -399,8 +507,23 @@ namespace Safester.Views
                 string recipientName = string.Empty;
                 string recipientEmail = string.Empty;
 
-                Utils.Utils.ParseEmailString(suggestBoxBcc.Text, out recipientName, out recipientEmail);
-                viewModel.BccRecipients.Add(new Recipient { recipientEmailAddr = recipientEmail, recipientName = recipientName });
+                string[] recipients = suggestBoxBcc.Text.Split(';');
+                if (recipients != null && recipients.Length > 0)
+                {
+                    foreach (var recipient in recipients)
+                    {
+                        Utils.Utils.ParseEmailString(recipient, out recipientName, out recipientEmail);
+                        if (string.IsNullOrWhiteSpace(recipientEmail))
+                            continue;
+
+                        bool isExist = false;
+                        if (viewModel.BccRecipients != null && viewModel.BccRecipients.Any(x => x.recipientEmailAddr.Equals(recipientEmail)))
+                            isExist = true;
+
+                        if (isExist == false)
+                            viewModel.BccRecipients.Add(new Recipient { recipientEmailAddr = recipientEmail, recipientName = recipientName });
+                    }
+                }
             }
         }
 
@@ -422,6 +545,33 @@ namespace Safester.Views
                 UserDialogs.Instance.Loading(AppResources.Pleasewait, null, null, true);
             else
                 UserDialogs.Instance.Loading().Hide();
+        }
+
+        private void ChangeTheme()
+        {
+            BackgroundColor = ThemeHelper.GetReadMailBGColor();
+
+            editorBody.TextColor = ThemeHelper.GetThemeTextColor();
+
+            lblMailTo.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblMailCc.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblMailBcc.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblSubject.TextColor = ThemeHelper.GetReadMailLabelColor();
+
+            suggestBoxTo.TextColor = ThemeHelper.GetThemeTextColor();
+            suggestBoxCc.TextColor = ThemeHelper.GetThemeTextColor();
+            suggestBoxBcc.TextColor = ThemeHelper.GetThemeTextColor();
+            entrySubject.TextColor = ThemeHelper.GetThemeTextColor();
+
+            suggestBoxTo.DropDownBackgroundColor = ThemeHelper.GetReadMailBGColor();
+            suggestBoxCc.DropDownBackgroundColor = ThemeHelper.GetReadMailBGColor();
+            suggestBoxBcc.DropDownBackgroundColor = ThemeHelper.GetReadMailBGColor();
+
+            suggestBoxTo.BorderColor = ThemeHelper.GetSearchEntryBorderColor();
+            suggestBoxCc.BorderColor = ThemeHelper.GetSearchEntryBorderColor();
+            suggestBoxBcc.BorderColor = ThemeHelper.GetSearchEntryBorderColor();
+
+            entrySubject.BackgroundColor = ThemeHelper.GetReadMailBGColor();
         }
     }
 }

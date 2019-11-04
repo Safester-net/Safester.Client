@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
+using Xamarin.Forms;
 
 namespace Safester.Models
 {
@@ -9,6 +11,7 @@ namespace Safester.Models
         Compose = 0,
         Inbox,
         Sent,
+        Search,
         Drafts,
         Trash,
         Contacts,
@@ -16,8 +19,10 @@ namespace Safester.Models
         TwoFactorSettings,
         ChangePass,
         About,
+        Users,
         Logout
     }
+
     public class HomeMenuItem
     {
         public MenuItemType Id { get; set; }

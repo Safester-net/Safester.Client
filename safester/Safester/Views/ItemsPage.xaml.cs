@@ -13,6 +13,8 @@ using Safester.ViewModels;
 using System.Collections;
 using Safester.Services;
 using Acr.UserDialogs;
+using Safester.Utils;
+using Safester.Controls;
 
 namespace Safester.Views
 {
@@ -84,9 +86,16 @@ namespace Safester.Views
             await Navigation.PushAsync(new NewItemPage());
         }
 
+        async void SearchItem_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SearchPage(ItemType));
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            BackgroundColor = ThemeHelper.GetListPageBGColor();
 
             if (viewModel.Items.Count == 0 || NeedForceReload)
                 viewModel.LoadItemsCommand.Execute(null);
@@ -94,9 +103,30 @@ namespace Safester.Views
             NeedForceReload = false;
         }
 
+        async void OnUnread(object sender, System.EventArgs e)
+        {
+            if (ItemType != MenuItemType.Inbox)
+                return;
+
+            var mi = ((MenuItem)sender);
+
+            UserDialogs.Instance.Loading(AppResources.Pleasewait, null, null, true);
+            var result = await viewModel.MarkUnreadCommand(mi.CommandParameter as Message);
+            UserDialogs.Instance.Loading().Hide();
+
+            if (result == true)
+            {
+                viewModel.LoadItemsCommand.Execute(null);
+            }
+            else
+            {
+                await CustomAlertPage.Show(AppResources.Warning, AppResources.TryAgain, AppResources.OK);
+            }
+        }
+
         async void OnDelete(object sender, System.EventArgs e)
         {
-            bool result = await DisplayAlert(AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel);
+            bool result = await CustomAlertPage.Show(AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel);
             if (result)
             {
                 var mi = ((MenuItem)sender);
@@ -111,7 +141,7 @@ namespace Safester.Views
                 }
                 else
                 {
-                    await DisplayAlert(AppResources.Warning, AppResources.TryAgain, AppResources.OK);
+                    await CustomAlertPage.Show(AppResources.Warning, AppResources.TryAgain, AppResources.OK);
                 }
             }
         }

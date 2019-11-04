@@ -29,7 +29,7 @@ namespace Safester.ViewModels
         public Command SendMessgeCommand { get; set; }
         public Command SaveDraftCommand { get; set; }
 
-        public Action<bool> Finished { get; set; }
+        public Action<bool, string> Finished { get; set; }
         private List<Recipient> MailRecipients { get; set; }
         private List<PgpPublicKey> MailKeys { get; set; }
 
@@ -54,7 +54,7 @@ namespace Safester.ViewModels
                 var senderKeyInfo = await ApiManager.SharedInstance().GetPublicKey(App.CurrentUser.UserEmail, App.CurrentUser.Token, App.CurrentUser.UserEmail);
                 if (senderKeyInfo == null)
                 {
-                    Finished?.Invoke(false);
+                    Finished?.Invoke(false, AppResources.ErrorGetUserKey);
                     return;
                 }
 
@@ -112,9 +112,19 @@ namespace Safester.ViewModels
                     foreach (var attachment in Attachments)
                     {
                         string encfilepath = string.Empty;
-                        if (Utils.Utils.EncryptFile(App.KeyEncryptor, MailKeys, attachment.filepath, attachment.filename, "fileenc", out encfilepath) == false)
+                        string originalpath = attachment.filepath;
+                        if (attachment.filepath.StartsWith("content://", StringComparison.OrdinalIgnoreCase) && attachment.fileData != null)
                         {
-                            Finished?.Invoke(false);
+                            if (Utils.Utils.SaveTempFile(attachment.filename, attachment.fileData, out originalpath) == false)
+                            {
+                                Finished?.Invoke(false, AppResources.ErrorAddAttachment + attachment.filename);
+                                return;
+                            }
+                        }
+
+                        if (Utils.Utils.EncryptFile(App.KeyEncryptor, MailKeys, originalpath, attachment.filename, "fileenc", out encfilepath) == false)
+                        {
+                            Finished?.Invoke(false, AppResources.ErrorAddAttachment + attachment.filename);
                             return;
                         }
 
@@ -153,23 +163,39 @@ namespace Safester.ViewModels
                         Console.WriteLine(ex);
                     }
 
-                    if (success)
-                        Utils.Utils.SaveDataToFile(App.Recipients, Utils.Utils.KEY_FILE_RECIPIENTS);
-
-                    BodyEncrypted = Utils.Utils.EncryptMessageData(App.KeyEncryptor, MailKeys, Body);
-                    Finished?.Invoke(success);
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        try
+                        {
+                            if (success)
+                            {
+                                foreach (var newRecipient in MailRecipients)
+                                    Utils.Utils.AddOrUpdateRecipient(newRecipient);
+                                Utils.Utils.SaveDataToFile(App.Recipients, Utils.Utils.KEY_FILE_RECIPIENTS);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        finally
+                        {
+                            BodyEncrypted = Utils.Utils.EncryptMessageData(App.KeyEncryptor, MailKeys, Body);
+                            Finished?.Invoke(success, success ? string.Empty : result);
+                        }
+                    });
                 });
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                Finished?.Invoke(false);
+                Finished?.Invoke(false, AppResources.ErrorUnknownException + ex.ToString());
             }
         }
 
         async Task ExecuteSaveDraftCommand()
         {
-            Finished?.Invoke(true);
+            Finished?.Invoke(true, string.Empty);
         }
 
         private async Task GetKeyAndAddRecipient(Recipient item, int type, int pos)
@@ -178,12 +204,12 @@ namespace Safester.ViewModels
             //string recipientEmail = string.Empty;
 
             //Utils.Utils.ParseEmailString(item, out recipientName, out recipientEmail);
-            if (MailRecipients.Any(x => x.recipientEmailAddr.Equals(item.recipientEmailAddr)))
+            if (MailRecipients.Any(x => x.recipientEmailAddr.ToLower().Equals(item.recipientEmailAddr.ToLower())))
             {
                 return;
             }
 
-            var keyInfo = await ApiManager.SharedInstance().GetPublicKey(App.CurrentUser.UserEmail, App.CurrentUser.Token, item.recipientEmailAddr);
+            var keyInfo = await ApiManager.SharedInstance().GetPublicKey(App.CurrentUser.UserEmail, App.CurrentUser.Token, item.recipientEmailAddr.ToLower());
             if (keyInfo == null)
             {
                 keyInfo = await ApiManager.SharedInstance().GetPublicKey(App.CurrentUser.UserEmail, App.CurrentUser.Token, "contact@safelogic.com");
@@ -193,13 +219,12 @@ namespace Safester.ViewModels
 
             var newRecipient = new Recipient
             {
-                recipientEmailAddr = item.recipientEmailAddr,
+                recipientEmailAddr = item.recipientEmailAddr.ToLower(),
                 recipientName = item.recipientName,
                 recipientPosition = pos,
                 recipientType = type
             };
 
-            Utils.Utils.AddOrUpdateRecipient(newRecipient);
             MailRecipients.Add(newRecipient);
 
             // Add recipient pgp public key

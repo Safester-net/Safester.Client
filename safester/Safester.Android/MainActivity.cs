@@ -47,9 +47,10 @@ namespace Safester.Droid
         {
             base.OnResume();
 
-            if (ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.WriteExternalStorage) != Permission.Granted)
+            if (ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.WriteExternalStorage) != Permission.Granted ||
+                ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.ReadExternalStorage) != Permission.Granted)
                 ActivityCompat.RequestPermissions(this, new String[] {
-                Android.Manifest.Permission.WriteExternalStorage }, TAG_CODE_PERMISSIONS);
+                Android.Manifest.Permission.WriteExternalStorage, Android.Manifest.Permission.ReadExternalStorage }, TAG_CODE_PERMISSIONS);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

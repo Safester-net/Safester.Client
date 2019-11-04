@@ -20,13 +20,17 @@ namespace Safester.Views {
         private global::Xamarin.Forms.TableView tableSettings;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
-        private global::Xamarin.Forms.Switch switchAuthentication;
+        private global::Xamarin.Forms.Label lblTwoFactor;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::Safester.Controls.CustomSwitch switchAuthentication;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private void InitializeComponent() {
             global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(TwoFactorSettingsPage));
             tableSettings = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.TableView>(this, "tableSettings");
-            switchAuthentication = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Switch>(this, "switchAuthentication");
+            lblTwoFactor = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "lblTwoFactor");
+            switchAuthentication = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Safester.Controls.CustomSwitch>(this, "switchAuthentication");
         }
     }
 }

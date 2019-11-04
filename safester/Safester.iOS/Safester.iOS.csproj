@@ -82,6 +82,10 @@
     <Compile Include="iOSFilesService.cs" />
     <Compile Include="Renderer\iOSHtmlLabelRenderer.cs" />
     <Compile Include="Renderer\CustomEditorRenderer.cs" />
+    <Compile Include="Renderer\MasterDetailRenderer.cs" />
+    <Compile Include="Renderer\CustomTextFieldRenderer.cs" />
+    <Compile Include="Renderer\CustomSwitchRenderer.cs" />
+    <Compile Include="Renderer\ExtendedViewCellRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -146,6 +150,14 @@
     <BundleResource Include="Resources\authentication.png" />
     <BundleResource Include="Resources\compose.png" />
     <BundleResource Include="Resources\paste.png" />
+    <BundleResource Include="Resources\find.png" />
+    <BundleResource Include="Resources\find%402x.png" />
+    <BundleResource Include="Resources\icon_file.png" />
+    <BundleResource Include="Resources\icon_jpeg.png" />
+    <BundleResource Include="Resources\icon_pdf.png" />
+    <BundleResource Include="Resources\icon_txt.png" />
+    <BundleResource Include="Resources\keys.png" />
+    <BundleResource Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

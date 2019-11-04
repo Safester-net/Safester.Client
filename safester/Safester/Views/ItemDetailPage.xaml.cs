@@ -10,6 +10,8 @@ using Safester.Services;
 using Acr.UserDialogs;
 using System.Linq;
 using Xamarin.Essentials;
+using Safester.Utils;
+using Safester.Controls;
 
 namespace Safester.Views
 {
@@ -54,7 +56,7 @@ namespace Safester.Views
                     { 
                         await Clipboard.SetTextAsync(htmlLabel.PlainText);
 
-                        UserDialogs.Instance.Alert(AppResources.ClipboardSuccess);
+                        CustomAlertPage.Show("", AppResources.ClipboardSuccess, AppResources.OK);
                     }
                     catch (Exception ex)
                     {
@@ -62,6 +64,28 @@ namespace Safester.Views
                     }
                 });
             };
+
+            htmlLabel.TextColor = ThemeHelper.GetThemeTextColor();
+
+            lblMailFrom.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblMailFromContent.TextColor = ThemeHelper.GetThemeTextColor();
+
+            lblMailTo.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblMailToContent.TextColor = ThemeHelper.GetThemeTextColor();
+
+            lblMailCc.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblMailCcContent.TextColor = ThemeHelper.GetThemeTextColor();
+
+            lblMailBcc.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblMailBccContent.TextColor = ThemeHelper.GetThemeTextColor();
+
+            lblSubject.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblSubjectContent.TextColor = ThemeHelper.GetThemeTextColor();
+
+            lblDate.TextColor = ThemeHelper.GetReadMailLabelColor();
+            lblDateContent.TextColor = ThemeHelper.GetThemeTextColor();
+
+            lblAsStored.TextColor = ThemeHelper.GetReadMailLabelColor();
         }
 
         void SwitchShowOriginal_Toggled(object sender, ToggledEventArgs e)
@@ -91,7 +115,7 @@ namespace Safester.Views
             {
                 if (item == null || string.IsNullOrWhiteSpace(filePath))
                 {
-                    await DisplayAlert(AppResources.Warning, AppResources.FileDownloadFailure, AppResources.OK);
+                    await CustomAlertPage.Show(AppResources.Warning, AppResources.FileDownloadFailure, AppResources.OK);
                     return;
                 }
 
@@ -102,7 +126,7 @@ namespace Safester.Views
                     alertMsg = AppResources.FileDownloadToFolderAndroid.Replace("\\n", "\n");
 
                 if (isNeedOpenFile == false)
-                    await DisplayAlert(AppResources.Success, alertMsg, AppResources.OK);
+                    await CustomAlertPage.Show(AppResources.Success, alertMsg, AppResources.OK);
                 else
                 {
                     var filesService = DependencyService.Get<IFilesService>();
@@ -114,6 +138,9 @@ namespace Safester.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            BackgroundColor = ThemeHelper.GetReadMailBGColor();
+            switchShowOriginal.ColorChangedEvent?.Invoke();
 
             if (viewModel.Item.hasAttachs == false)
             {
@@ -154,7 +181,7 @@ namespace Safester.Views
 
         private async void DeleteItem_Clicked(object sender, EventArgs e)
         {
-            bool result = await DisplayAlert(AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel);
+            bool result = await CustomAlertPage.Show(AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel);
             if (result)
             {
                 ShowLoading(true);
@@ -168,112 +195,126 @@ namespace Safester.Views
                 }
                 else
                 {
-                    await DisplayAlert(AppResources.Warning, AppResources.TryAgain, AppResources.OK);
+                    await CustomAlertPage.Show(AppResources.Warning, AppResources.TryAgain, AppResources.OK);
                 }
             }
         }
 
         private void ReplyItem_Clicked(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(viewModel.FromRecipient))
-                return;
+            try
+            {
+                if (string.IsNullOrEmpty(viewModel.FromRecipient))
+                    return;
 
-            var recipient = ProcessReplyRecipient(viewModel.FromRecipient);
-            if (recipient == null)
-                return;
+                var recipient = ProcessReplyRecipient(viewModel.FromRecipient);
+                if (recipient == null)
+                    return;
 
-            if (viewModel.IsBodyLoaded == false)
-                return;
+                if (viewModel.IsBodyLoaded == false)
+                    return;
 
-            var draftMessage = new DraftMessage { Id = 0 };
-            draftMessage.ToRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
-            draftMessage.ToRecipients.Add(recipient);
-            draftMessage.CcRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
-            draftMessage.BccRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
-            draftMessage.attachments = null;
-            draftMessage.subject = "Re:" + viewModel.Subject;
-            draftMessage.body = "\n\n----- original message --------\n" + htmlLabel.PlainText;
-            if (string.IsNullOrEmpty(draftMessage.body) == false)
-                draftMessage.body = draftMessage.body.Replace("<br>", "\n");
+                var draftMessage = new DraftMessage { Id = 0 };
+                draftMessage.ToRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+                draftMessage.ToRecipients.Add(recipient);
+                draftMessage.CcRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+                draftMessage.BccRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+                draftMessage.attachments = null;
+                draftMessage.subject = "Re:" + viewModel.Subject;
+                draftMessage.body = "\n\n----- original message --------\n" + htmlLabel.PlainText;
+                if (string.IsNullOrEmpty(draftMessage.body) == false)
+                    draftMessage.body = draftMessage.body.Replace("<br>", "\n");
 
-            Navigation.PushAsync(new NewItemPage(draftMessage));
+                Navigation.PushAsync(new NewItemPage(draftMessage));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         private void ReplyAllItem_Clicked(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(viewModel.FromRecipient))
-                return;
-
-            if (viewModel.IsBodyLoaded == false)
-                return;
-
-            var draftMessage = new DraftMessage { Id = 0 };
-            draftMessage.ToRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
-            var recipient = ProcessReplyRecipient(viewModel.FromRecipient);
-            if (recipient == null)
-                return;
-            draftMessage.ToRecipients.Add(recipient);
-
-            if (string.IsNullOrEmpty(viewModel.ToRecipients) == false)
+            try
             {
-                string[] recipients = viewModel.ToRecipients.Split(';');
-                if (recipients != null)
+                if (string.IsNullOrEmpty(viewModel.FromRecipient))
+                    return;
+
+                if (viewModel.IsBodyLoaded == false)
+                    return;
+
+                var draftMessage = new DraftMessage { Id = 0 };
+                draftMessage.ToRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+                var recipient = ProcessReplyRecipient(viewModel.FromRecipient);
+                if (recipient == null)
+                    return;
+                draftMessage.ToRecipients.Add(recipient);
+
+                if (string.IsNullOrEmpty(viewModel.ToRecipients) == false)
                 {
-                    foreach (var item in recipients)
+                    string[] recipients = viewModel.ToRecipients.Split(';');
+                    if (recipients != null)
                     {
-                        if (string.IsNullOrWhiteSpace(item) == false)
+                        foreach (var item in recipients)
                         {
-                            recipient = ProcessReplyRecipient(item);
-                            if (recipient != null && !recipient.recipientEmailAddr.Equals(App.CurrentUser.UserEmail, StringComparison.OrdinalIgnoreCase))
-                                draftMessage.ToRecipients.Add(recipient);
+                            if (string.IsNullOrWhiteSpace(item) == false)
+                            {
+                                recipient = ProcessReplyRecipient(item);
+                                if (recipient != null && !recipient.recipientEmailAddr.Equals(App.CurrentUser.UserEmail, StringComparison.OrdinalIgnoreCase))
+                                    draftMessage.ToRecipients.Add(recipient);
+                            }
                         }
                     }
                 }
-            }
 
-            if (string.IsNullOrEmpty(viewModel.CcRecipients) == false)
-            {
-                string[] recipients = viewModel.CcRecipients.Split(';');
-                if (recipients != null)
+                if (string.IsNullOrEmpty(viewModel.CcRecipients) == false)
                 {
-                    foreach (var item in recipients)
+                    string[] recipients = viewModel.CcRecipients.Split(';');
+                    if (recipients != null)
                     {
-                        if (string.IsNullOrWhiteSpace(item) == false)
+                        foreach (var item in recipients)
                         {
-                            recipient = ProcessReplyRecipient(item);
-                            if (recipient != null && !recipient.recipientEmailAddr.Equals(App.CurrentUser.UserEmail, StringComparison.OrdinalIgnoreCase))
-                                draftMessage.ToRecipients.Add(recipient);
+                            if (string.IsNullOrWhiteSpace(item) == false)
+                            {
+                                recipient = ProcessReplyRecipient(item);
+                                if (recipient != null && !recipient.recipientEmailAddr.Equals(App.CurrentUser.UserEmail, StringComparison.OrdinalIgnoreCase))
+                                    draftMessage.ToRecipients.Add(recipient);
+                            }
                         }
                     }
                 }
-            }
 
-            if (string.IsNullOrEmpty(viewModel.BccRecipients) == false)
-            {
-                string[] recipients = viewModel.BccRecipients.Split(';');
-                if (recipients != null)
+                if (string.IsNullOrEmpty(viewModel.BccRecipients) == false)
                 {
-                    foreach (var item in recipients)
+                    string[] recipients = viewModel.BccRecipients.Split(';');
+                    if (recipients != null)
                     {
-                        if (string.IsNullOrWhiteSpace(item) == false)
+                        foreach (var item in recipients)
                         {
-                            recipient = ProcessReplyRecipient(item);
-                            if (recipient != null && !recipient.recipientEmailAddr.Equals(App.CurrentUser.UserEmail, StringComparison.OrdinalIgnoreCase))
-                                draftMessage.ToRecipients.Add(recipient);
+                            if (string.IsNullOrWhiteSpace(item) == false)
+                            {
+                                recipient = ProcessReplyRecipient(item);
+                                if (recipient != null && !recipient.recipientEmailAddr.Equals(App.CurrentUser.UserEmail, StringComparison.OrdinalIgnoreCase))
+                                    draftMessage.ToRecipients.Add(recipient);
+                            }
                         }
                     }
                 }
+
+                draftMessage.CcRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+                draftMessage.BccRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+                draftMessage.attachments = null;
+                draftMessage.subject = "Re:" + viewModel.Subject;
+                draftMessage.body = "\n\n----- original message --------\n" + htmlLabel.PlainText;
+                if (string.IsNullOrEmpty(draftMessage.body) == false)
+                    draftMessage.body = draftMessage.body.Replace("<br>", "\n");
+
+                Navigation.PushAsync(new NewItemPage(draftMessage));
             }
-
-            draftMessage.CcRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
-            draftMessage.BccRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
-            draftMessage.attachments = null;
-            draftMessage.subject = "Re:" + viewModel.Subject;
-            draftMessage.body = "\n\n----- original message --------\n" + htmlLabel.PlainText;
-            if (string.IsNullOrEmpty(draftMessage.body) == false)
-                draftMessage.body = draftMessage.body.Replace("<br>", "\n");
-
-            Navigation.PushAsync(new NewItemPage(draftMessage));
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         private Recipient ProcessReplyRecipient(string recpStr)

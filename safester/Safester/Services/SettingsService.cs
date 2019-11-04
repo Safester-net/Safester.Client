@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Safester.Utils;
 
 namespace Safester.Services
 {
@@ -11,5 +12,8 @@ namespace Safester.Services
 		String GetAppVersionName();
 
         void AskContactsPermission(Action ContactsGrantedAction);
+        void CloseApplication();
+
+        void ChangeTheme(ThemeStyle style);
     }
 }

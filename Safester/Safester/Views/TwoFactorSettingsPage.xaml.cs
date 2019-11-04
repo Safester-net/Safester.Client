@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Acr.UserDialogs;
 using Rg.Plugins.Popup.Services;
+using Safester.Controls;
 using Safester.Network;
 using Safester.Services;
+using Safester.Utils;
 using Safester.ViewModels;
 using Xamarin.Forms;
 
@@ -21,7 +23,7 @@ namespace Safester.Views
             {
                 if (switchAuthentication.IsToggled != isAuthenticated)
                 {
-                    DisplayAlert(AppResources.Warning, AppResources.TwoFactorAlert, AppResources.OK);
+                    CustomAlertPage.Show(AppResources.Warning, AppResources.TwoFactorAlert, AppResources.OK);
                 }
 
                 switchAuthentication.IsToggled = isAuthenticated;
@@ -33,6 +35,9 @@ namespace Safester.Views
             base.OnAppearing();
 
             LoadSettings();
+
+            BackgroundColor = ThemeHelper.GetReadMailBGColor();
+            lblTwoFactor.TextColor = ThemeHelper.GetReadMailLabelColor();
         }
 
         private async void LoadSettings()
@@ -49,6 +54,7 @@ namespace Safester.Views
                 {
                     isAuthenticated = settings.the2faActivationStatus;
                     switchAuthentication.IsToggled = isAuthenticated;
+                    switchAuthentication.ColorChangedEvent?.Invoke();
                 }
                 else
                 {

@@ -4669,11 +4669,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "I:\\Safester\\C#\\Safester.Client\\Safester\\Safester\\Safester.csproj",
+      "projectUniqueName": "I:\\Safester2\\C#\\Safester.Client\\Safester\\Safester\\Safester.csproj",
       "projectName": "Safester",
-      "projectPath": "I:\\Safester\\C#\\Safester.Client\\Safester\\Safester\\Safester.csproj",
+      "projectPath": "I:\\Safester2\\C#\\Safester.Client\\Safester\\Safester\\Safester.csproj",
       "packagesPath": "C:\\Users\\Nicolas de Pomereu\\.nuget\\packages\\",
-      "outputPath": "I:\\Safester\\C#\\Safester.Client\\Safester\\Safester\\obj\\",
+      "outputPath": "I:\\Safester2\\C#\\Safester.Client\\Safester\\Safester\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

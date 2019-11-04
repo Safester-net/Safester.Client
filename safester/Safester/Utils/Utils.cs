@@ -23,6 +23,7 @@ namespace Safester.Utils
         public const string KEY_FILE_RECIPIENTS = "recipients";
         public const string KEY_FILE_USERSETTINGS = "settings";
         public const string KEY_FILE_DRAFTMESSAGES = "drafts";
+        public const string KEY_FILE_USERS = "users";
 
         public const bool DO_ENCRYPT_SUBJECT = true;
 
@@ -95,6 +96,32 @@ namespace Safester.Utils
                 File.WriteAllBytes(filepath, data);
 
                 savedPath = path;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool SaveTempFile(string filename, byte[] data, out string savedPath)
+        {
+            savedPath = string.Empty;
+
+            try
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                Directory.CreateDirectory(Path.Combine(path, "safetemp"));
+                string filepath = Path.Combine(path, filename);
+
+                if (File.Exists(filepath))
+                    File.Delete(filepath);
+
+                File.WriteAllBytes(filepath, data);
+
+                savedPath = filepath;
             }
             catch (Exception ex)
             {
@@ -207,6 +234,63 @@ namespace Safester.Utils
             return false;
         }
 
+        // User Profile
+        public static void LoadUserProfiles()
+        {
+            if (App.CurrentUser == null)
+                return;
+
+            App.UserSettings = LoadDataFromFile<SettingsInfo>(KEY_FILE_USERSETTINGS, true);
+            if (App.UserSettings == null)
+                App.UserSettings = new SettingsInfo();
+
+            App.DraftMessages = LoadDataFromFile<ObservableCollection<DraftMessage>>(KEY_FILE_DRAFTMESSAGES, true);
+            if (App.DraftMessages == null)
+                App.DraftMessages = new ObservableCollection<DraftMessage>();
+        }
+
+        // User
+        public static void AddOrUpdateUser(User user)
+        {
+            if (App.LocalUsers == null || user == null)
+                return;
+
+            if (App.LocalUsers.Any(x => x.UserEmail.Equals(user.UserEmail)))
+            {
+                var item = App.LocalUsers.First(x => x.UserEmail.Equals(user.UserEmail));
+                if (item != null && !string.IsNullOrEmpty(user.UserEmail))
+                {
+                    item.UserEmail = user.UserEmail;
+                    item.UserName = user.UserName;
+                    item.UserPassword = user.UserPassword;
+                    item.PassPhrase = user.PassPhrase;
+                }
+            }
+            else
+            {
+                App.LocalUsers.Add(user.Clone());
+            }
+
+            if (App.ConnectedUsers == null)
+                App.ConnectedUsers = new ObservableCollection<User>();
+
+            if (App.ConnectedUsers.Any(x => x.UserEmail.Equals(user.UserEmail)))
+            {
+                var item = App.ConnectedUsers.First(x => x.UserEmail.Equals(user.UserEmail));
+                if (item != null && !string.IsNullOrEmpty(user.UserEmail))
+                {
+                    item.UserEmail = user.UserEmail;
+                    item.UserName = user.UserName;
+                    item.UserPassword = user.UserPassword;
+                    item.PassPhrase = user.PassPhrase;
+                }
+            }
+            else
+            {
+                App.ConnectedUsers.Add(user.Clone());
+            }
+        }
+
         // Contacts
         public static void AddOrUpdateRecipient(Recipient recipient)
         {
@@ -244,9 +328,12 @@ namespace Safester.Utils
         }
 
         // Save/Load Data
-        public static T LoadDataFromFile<T>(string key)
+        public static T LoadDataFromFile<T>(string key, bool isUserData = false)
         {
             //
+            if (isUserData)
+                key = App.CurrentUser.UserEmail + "_" + key;
+
             var dataStr = DependencyService.Get<SettingsService>().LoadSettings(key);
             T data;
 
@@ -263,8 +350,11 @@ namespace Safester.Utils
             return data;
         }
 
-        public static void SaveDataToFile<T>(T data, string key)
+        public static void SaveDataToFile<T>(T data, string key, bool isUserData = false)
         {
+            if (isUserData)
+                key = App.CurrentUser.UserEmail + "_" + key;
+
             string dataStr = string.Empty;
             dataStr = JsonConvert.SerializeObject(data);
 
@@ -309,11 +399,11 @@ namespace Safester.Utils
 
                 size /= 1024;
                 if (size < 1024) // 1GB
-                    return string.Format("{0:f2}MB", size);
+                    return string.Format("{0:f2}", size) + AppResources.MB;
 
                 size /= 1024;
                 if (size < 1024) // 1TB
-                    return string.Format("{0:f2}GB", size);
+                    return string.Format("{0:f2}", size) + AppResources.GB;
 
                 size /= 1024;
                 return string.Format("{0:f2}TB", size);
@@ -324,6 +414,24 @@ namespace Safester.Utils
             }
 
             return "0B";
+        }
+
+        public static bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static long GetUnixEpochTimeStamp(DateTime date)
+        {
+            return (long)(date.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds);
         }
 
         public static string GetRemovedHtmlString(string str)
@@ -495,6 +603,30 @@ namespace Safester.Utils
             }
 
             return string.Empty;
+        }
+
+        public static string GetFileImageName(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                return "icon_file.png";
+
+            if (fileName.EndsWith(".pgp", StringComparison.OrdinalIgnoreCase))
+                fileName = fileName.Substring(0, fileName.Length - 4);
+
+            if (fileName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase))
+                return "icon_txt.png";
+            if (fileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                return "icon_pdf.png";
+            if (fileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+                return "icon_jpeg.png";
+            if (fileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
+                return "icon_jpeg.png";
+            if (fileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+                return "icon_jpeg.png";
+            if (fileName.EndsWith(".bmp", StringComparison.OrdinalIgnoreCase))
+                return "icon_jpeg.png";
+
+            return "icon_file.png";
         }
     }
 }

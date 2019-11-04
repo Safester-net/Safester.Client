@@ -63,20 +63,22 @@ namespace Safester.ViewModels
                 }
                 if (recipient.recipientType == 2) // cc
                 {
-                    if (string.IsNullOrEmpty(ToRecipients))
+                    if (string.IsNullOrEmpty(CcRecipients))
                         CcRecipients = string.Format("{0} <{1}>", recipient.recipientName, recipient.recipientEmailAddr);
                     else
                         CcRecipients += string.Format("; {0} <{1}>", recipient.recipientName, recipient.recipientEmailAddr);
                 }
                 if (recipient.recipientType == 3) // bcc
                 {
-                    if (string.IsNullOrEmpty(ToRecipients))
+                    if (string.IsNullOrEmpty(BccRecipients))
                         BccRecipients = string.Format("{0} <{1}>", recipient.recipientName, recipient.recipientEmailAddr);
                     else
                         BccRecipients += string.Format("; {0} <{1}>", recipient.recipientName, recipient.recipientEmailAddr);
                 }
             }
 
+            FromRecipient = HttpUtility.HtmlDecode(FromRecipient);
+            ToRecipients = HttpUtility.HtmlDecode(ToRecipients);
             Subject = HttpUtility.HtmlDecode(item.subject);
             MessageDate = item.date;
 
@@ -184,13 +186,7 @@ namespace Safester.ViewModels
 
         private void MarkMessageAsRead()
         {
-            ApiManager.SharedInstance().SetMessageRead(App.CurrentUser.UserEmail, App.CurrentUser.Token, Item.senderEmailAddr, (int)Item.messageId, (success, result) =>
-            {
-                if (success == false)
-                {
-                    Console.WriteLine("MarkMessage Failed - {0}", result);
-                }
-            });
+            ApiManager.SharedInstance().SetMessageRead(App.CurrentUser.UserEmail, App.CurrentUser.Token, Item.senderEmailAddr, (int)Item.messageId, false);
         }
 
         public async Task<bool> DeleteItemsCommand(int id)
@@ -198,7 +194,7 @@ namespace Safester.ViewModels
             bool result = false;
             try
             {
-                result = await ApiManager.SharedInstance().DeleteMessage(App.CurrentUser.UserName, App.CurrentUser.Token, id, (int)ItemType);
+                result = await ApiManager.SharedInstance().DeleteMessage(App.CurrentUser.UserEmail, App.CurrentUser.Token, id, (int)ItemType);
             }
             catch (Exception ex)
             {

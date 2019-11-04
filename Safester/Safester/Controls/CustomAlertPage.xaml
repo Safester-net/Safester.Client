@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="Safester.Controls.CustomAlertPage">
+    <ContentPage.Content>
+        <Frame x:Name="mainLayout" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+               CornerRadius="5" Padding="20, 15" Margin="20, 5">
+            <StackLayout Spacing="10" >
+                <Label x:Name="lblTitle" HorizontalOptions="StartAndExpand"
+                       FontSize="20" FontAttributes="Bold"/>
+                <Label x:Name="lblDescription" HorizontalOptions="StartAndExpand"
+                       FontSize="16"/>
+                <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal"
+                             Margin="0, 10, 0, 0" Spacing="10">
+                    <StackLayout x:Name="cancelLayout" Padding="15, 5" >
+                        <Label x:Name="lblCancel" FontSize="14" />
+                    </StackLayout>
+                    <StackLayout x:Name="closeLayout" Padding="15, 5" >
+                        <Label x:Name="lblClose" FontSize="14" />
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</pages:PopupPage>

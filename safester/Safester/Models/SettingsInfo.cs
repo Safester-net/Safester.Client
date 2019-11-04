@@ -17,4 +17,9 @@ namespace Safester.Models
     {
         public bool the2faActivationStatus { get; set; }
     }
+
+    public class CouponInfo : BaseResult
+    {
+        public string coupon { get; set; }
+    }
 }

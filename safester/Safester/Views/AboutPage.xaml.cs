@@ -1,5 +1,7 @@
 ﻿using System;
 using Acr.UserDialogs;
+using Safester.Controls;
+using Safester.Utils;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,11 +27,18 @@ namespace Safester.Views
             {
                 if (Utils.Utils.SendEmail("contact@safester.net") == false)
                 {
-                    UserDialogs.Instance.Alert(AppResources.ALERT_NOEMAILAPP);
+                    CustomAlertPage.Show("", AppResources.ALERT_NOEMAILAPP, AppResources.OK);
                 }
             };
             lblEmail.GestureRecognizers.Add(emailGesture);
 
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                lblUrl.IsVisible = false;
+            }
+
+            BackgroundColor = ThemeHelper.GetLoginBGColor();
+            imgLogo.Source = ImageSource.FromFile(ThemeHelper.GetLoginLogoName());
         }
     }
 }

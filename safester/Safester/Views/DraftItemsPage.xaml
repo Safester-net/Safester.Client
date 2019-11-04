@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Safester.Services.Converters"
              xmlns:i18n="clr-namespace:Safester.Utils"
              Title="{i18n:Translate Drafts}"
              x:Class="Safester.Views.DraftItemsPage">
@@ -13,11 +14,18 @@
             </ToolbarItem.Icon>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:TextColorConverter x:Key="textColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.Content>
         <StackLayout>
         <ListView x:Name="ItemsListView"
                 VerticalOptions="FillAndExpand"
+                BackgroundColor="Transparent"
                 HasUnevenRows="true"
                 CachingStrategy="RecycleElement"
                 ItemSelected="OnItemSelected">
@@ -27,11 +35,11 @@
                         <StackLayout Padding="10">
                             <Label Text="{Binding ShowToRecipients}"
                                 LineBreakMode="NoWrap"
-                                TextColor="Black"
+                                TextColor="{Binding ., Converter={StaticResource textColorConverter}}"
                                 FontSize="16" />
                             <Label Text="{Binding subject}"
                                 LineBreakMode="NoWrap"
-                                TextColor="Black"
+                                TextColor="{Binding ., Converter={StaticResource textColorConverter}}"
                                 FontSize="14" />
                         </StackLayout>
                         <ViewCell.ContextActions>

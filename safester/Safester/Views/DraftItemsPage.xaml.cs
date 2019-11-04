@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Safester.Controls;
 using Safester.Models;
+using Safester.Utils;
 using Xamarin.Forms;
 
 namespace Safester.Views
@@ -30,6 +32,8 @@ namespace Safester.Views
             base.OnAppearing();
 
             LoadData();
+
+            BackgroundColor = ThemeHelper.GetReadMailBGColor();
         }
 
         private void LoadData()
@@ -54,7 +58,7 @@ namespace Safester.Views
 
         async void OnDelete(object sender, System.EventArgs e)
         {
-            bool result = await DisplayAlert(AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel);
+            bool result = await CustomAlertPage.Show(AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel);
             if (result)
             {
                 var mi = ((MenuItem)sender);
@@ -62,7 +66,7 @@ namespace Safester.Views
 
                 int idx = App.DraftMessages.IndexOf(draftData);
                 App.DraftMessages.RemoveAt(idx);
-                Utils.Utils.SaveDataToFile(App.DraftMessages, Utils.Utils.KEY_FILE_DRAFTMESSAGES);
+                Utils.Utils.SaveDataToFile(App.DraftMessages, Utils.Utils.KEY_FILE_DRAFTMESSAGES, true);
 
                 LoadData();
             }

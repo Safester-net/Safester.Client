@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Safester.Views.ItemsPage"
@@ -8,7 +8,9 @@
              Title="{Binding Title}"
              x:Name="BrowseItemsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Compose" Clicked="ComposeItem_Clicked" >
+        <ToolbarItem Text="" Icon="find.png" Clicked="SearchItem_Clicked" >
+        </ToolbarItem>
+        <ToolbarItem Text="{i18n:Translate Compose}" Clicked="ComposeItem_Clicked" >
             <ToolbarItem.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="UWP" Value="add.png"/>
@@ -22,11 +24,13 @@
             <local:DateConverter x:Key="longToDate" />
             <local:SizeConverter x:Key="sizeToString" />
             <local:BoolToFontAttrConverter x:Key="boolToFontAttr" />
+            <local:TextColorConverter x:Key="textColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <ListView x:Name="ItemsListView"
+                  BackgroundColor="Transparent"
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
@@ -52,39 +56,41 @@
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center" />
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
-                                <Label Text="{Binding senderName}"
+                                <Label Text="{Binding SenderOrRecipient}"
                                     LineBreakMode="TailTruncation"
                                     HorizontalOptions="FillAndExpand"
                                    FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
-                                    TextColor="Black"
+                                    TextColor="{Binding ., Converter={StaticResource textColorConverter}}"
                                     FontSize="16" />
                                 <Label Text="{Binding date, Converter={StaticResource longToDate}}"
                                     LineBreakMode="TailTruncation"
                                     HorizontalOptions="End"
                                     WidthRequest="150"
                                     HorizontalTextAlignment="End"
-                                       FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
-                                    TextColor="Blue"
+                                    FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
+                                    TextColor="{Binding ., Converter={StaticResource textColorConverter}, ConverterParameter={x:Reference imgAttachment}}"
                                     FontSize="14" />
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="1" Grid.Column="1">
                                 <Label Text="{Binding subject}"
                                     LineBreakMode="TailTruncation"
                                     HorizontalOptions="FillAndExpand"
-                                       FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
-                                    TextColor="Black"
+                                   FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
+                                    TextColor="{Binding ., Converter={StaticResource textColorConverter}}"
                                     FontSize="16" />
                                 <Label Text="{Binding size, Converter={StaticResource sizeToString}}"
                                     LineBreakMode="TailTruncation"
                                     HorizontalOptions="End"
                                     WidthRequest="100"
                                     HorizontalTextAlignment="End"
-                                       FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
-                                    TextColor="Blue"
+                                    FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
+                                    TextColor="{Binding ., Converter={StaticResource textColorConverter}, ConverterParameter={x:Reference imgAttachment}}"
                                     FontSize="14" />
                               </StackLayout>
                         </Grid>
                         <ViewCell.ContextActions>
+                            <MenuItem Clicked="OnUnread" CommandParameter="{Binding .}"
+                               Text="{i18n:Translate MarkItem}" IsDestructive="True" />
                             <MenuItem Clicked="OnDelete" CommandParameter="{Binding .}"
                                Text="{i18n:Translate Delete}" IsDestructive="True" />
                         </ViewCell.ContextActions>

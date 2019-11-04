@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 using Acr.UserDialogs;
+using Safester.Controls;
 using Safester.Custom.Effects;
 using Safester.Network;
 using Safester.Utils;
@@ -9,11 +11,14 @@ using Xamarin.Forms;
 
 namespace Safester.Views
 {
-    public partial class RegisterPage : ContentPage
+    public partial class PatatePage : ContentPage
     {
         private bool _isCreating { get; set; }
 
-        public RegisterPage()
+        private string _userName { get; set; }
+        private string _emailAddr { get; set; }
+
+        public PatatePage()
         {
             InitializeComponent();
 
@@ -21,47 +26,54 @@ namespace Safester.Views
             entryConfirmPassword.Effects.Add(new ShowHidePassEffect());
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            BackgroundColor = ThemeHelper.GetLoginBGColor();
+        }
+
         void Save_Clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(entryName.Text) == true)
             {
-                DisplayAlert(AppResources.Error, AppResources.ErrorInputUserName, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Error, AppResources.ErrorInputUserName, AppResources.OK);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(entryEmail.Text) == true)
             {
-                DisplayAlert(AppResources.Error, AppResources.ErrorInputUserEmail, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Error, AppResources.ErrorInputUserEmail, AppResources.OK);
                 return;
             }
 
             if (entryEmail.Text.Contains(" ") == true)
             {
-                DisplayAlert(AppResources.Error, AppResources.ErrorInputUserEmail1, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Error, AppResources.ErrorInputUserEmail1, AppResources.OK);
                 return;
             }
 
             if (string.IsNullOrEmpty(entryPassword.Text) == true)
             {
-                DisplayAlert(AppResources.Error, AppResources.ErrorInputUserPassPhrase, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Error, AppResources.ErrorInputUserPassPhrase, AppResources.OK);
                 return;
             }
 
             if (string.IsNullOrEmpty(entryConfirmPassword.Text) == true)
             {
-                DisplayAlert(AppResources.Error, AppResources.ErrorInputUserPassPhrase, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Error, AppResources.ErrorInputUserPassPhrase, AppResources.OK);
                 return;
             }
 
             if (entryPassword.Text.Equals(entryConfirmPassword.Text) == false)
             {
-                DisplayAlert(AppResources.Error, AppResources.ErrorInputUserPassPhrase1, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Error, AppResources.ErrorInputUserPassPhrase1, AppResources.OK);
                 return;
             }
 
             if (entryPassword.Text.Length < 10)
             {
-                DisplayAlert(AppResources.Error, AppResources.ErrorInputUserPassPhrase2, AppResources.OK);
+                CustomAlertPage.Show(AppResources.Error, AppResources.ErrorInputUserPassPhrase2, AppResources.OK);
                 return;
             }
 
@@ -70,9 +82,12 @@ namespace Safester.Views
 
             ShowLoading(true);
 
+            _userName = HttpUtility.HtmlEncode(entryName.Text);
+            _emailAddr = entryEmail.Text.ToLower();
+
             Task.Run(() =>
             {
-                ApiManager.SharedInstance().Register(entryName.Text, entryEmail.Text, entryPassword.Text, entryCoupon.Text, (success, message) =>
+                ApiManager.SharedInstance().Register(_userName, _emailAddr, entryPassword.Text, string.Empty, (success, message) =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
@@ -81,27 +96,27 @@ namespace Safester.Views
                         {
                             if (message.StartsWith(Errors.REGISTER_ACCOUNT_EXISTS, StringComparison.OrdinalIgnoreCase))
                             {
-                                UserDialogs.Instance.Alert(string.Format(AppResources.ALERT_ACCOUNT_EXIST, ""));
+                                CustomAlertPage.Show("", string.Format(AppResources.ALERT_ACCOUNT_EXIST, ""), AppResources.OK);
                             }
                             else if (message.StartsWith(Errors.REGISTER_EMAIL_INVALID, StringComparison.OrdinalIgnoreCase))
                             {
-                                UserDialogs.Instance.Alert(string.Format(AppResources.ALERT_EMAIL_INVALID, ""));
+                                CustomAlertPage.Show("", string.Format(AppResources.ALERT_EMAIL_INVALID, ""), AppResources.OK);
                             }
                             else if (message.StartsWith(Errors.REGISTER_COUPON_INVALID, StringComparison.OrdinalIgnoreCase))
                             {
-                                UserDialogs.Instance.Alert(string.Format(AppResources.ALERT_COUPON_INVALID, ""));
+                                CustomAlertPage.Show("", string.Format(AppResources.ALERT_COUPON_INVALID, ""), AppResources.OK);
                             }
                             else
                             {
-                                UserDialogs.Instance.Alert(string.Format(message, ""));
+                                CustomAlertPage.Show("", string.Format(message, ""), AppResources.OK);
                             }
                         }
                         else
                         {
                             var alertMsg = AppResources.ALERT_REGISTER_SUCCESS.Replace("\\n", "\n");
-                            UserDialogs.Instance.Alert(string.Format(alertMsg, entryEmail.Text));
+                            CustomAlertPage.Show("", string.Format(alertMsg, _emailAddr), AppResources.OK);
 
-                            LoginPage.CurrentUserEmail = entryEmail.Text;
+                            LoginPage.CurrentUserEmail = _emailAddr;
                             LoginPage.CurrentUserPassword = String.Empty;
                             LoginPage.NeedsUpdating = true;
 

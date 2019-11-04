@@ -52,7 +52,7 @@ namespace Safester.ViewModels
             {
                 Items.Clear();
                 offset = 0;
-                ApiManager.SharedInstance().ListMessages(App.CurrentUser.UserName, App.CurrentUser.Token, (int)DirectoryId, limit, offset, (success, result) =>
+                ApiManager.SharedInstance().ListMessages(App.CurrentUser.UserEmail, App.CurrentUser.Token, (int)DirectoryId, limit, offset, (success, result) =>
                 {
                     IsBusy = false;
                     LoadingAction?.Invoke(false);
@@ -86,7 +86,7 @@ namespace Safester.ViewModels
 
             try
             {
-                ApiManager.SharedInstance().ListMessages(App.CurrentUser.UserName, App.CurrentUser.Token, (int)DirectoryId, limit, offset, (success, result) =>
+                ApiManager.SharedInstance().ListMessages(App.CurrentUser.UserEmail, App.CurrentUser.Token, (int)DirectoryId, limit, offset, (success, result) =>
                 {
                     IsBusy = false;
                     LoadingAction?.Invoke(false);
@@ -114,7 +114,7 @@ namespace Safester.ViewModels
             bool result = false;
             try
             {
-                result = await ApiManager.SharedInstance().DeleteMessage(App.CurrentUser.UserName, App.CurrentUser.Token, id, (int)DirectoryId);
+                result = await ApiManager.SharedInstance().DeleteMessage(App.CurrentUser.UserEmail, App.CurrentUser.Token, id, (int)DirectoryId);
             }
             catch (Exception ex)
             {
@@ -122,6 +122,24 @@ namespace Safester.ViewModels
             }
 
             return result;
+        }
+
+        public async Task<bool> MarkUnreadCommand(Message message)
+        {
+            try
+            {
+                var result = await ApiManager.SharedInstance().SetMessageRead(App.CurrentUser.UserEmail, App.CurrentUser.Token,
+                    message.senderEmailAddr, (int)message.messageId, message.IsRead);
+
+                if (string.IsNullOrEmpty(result) == false && result.Equals("success", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            return false;
         }
 
         public void MarkMessageAsRead(Message item)
@@ -140,7 +158,18 @@ namespace Safester.ViewModels
         {
             item.subject = HttpUtility.HtmlDecode(Utils.Utils.DecryptMessageData(App.KeyDecryptor, item.subject, true));
             if (DirectoryId != MenuItemType.Inbox)
+            {
                 item.IsRead = true;
+
+                if (item.recipients != null && item.recipients.Count > 0)
+                    item.SenderOrRecipient = item.recipients[0].displayName;
+            }
+            else
+            {
+                item.SenderOrRecipient = item.senderName;
+            }
+
+            item.SenderOrRecipient = HttpUtility.HtmlDecode(item.SenderOrRecipient);
 
             Items.Add(item);
         }

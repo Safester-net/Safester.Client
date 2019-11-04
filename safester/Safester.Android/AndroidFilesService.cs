@@ -8,6 +8,7 @@ using Android.Support.V4.Content;
 using Android.Webkit;
 using Android.Content.PM;
 using Android.Widget;
+using System.IO;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AndroidFilesService))]
 namespace Safester.Droid

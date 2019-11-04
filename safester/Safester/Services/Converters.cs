@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Safester.Models;
+using Safester.Utils;
 using Xamarin.Forms;
 
 namespace Safester.Services.Converters
@@ -135,6 +136,29 @@ namespace Safester.Services.Converters
         }
     }
 
+    public class FileNameExtensionConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                var data = (string)value;
+                return Utils.Utils.GetFileImageName(data);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Size Converter Exception - {0}", ex);
+            }
+
+            return string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
+
     public class BoolToFontAttrConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -144,6 +168,22 @@ namespace Safester.Services.Converters
                 return FontAttributes.Bold;
 
             return FontAttributes.None;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
+
+    public class TextColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (parameter == null)
+                return ThemeHelper.GetThemeTextColor();
+
+            return ThemeHelper.GetMailListDateSizeColor();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

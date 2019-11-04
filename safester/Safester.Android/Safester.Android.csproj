@@ -116,6 +116,8 @@
     <Compile Include="Renderers\AndroidHtmlLabelRenderer.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="AndroidBug5497WorkaroundForXamarinAndroid.cs" />
+    <Compile Include="Renderers\ExtendedViewCellRenderer.cs" />
+    <Compile Include="Renderers\CustomSwitchRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -161,6 +163,13 @@
     <AndroidResource Include="Resources\drawable\compose.png" />
     <AndroidResource Include="Resources\drawable\authentication.png" />
     <AndroidResource Include="Resources\drawable\paste.png" />
+    <AndroidResource Include="Resources\drawable\find.png" />
+    <AndroidResource Include="Resources\drawable\icon_file.png" />
+    <AndroidResource Include="Resources\drawable\icon_jpeg.png" />
+    <AndroidResource Include="Resources\drawable\icon_pdf.png" />
+    <AndroidResource Include="Resources\drawable\icon_txt.png" />
+    <AndroidResource Include="Resources\drawable\keys.png" />
+    <AndroidResource Include="Resources\drawable\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable-hdpi\" />

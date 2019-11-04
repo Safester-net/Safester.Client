@@ -21,12 +21,19 @@ namespace Safester.ViewModels
         public Command LoadSettingsCommand { get; set; }
         public Command SaveSettingsCommand { get; set; }
 
+        public Command LoadCouponCommand { get; set; }
+        public Command<string> StoreCouponCommand { get; set; }
+
         public Action<bool> ResponseAction { get; set; }
+        public Action<bool, string> ResponseCouponAction { get; set; }
 
         public SettingsViewModel()
         {
             LoadSettingsCommand = new Command(async () => await ExecuteLoadSettingsCommand());
             SaveSettingsCommand = new Command(async () => await ExecuteSaveSettingsCommand());
+
+            LoadCouponCommand = new Command(async () => await ExecuteLoadCouponCommand());
+            StoreCouponCommand = new Command<string>(async (coupon) => await ExecuteStoreCouponCommand(coupon));
         }
 
         async Task ExecuteLoadSettingsCommand()
@@ -37,7 +44,7 @@ namespace Safester.ViewModels
                 if (settings != null)
                 {
                     App.UserSettings = settings;
-                    Utils.Utils.SaveDataToFile(App.UserSettings, Utils.Utils.KEY_FILE_USERSETTINGS);
+                    Utils.Utils.SaveDataToFile(App.UserSettings, Utils.Utils.KEY_FILE_USERSETTINGS, true);
                     ResponseAction?.Invoke(true);
                 }
                 else
@@ -60,12 +67,55 @@ namespace Safester.ViewModels
                 {
                     if (result.Equals("ok", StringComparison.OrdinalIgnoreCase))
                     {
-                        Utils.Utils.SaveDataToFile(App.UserSettings, Utils.Utils.KEY_FILE_USERSETTINGS);
+                        Utils.Utils.SaveDataToFile(App.UserSettings, Utils.Utils.KEY_FILE_USERSETTINGS, true);
                         ResponseAction?.Invoke(true);
                     }
                     else
                     {
                         ResponseAction?.Invoke(false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        async Task ExecuteLoadCouponCommand()
+        {
+            try
+            {
+                var couponInfo = await ApiManager.SharedInstance().GetUserCoupon(App.CurrentUser.UserEmail, App.CurrentUser.Token);
+                if (couponInfo != null)
+                {
+                    ResponseCouponAction?.Invoke(true, couponInfo.coupon);
+                }
+                else
+                {
+                    ResponseCouponAction?.Invoke(false, string.Empty);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        async Task ExecuteStoreCouponCommand(string coupon)
+        {
+            try
+            {
+                var result = await ApiManager.SharedInstance().StoreUserCoupon(App.CurrentUser.UserEmail, App.CurrentUser.Token, coupon);
+                if (string.IsNullOrEmpty(result) == false)
+                {
+                    if (result.Equals("ok", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ResponseCouponAction?.Invoke(true, coupon);
+                    }
+                    else
+                    {
+                        ResponseCouponAction?.Invoke(false, string.Empty);
                     }
                 }
             }

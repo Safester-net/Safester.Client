@@ -179,6 +179,18 @@ namespace Safester {
             }
         }
         
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        internal static string Find {
+            get {
+                return ResourceManager.GetString("Find", resourceCulture);
+            }
+        }
+        
         internal static string ErrorInputUserName {
             get {
                 return ResourceManager.GetString("ErrorInputUserName", resourceCulture);
@@ -410,6 +422,12 @@ namespace Safester {
         internal static string DeleteMail {
             get {
                 return ResourceManager.GetString("DeleteMail", resourceCulture);
+            }
+        }
+        
+        internal static string DeleteAccount {
+            get {
+                return ResourceManager.GetString("DeleteAccount", resourceCulture);
             }
         }
         
@@ -680,6 +698,180 @@ namespace Safester {
         internal static string TwoFactorAlert {
             get {
                 return ResourceManager.GetString("TwoFactorAlert", resourceCulture);
+            }
+        }
+        
+        internal static string SearchIn {
+            get {
+                return ResourceManager.GetString("SearchIn", resourceCulture);
+            }
+        }
+        
+        internal static string Folder {
+            get {
+                return ResourceManager.GetString("Folder", resourceCulture);
+            }
+        }
+        
+        internal static string MessageSentBetween {
+            get {
+                return ResourceManager.GetString("MessageSentBetween", resourceCulture);
+            }
+        }
+        
+        internal static string Sender {
+            get {
+                return ResourceManager.GetString("Sender", resourceCulture);
+            }
+        }
+        
+        internal static string Recipient {
+            get {
+                return ResourceManager.GetString("Recipient", resourceCulture);
+            }
+        }
+        
+        internal static string Content {
+            get {
+                return ResourceManager.GetString("Content", resourceCulture);
+            }
+        }
+        
+        internal static string SearchTo {
+            get {
+                return ResourceManager.GetString("SearchTo", resourceCulture);
+            }
+        }
+        
+        internal static string SearchFrom {
+            get {
+                return ResourceManager.GetString("SearchFrom", resourceCulture);
+            }
+        }
+        
+        internal static string InputSearchText {
+            get {
+                return ResourceManager.GetString("InputSearchText", resourceCulture);
+            }
+        }
+        
+        internal static string FileAttachNameError {
+            get {
+                return ResourceManager.GetString("FileAttachNameError", resourceCulture);
+            }
+        }
+        
+        internal static string FileAttachSizeError {
+            get {
+                return ResourceManager.GetString("FileAttachSizeError", resourceCulture);
+            }
+        }
+        
+        internal static string ErrorGetUserKey {
+            get {
+                return ResourceManager.GetString("ErrorGetUserKey", resourceCulture);
+            }
+        }
+        
+        internal static string ErrorAddAttachment {
+            get {
+                return ResourceManager.GetString("ErrorAddAttachment", resourceCulture);
+            }
+        }
+        
+        internal static string ErrorUnknownException {
+            get {
+                return ResourceManager.GetString("ErrorUnknownException", resourceCulture);
+            }
+        }
+        
+        internal static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        internal static string MB {
+            get {
+                return ResourceManager.GetString("MB", resourceCulture);
+            }
+        }
+        
+        internal static string GB {
+            get {
+                return ResourceManager.GetString("GB", resourceCulture);
+            }
+        }
+        
+        internal static string Users {
+            get {
+                return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        internal static string ChangeAccount {
+            get {
+                return ResourceManager.GetString("ChangeAccount", resourceCulture);
+            }
+        }
+        
+        internal static string Connect {
+            get {
+                return ResourceManager.GetString("Connect", resourceCulture);
+            }
+        }
+        
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        internal static string ConnectAccount {
+            get {
+                return ResourceManager.GetString("ConnectAccount", resourceCulture);
+            }
+        }
+        
+        internal static string ResetUser {
+            get {
+                return ResourceManager.GetString("ResetUser", resourceCulture);
+            }
+        }
+        
+        internal static string ConfirmResetUsers {
+            get {
+                return ResourceManager.GetString("ConfirmResetUsers", resourceCulture);
+            }
+        }
+        
+        internal static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
+            }
+        }
+        
+        internal static string AccountDeleted {
+            get {
+                return ResourceManager.GetString("AccountDeleted", resourceCulture);
+            }
+        }
+        
+        internal static string UserDeleteAcc {
+            get {
+                return ResourceManager.GetString("UserDeleteAcc", resourceCulture);
+            }
+        }
+        
+        internal static string InputCoupon {
+            get {
+                return ResourceManager.GetString("InputCoupon", resourceCulture);
+            }
+        }
+        
+        internal static string MarkItem {
+            get {
+                return ResourceManager.GetString("MarkItem", resourceCulture);
             }
         }
     }

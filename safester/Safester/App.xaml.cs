@@ -7,6 +7,8 @@ using Safester.CryptoLibrary.Api;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Plugin.Multilingual;
+using Safester.Services;
+using Safester.Utils;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Safester
@@ -19,34 +21,63 @@ namespace Safester
         public static Decryptor KeyDecryptor;
         public static Encryptor KeyEncryptor;
 
-        // Local Temp Data
+        public static string CurrentLanguage { get; set; }
+
         public static ObservableCollection<Recipient> Recipients { get; set; }
         public static ObservableCollection<DraftMessage> DraftMessages { get; set; }
 
+        public static ObservableCollection<User> LocalUsers { get; set; }
+        public static ObservableCollection<User> ConnectedUsers { get; set; }
+
         public App()
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("dummy");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("ODU3NjVAMzEzNzJlMzEyZTMwZ1hwRDBmQkVIRWszNE5STkNGUmQ4RkJRdVA0U1J6aFp0aFlFUUNGci9IZz0=");
 
             InitializeComponent();
-            AppResources.Culture = CrossMultilingual.Current.DeviceCultureInfo;
 
             bool armor = false;
             bool withIntegrityCheck = true;
             KeyEncryptor = new Encryptor(armor, withIntegrityCheck);
 
             CurrentUser = new User();
+            LocalUsers = Utils.Utils.LoadDataFromFile<ObservableCollection<User>>(Utils.Utils.KEY_FILE_USERS);
+            if (LocalUsers == null)
+                LocalUsers = new ObservableCollection<User>();
 
-            Recipients = Utils.Utils.LoadDataFromFile<ObservableCollection<Recipient>>(Utils.Utils.KEY_FILE_RECIPIENTS);
-            if (Recipients == null)
-                Recipients = new ObservableCollection<Recipient>();
+            App.Recipients = Utils.Utils.LoadDataFromFile<ObservableCollection<Recipient>>(Utils.Utils.KEY_FILE_RECIPIENTS);
+            if (App.Recipients == null)
+                App.Recipients = new ObservableCollection<Recipient>();
 
-            UserSettings = Utils.Utils.LoadDataFromFile<SettingsInfo>(Utils.Utils.KEY_FILE_USERSETTINGS);
-            if (UserSettings == null)
-                UserSettings = new SettingsInfo();
+            var settingsService = DependencyService.Get<SettingsService>();
+            var language = settingsService.LoadSettings("app_language");
+            if (string.IsNullOrEmpty(language))
+            {
+                if (CrossMultilingual.Current.DeviceCultureInfo.TwoLetterISOLanguageName == "fr")
+                {
+                    language = "fr";
+                }
+                else
+                {
+                    language = "en";
+                }
+            }
 
-            DraftMessages = Utils.Utils.LoadDataFromFile<ObservableCollection<DraftMessage>>(Utils.Utils.KEY_FILE_DRAFTMESSAGES);
-            if (DraftMessages == null)
-                DraftMessages = new ObservableCollection<DraftMessage>();
+            CurrentLanguage = language;
+            var currentCulture = new System.Globalization.CultureInfo(language);
+            CrossMultilingual.Current.CurrentCultureInfo = currentCulture;
+            AppResources.Culture = currentCulture;
+            settingsService.SaveSettings("app_language", language);
+
+            var themeStyle = settingsService.LoadSettings("app_theme");
+            if (string.IsNullOrEmpty(themeStyle))
+            {
+                themeStyle = "0";
+            }
+
+            if (themeStyle.Equals("0"))
+                ThemeHelper.ChangeTheme(ThemeStyle.STANDARD_THEME);
+            else
+                ThemeHelper.ChangeTheme(ThemeStyle.DARK_THEME);
 
             MainPage = new NavigationPage(new LoginPage());
         }

@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Safester.Controls;
 using Safester.Models;
 using Safester.Services;
 using System;
@@ -24,6 +25,13 @@ namespace Safester.Views
 
             MasterBehavior = MasterBehavior.Popover;
             Detail = new NavigationPage(new ItemsPage(MenuItemType.Inbox, AppResources.Inbox));
+
+            ChangeMenuTheme();
+        }
+
+        public void ChangeMenuTheme()
+        {
+            (Master as MenuPage).ChangeTheme();
         }
 
         public async Task NavigateFromMenu(HomeMenuItem item)
@@ -41,6 +49,9 @@ namespace Safester.Views
                 case MenuItemType.Sent:
                     Detail = new NavigationPage(new ItemsPage(MenuItemType.Sent, AppResources.Sent));
                     break;
+                case MenuItemType.Search:
+                    await Navigation.PushAsync(new SearchPage(MenuItemType.Inbox));
+                    break;
                 case MenuItemType.Drafts:
                     Detail = new NavigationPage(new DraftItemsPage());
                     break;
@@ -56,14 +67,17 @@ namespace Safester.Views
                 case MenuItemType.About:
                     Detail = new NavigationPage(new AboutPage());
                     break;
+                case MenuItemType.Users:
+                    Detail = new NavigationPage(new UsersPage());
+                    break;
                 case MenuItemType.Trash:
-                    await DisplayAlert(AppResources.Warning, AppResources.AvailableSoon, AppResources.OK);
+                    await CustomAlertPage.Show(AppResources.Warning, AppResources.AvailableSoon, AppResources.OK);
                     break;
                 case MenuItemType.ChangePass:
-                    await DisplayAlert(AppResources.ChangePass, AppResources.ChangePassHint, AppResources.OK);
+                    await CustomAlertPage.Show(AppResources.ChangePass, AppResources.ChangePassHint, AppResources.OK);
                     break;
                 case MenuItemType.Logout:
-                    bool result = await DisplayAlert("", AppResources.ConfirmLogout, AppResources.Yes, AppResources.No);
+                    bool result = await CustomAlertPage.Show("", AppResources.ConfirmLogout, AppResources.Yes, AppResources.No);
                     if (result)
                     {
                         var _settingsService = DependencyService.Get<SettingsService>();
@@ -72,18 +86,21 @@ namespace Safester.Views
                         LoginPage.CurrentUserEmail = App.CurrentUser.UserEmail;
                         LoginPage.CurrentUserPassword = String.Empty;
                         LoginPage.NeedsUpdating = true;
+
+                        App.ConnectedUsers = new System.Collections.ObjectModel.ObservableCollection<User>();
+
                         App.Current.MainPage = new NavigationPage(new LoginPage());
                     }
                     break;
             }
 
             if (Device.RuntimePlatform == Device.Android)
-                await Task.Delay(100);
+                await Task.Delay(100);                
         }
 
         private async void ImportContacts()
         {
-            bool result = await UserDialogs.Instance.ConfirmAsync(AppResources.ImportContacts, "Safester", AppResources.OK, AppResources.Cancel);
+            bool result = await CustomAlertPage.Show("Safester", AppResources.ImportContacts, AppResources.OK, AppResources.Cancel);
             if (result)
             {
                 var _settingsService = DependencyService.Get<SettingsService>();
@@ -100,8 +117,7 @@ namespace Safester.Views
                 await Utils.Utils.GetPhoneContacts();
 
                 UserDialogs.Instance.Loading().Hide();
-
-                await DisplayAlert("Safester", AppResources.ImportContactsSuccess, AppResources.OK);
+                await CustomAlertPage.Show("Safester", AppResources.ImportContactsSuccess, AppResources.OK);
             });
         }
     }

@@ -8,6 +8,8 @@ using Safester.Droid;
 using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Android.Content.PM;
+using Safester.Utils;
+using Android.Util;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AndroidSettingsService))]
 namespace Safester.Droid
@@ -34,7 +36,7 @@ namespace Safester.Droid
 
 		public string GetAppVersionName()
 		{
-            return "1.3.5";
+            return "2.1.1";
 		}
 
         public void AskContactsPermission(Action ContactsGrantedAction)
@@ -52,6 +54,40 @@ namespace Safester.Droid
                 ContactsGrantedAction?.Invoke();
             }
         }
-	}
+
+        public void CloseApplication()
+        {
+            var activity = CrossCurrentActivity.Current.Activity;
+            activity.FinishAffinity();
+        }
+
+        public void ChangeTheme(ThemeStyle style)
+        {
+            if (CrossCurrentActivity.Current.Activity is MainActivity)
+            {
+                if (style == ThemeStyle.STANDARD_THEME)
+                {
+                    CrossCurrentActivity.Current.Activity.SetTheme(Resource.Style.MainTheme);
+                    ChangeAccentColor(Color.FromHex("#0356b3"));
+                }
+                else
+                {
+                    CrossCurrentActivity.Current.Activity.SetTheme(Resource.Style.MainTheme_Dark);
+                    ChangeAccentColor(Color.FromHex("#4197FE"));
+                }                    
+            }
+        }
+
+        private void ChangeAccentColor(Color color)
+        {
+            var themeAccentColor = new TypedValue();
+            CrossCurrentActivity.Current.Activity.Theme.ResolveAttribute(Resource.Attribute.colorAccent, themeAccentColor, true);
+            var droidAccentColor = new Android.Graphics.Color(themeAccentColor.Data);
+
+            var accentColorProp = typeof(Xamarin.Forms.Color).GetProperty(nameof(Xamarin.Forms.Color.Accent), System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+            var xamarinAccentColor = new Xamarin.Forms.Color(droidAccentColor.R / 255.0, droidAccentColor.G / 255.0, droidAccentColor.B / 255.0, droidAccentColor.A / 255.0);
+            accentColorProp.SetValue(null, xamarinAccentColor, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static, null, null, System.Globalization.CultureInfo.CurrentCulture);
+        }
+    }
 }
 

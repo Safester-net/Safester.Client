@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Safester.Controls;
 using Safester.CryptoLibrary.Api;
 using Safester.Custom.Effects;
 using Safester.Network;
@@ -15,15 +16,20 @@ namespace Safester.Views
         public static string CurrentUserEmail { get; set; }
         public static string CurrentUserPassword { get; set; }
         public static bool NeedsUpdating { get; set; }
-
         bool rememberUser = false;
 
         private SettingsService _settingsService { get; set; }
+        private bool _isMultiAccount { get; set; }
 
-        public LoginPage()
+        public LoginPage(bool isMultiAccount = false)
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
+
+            imgLogo.Source = ImageSource.FromFile(ThemeHelper.GetLoginLogoName());
+
+            _isMultiAccount = isMultiAccount;
+            if (!isMultiAccount)
+                NavigationPage.SetHasNavigationBar(this, false);
 
             TapGestureRecognizer loginGesture = new TapGestureRecognizer();
 			loginGesture.Tapped += StartBtn_Clicked;
@@ -37,8 +43,6 @@ namespace Safester.Views
             rememberGesture.Tapped += RememberGesture_Tapped;
             stackRemember.GestureRecognizers.Add(rememberGesture);
 
-            NavigationPage.SetHasNavigationBar(this, false);
-
             _settingsService = DependencyService.Get<SettingsService>();
 			lblVersion.Text = AppResources.Version + _settingsService.GetAppVersionName();
 
@@ -50,7 +54,7 @@ namespace Safester.Views
             }
 
             rememberUser = _settingsService.LoadSettings("rememberuser").Equals("1");
-            if (rememberUser)
+            if (rememberUser && NeedsUpdating == false)
             {
                 CurrentUserEmail = entryUserName.Text = _settingsService.LoadSettings("useremail");
                 string passwordSetting = _settingsService.LoadSettings("password");
@@ -69,6 +73,8 @@ namespace Safester.Views
         {
             base.OnAppearing();
 
+            BackgroundColor = ThemeHelper.GetLoginBGColor();
+
             if (NeedsUpdating)
             {
                 entryUserName.Text = CurrentUserEmail;
@@ -82,12 +88,12 @@ namespace Safester.Views
 		{
             if (string.IsNullOrEmpty(entryUserName.Text))
             {
-                await DisplayAlert(AppResources.Warning, AppResources.ErrorInputUserName, AppResources.OK);
+                await CustomAlertPage.Show(AppResources.Warning, AppResources.ErrorInputUserName, AppResources.OK);
                 return;
             }
             if (string.IsNullOrEmpty(entryPassword.Text))
             {
-                await DisplayAlert(AppResources.Warning, AppResources.ErrorInputUserPassPhrase, AppResources.OK);
+                await CustomAlertPage.Show(AppResources.Warning, AppResources.ErrorInputUserPassPhrase, AppResources.OK);
                 return;
             }
 
@@ -96,11 +102,10 @@ namespace Safester.Views
             {
                 if (success == true)
                 {
-                    App.CurrentUser.UserName = entryUserName.Text;
                     App.CurrentUser.UserEmail = entryUserName.Text;
                     App.CurrentUser.UserPassword = entryPassword.Text.ToCharArray();
 
-                    ApiManager.SharedInstance().GetPrivateKey(App.CurrentUser.UserName, App.CurrentUser.Token, (suc, keyInfo) => {
+                    ApiManager.SharedInstance().GetPrivateKey(App.CurrentUser.UserEmail, App.CurrentUser.Token, (suc, keyInfo) => {
                         ShowLoading(false);
                         if (suc)
                         {
@@ -115,11 +120,16 @@ namespace Safester.Views
                                 _settingsService.SaveSettings("password", Utils.Utils.GetEncryptedPassphrase(entryPassword.Text));
                             }
 
+                            Utils.Utils.AddOrUpdateUser(App.CurrentUser);
+                            Utils.Utils.SaveDataToFile(App.LocalUsers, Utils.Utils.KEY_FILE_USERS);
+
+                            Utils.Utils.LoadUserProfiles();
+
                             App.Current.MainPage = new NavigationPage(new MainPage());
                         }
                         else
                         {
-                            DisplayAlert(AppResources.Error, keyInfo.errorMessage, AppResources.OK);
+                            CustomAlertPage.Show(AppResources.Error, keyInfo.errorMessage, AppResources.OK);
                         }
                     });
                 }
@@ -130,7 +140,7 @@ namespace Safester.Views
                     if (message.StartsWith(Errors.LOGIN_ACCOUNT_PENDING, StringComparison.OrdinalIgnoreCase))
                     {
                         var alertMsg = AppResources.ALERT_CONFIRM_EMAIL.Replace("\\n", "\n");
-                        UserDialogs.Instance.Alert(string.Format(alertMsg, ""));
+                        CustomAlertPage.Show("", string.Format(alertMsg, entryUserName.Text), AppResources.OK);
                     }
                     else if (message.StartsWith(Errors.LOGIN_ACCOUNT_INVALID2FA, StringComparison.OrdinalIgnoreCase))
                     {
@@ -138,7 +148,7 @@ namespace Safester.Views
                     }
                     else
                     {
-                        DisplayAlert(AppResources.Error, message, AppResources.OK);
+                        CustomAlertPage.Show(AppResources.Error, message, AppResources.OK);
                     }
                 }
             });
@@ -146,7 +156,7 @@ namespace Safester.Views
 
 		void SignupGesture_Tapped(object sender, EventArgs e)
 		{
-            Navigation.PushAsync(new RegisterPage());
+            Navigation.PushAsync(new PatatePage());
 		}
 
 		void RememberGesture_Tapped(object sender, EventArgs e)

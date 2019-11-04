@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Safester.Views.RegisterPage"
+             x:Class="Safester.Views.PatatePage"
              xmlns:cc="clr-namespace:Safester.Controls"
              xmlns:i18n="clr-namespace:Safester.Utils"
-             BackgroundColor="{ StaticResource Primary }"
              Title="{i18n:Translate RegisterUser}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{i18n:Translate Create}" Clicked="Save_Clicked">
@@ -55,14 +54,14 @@
                                        HeightRequest="40" 
                                        HorizontalOptions="FillAndExpand" 
                                        IsPassword="true"/>
-                
+                <!--
                 <cc:RoundedBorderEntry x:Name="entryCoupon" 
                                        TextColor="Black" 
                                        PlaceholderColor="#CCCCCC" 
                                        Placeholder="{i18n:Translate Coupon}"
                                        FontSize="15" 
                                        HeightRequest="40" 
-                                       HorizontalOptions="FillAndExpand" />
+                                       HorizontalOptions="FillAndExpand" />-->
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

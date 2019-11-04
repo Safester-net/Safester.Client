@@ -37,7 +37,7 @@ namespace Safester.Network
                     client = new HttpClient();
                     client.BaseAddress = new Uri(SERVER_BASEURL);
 
-                    client.MaxResponseContentBufferSize = long.MaxValue; // no limit for the download size
+                    client.MaxResponseContentBufferSize = int.MaxValue - 1; // no limit for the download size
                     client.Timeout = TimeSpan.FromSeconds(60 * 60 * 5); // 5 hours timeout
                 }
                 return client;
@@ -63,6 +63,7 @@ namespace Safester.Network
             var postData = new List<KeyValuePair<string, string>>();
 			postData.Add(new KeyValuePair<string, string>("username", userName));
             postData.Add(new KeyValuePair<string, string>("passphrase", passPhrase));
+            postData.Add(new KeyValuePair<string, string>("language", App.CurrentLanguage));
 
             if (string.IsNullOrEmpty(twofactorcode) == false)
                 postData.Add(new KeyValuePair<string, string>("2faCode", twofactorcode));
@@ -81,6 +82,9 @@ namespace Safester.Network
                     {
                         App.CurrentUser.PassPhrase = PassphraseUtil.ComputeHashAndSaltedPassphrase(userName, passWord);
                         App.CurrentUser.Token = ret.token;
+
+                        App.CurrentUser.UserName = HttpUtility.HtmlDecode(ret.name);
+
                         callback(true, ret.errorMessage);
                     }
                     else
@@ -93,6 +97,40 @@ namespace Safester.Network
                 }
             }
 		}
+
+        public async void DeleteAccount(string userName, string passWord, string twofactorcode, Action<bool, string> callback)
+        {
+            var passPhrase = PassphraseUtil.ComputeHashAndSaltedPassphrase(userName, passWord);
+
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("username", userName));
+            postData.Add(new KeyValuePair<string, string>("passphrase", passPhrase));
+
+            if (string.IsNullOrEmpty(twofactorcode) == false)
+                postData.Add(new KeyValuePair<string, string>("2faCode", twofactorcode));
+
+            string result = string.Empty;
+            result = await CallWithPostAsync("api/deleteAccount", postData);
+
+            if (string.IsNullOrEmpty(result) == true)
+                callback(false, AppResources.CANNOT_CONNECT_SERVER);
+            else
+            {
+                try
+                {
+                    var ret = (BaseResult)JsonConvert.DeserializeObject(result, typeof(BaseResult));
+                    if (Errors.IsApiSuccess(ret.status))
+                        callback(true, ret.errorMessage);
+                    else
+                        callback(false, ret.errorMessage);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    callback(false, (ex == null) ? "" : ex.ToString());
+                }
+            }
+        }
 
         public async void Register(string userName, string emailAddr, string passWord, string coupon, Action<bool, string> callback)
         {
@@ -257,7 +295,7 @@ namespace Safester.Network
             }
         }
 
-        public async void SetMessageRead(string userName, string token, string senderEmail, int messageId, Action<bool, string> callback)
+        public async Task<string> SetMessageRead(string userName, string token, string senderEmail, int messageId, bool unread)
         {
             var postData = new List<KeyValuePair<string, string>>();
             postData.Add(new KeyValuePair<string, string>("username", userName));
@@ -265,29 +303,31 @@ namespace Safester.Network
             postData.Add(new KeyValuePair<string, string>("messageId", messageId.ToString()));
             postData.Add(new KeyValuePair<string, string>("senderEmailAddress", senderEmail));
 
+            if (unread == true)
+                postData.Add(new KeyValuePair<string, string>("message_unread", "true"));
+
             string result = string.Empty;
             result = await CallWithPostAsync("api/setMessageRead", postData);
 
-            if (string.IsNullOrEmpty(result) == true)
-                callback(false, "");
-            else
+            if (string.IsNullOrEmpty(result) == false)
             {
                 try
                 {
                     var ret = (BaseResult)JsonConvert.DeserializeObject(result, typeof(BaseResult));
                     if (Errors.IsErrorExist(ret.status))
                     {
-                        callback(false, ret.errorMessage);
+                        return ret.errorMessage;
                     }
                     else
-                        callback(true, "");
+                        return "success";
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine(ex);
-                    callback(false, null);
+                    System.Diagnostics.Debug.WriteLine(ex);                    
                 }
             }
+
+            return string.Empty;
         }
 
         public async void GetAddressBook(string userName, string token, Action<bool, RecipientsBookInfo> callback)
@@ -447,6 +487,65 @@ namespace Safester.Network
             }
         }
 
+        public async Task<CouponInfo> GetUserCoupon(string userName, string token)
+        {
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("username", userName));
+            postData.Add(new KeyValuePair<string, string>("token", token));
+
+            string result = string.Empty;
+            result = await CallWithPostAsync("api/getCoupon", postData);
+
+            if (string.IsNullOrEmpty(result) == true)
+                return null;
+            else
+            {
+                try
+                {
+                    var ret = (CouponInfo)JsonConvert.DeserializeObject(result, typeof(CouponInfo));
+                    if (Errors.IsApiSuccess(ret.status))
+                        return ret;
+                    else
+                        return null;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
+                }
+            }
+        }
+
+        public async Task<string> StoreUserCoupon(string userName, string token, string coupon)
+        {
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("username", userName));
+            postData.Add(new KeyValuePair<string, string>("token", token));
+            postData.Add(new KeyValuePair<string, string>("coupon", coupon));
+
+            string result = string.Empty;
+            result = await CallWithPostAsync("api/storeCoupon", postData);
+
+            if (string.IsNullOrEmpty(result) == true)
+                return AppResources.CANNOT_CONNECT_SERVER;
+            else
+            {
+                try
+                {
+                    var ret = (BaseResult)JsonConvert.DeserializeObject(result, typeof(BaseResult));
+                    if (Errors.IsApiSuccess(ret.status))
+                        return Errors.NO_ERROR;
+                    else
+                        return ret.errorMessage;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return AppResources.CANNOT_CONNECT_SERVER;
+                }
+            }
+        }
+
         public async Task<TwoFactorSettingsInfo> Get2FASettings(string userName, string token)
         {
             var postData = new List<KeyValuePair<string, string>>();
@@ -536,6 +635,75 @@ namespace Safester.Network
                     callback(false, null);
                 }
             }
+        }
+
+        public async Task<List<Message>> SearchMessage(string userName, string token, string searchString,
+            int searchType, long dateStart, long dateEnd, int directoryId)
+        {
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("username", userName));
+            postData.Add(new KeyValuePair<string, string>("token", token));
+            postData.Add(new KeyValuePair<string, string>("searchString", searchString));
+            postData.Add(new KeyValuePair<string, string>("searchType", "" + searchType));
+            postData.Add(new KeyValuePair<string, string>("dateStart", "" + dateStart));
+            postData.Add(new KeyValuePair<string, string>("dateEnd", "" + dateEnd));
+            postData.Add(new KeyValuePair<string, string>("directoryId", "" + directoryId));
+
+            string result = string.Empty;
+            result = await CallWithPostAsync("api/searchMessages", postData);
+
+            if (string.IsNullOrEmpty(result) == false)
+            {
+                try
+                {
+                    var ret = (MessagesResultInfo)JsonConvert.DeserializeObject(result, typeof(MessagesResultInfo));
+                    if (Errors.IsApiSuccess(ret.status))
+                    {
+                        return ret.messages;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<List<Message>> SearchMessageFull(string userName, string token, string searchString,
+            string sender, string recipient, long dateStart, long dateEnd, int directoryId)
+        {
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("username", userName));
+            postData.Add(new KeyValuePair<string, string>("token", token));
+            postData.Add(new KeyValuePair<string, string>("searchStringContent", searchString));
+            postData.Add(new KeyValuePair<string, string>("searchStringRecipient", recipient));
+            postData.Add(new KeyValuePair<string, string>("searchStringSender", sender));
+            postData.Add(new KeyValuePair<string, string>("dateStart", "" + dateStart));
+            postData.Add(new KeyValuePair<string, string>("dateEnd", "" + dateEnd));
+            postData.Add(new KeyValuePair<string, string>("directoryId", "" + directoryId));
+
+            string result = string.Empty;
+            result = await CallWithPostAsync("api/searchMessagesFull", postData);
+
+            if (string.IsNullOrEmpty(result) == false)
+            {
+                try
+                {
+                    var ret = (MessagesResultInfo)JsonConvert.DeserializeObject(result, typeof(MessagesResultInfo));
+                    if (Errors.IsApiSuccess(ret.status))
+                    {
+                        return ret.messages;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            }
+
+            return null;
         }
         #endregion
 

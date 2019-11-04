@@ -18,15 +18,19 @@ namespace Safester.iOS.Renderer
             try
             {
                 var logo = NavigationBar.TopItem.RightBarButtonItem.Image;
-                if (logo == null) return;
-
-                if (logo.RenderingMode == UIImageRenderingMode.AlwaysOriginal)
+                if (logo != null)
                 {
-                    return;
+                    if (logo.RenderingMode == UIImageRenderingMode.AlwaysOriginal)
+                    {
+                        return;
+                    }
                 }
 
                 foreach (var item in NavigationBar.TopItem.RightBarButtonItems)
                 {
+                    if (item.Image == null)
+                        continue;
+
                     item.Image = item.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
                 }
             }

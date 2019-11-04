@@ -20,6 +20,7 @@ namespace Safester.Models
         public long date { get; set; }
         public long size { get; set; }
         public string subject { get; set; }
+        public string body { get; set; }
         public bool hasAttachs { get; set; }
 
         private bool isRead;
@@ -28,6 +29,8 @@ namespace Safester.Models
                 isRead = value; OnPropertyChanged("IsRead");
             } }
 
+        [JsonIgnore]
+        public string SenderOrRecipient { get; set; }
     }
 
     public class Recipient
@@ -66,6 +69,9 @@ namespace Safester.Models
         public string filepath { get; set; }
 
         public long size { get; set; }
+
+        [JsonIgnore]
+        public byte[] fileData { get; set; }
     }
 
     public class RecipientsBookInfo : BaseResult

@@ -5,6 +5,8 @@ using Foundation;
 using System.IO;
 using Safester.iOS;
 using Safester.Services;
+using Safester.Utils;
+using UIKit;
 
 [assembly: Xamarin.Forms.Dependency(typeof(iOSSettingsService))]
 namespace Safester.iOS
@@ -29,12 +31,22 @@ namespace Safester.iOS
 
         public string GetAppVersionName()
         {
-            return "1.3.3"; //NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleVersion").ToString();
+            return "2.1.1"; //NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleVersion").ToString();
         }
 
         public void AskContactsPermission(Action ContactsGrantedAction)
         {
             ContactsGrantedAction?.Invoke();
+        }
+
+        public void CloseApplication()
+        {
+            System.Threading.Thread.CurrentThread.Abort();
+        }
+
+        public void ChangeTheme(ThemeStyle style)
+        {
+            
         }
     }
 }

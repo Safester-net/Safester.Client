@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Safester.Views.LoginPage"
     xmlns:cc="clr-namespace:Safester.Controls"
-    xmlns:i18n="clr-namespace:Safester.Utils"
-    BackgroundColor="{ StaticResource Primary }">
+    xmlns:i18n="clr-namespace:Safester.Utils">
 	<ContentPage.Content>
         <ScrollView>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0, 0, 0, 0">
                 <StackLayout HorizontalOptions="Center" Orientation="Vertical" Padding="5" Margin="0, 80, 0, 0">
-                    <Image Source="logo.png" HorizontalOptions="FillAndExpand" HeightRequest="70" Aspect="AspectFit"/>
+                    <Image x:Name="imgLogo" Source="logo.png" HorizontalOptions="FillAndExpand" HeightRequest="70" Aspect="AspectFit"/>
 					<Label x:Name="lblVersion" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" />
                 </StackLayout>
                 <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="0, 0, 0, 0" Spacing="10" Padding="20, 30, 20, 20">
