@@ -29,6 +29,16 @@ namespace Safester.Models
                 isRead = value; OnPropertyChanged("IsRead");
             } }
 
+        private bool isStarred  = true;
+        public bool IsStarred
+        {
+            get { return isStarred; }
+            set
+            {
+                isStarred = value; OnPropertyChanged("IsStarred");
+            }
+        }
+
         [JsonIgnore]
         public string SenderOrRecipient { get; set; }
     }

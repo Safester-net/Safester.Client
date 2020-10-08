@@ -53,7 +53,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "NETStandard.Library/2.0.1": {
+      "NETStandard.Library/2.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
@@ -1231,10 +1231,11 @@
   },
   "libraries": {
     "Acr.UserDialogs/7.0.1": {
-      "sha512": "4BB8g4I9YEvaxp6r1aq14TPLJztGTe2IW9BymNunYxigV/AMBeYhUDcerf9OgrPOTKtENVN23W+d0FtIvhiPLw==",
+      "sha512": "+eGbTgwaFPzcaRnMdnAK5pHA0eoeoxkhy80FNwGeewqvA+DM6fUPM9yMbrN2hw3rcuBaXd2ghy2Xq5XU7m8qkw==",
       "type": "package",
       "path": "acr.userdialogs/7.0.1",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "acr.userdialogs.7.0.1.nupkg.sha512",
         "acr.userdialogs.nuspec",
@@ -1253,10 +1254,11 @@
       ]
     },
     "ExifLib.PCL/1.0.1": {
-      "sha512": "lJ7gc1nU7mbHS6tclfDaMbfqKUixYotmqMCcEiva3s478/IXcC7Z+v88OQpGTOYkKfzhP6reibBPmdmogv1m6Q==",
+      "sha512": "16KG9oXTPJkjCRq2xQmfPfJqCfcCjK3h034oazOE61LM4kddMr50a6EgrOV+F7RtIzVVd5ATEZRCiNWnnWqDkA==",
       "type": "package",
       "path": "exiflib.pcl/1.0.1",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "exiflib.pcl.1.0.1.nupkg.sha512",
         "exiflib.pcl.nuspec",
@@ -1264,10 +1266,11 @@
       ]
     },
     "HtmlAgilityPack/1.11.1": {
-      "sha512": "CvDUUk+53WRYkM8ZyZS0+mYqqSkCT1qUqPHVMMcDTrmRBYrwvBSDh/akRlhy3W+BsRhbmz4AuIHHVOEyS2u3zA==",
+      "sha512": "1nmunZ0aokTUtsvbiiNrb5ZaaVuXXinlt3GOR1nn3tgUufm1Kw+YlH05NlhILl9xsFK/+q3woSLcf0BPvtcihg==",
       "type": "package",
       "path": "htmlagilitypack/1.11.1",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "htmlagilitypack.1.11.1.nupkg.sha512",
         "htmlagilitypack.nuspec",
@@ -1339,14 +1342,15 @@
         "runtime.json"
       ]
     },
-    "NETStandard.Library/2.0.1": {
-      "sha512": "oA6nwv9MhEKYvLpjZ0ggSpb1g4CQViDVQjLUcDWg598jtvJbpfeP2reqwI1GLW2TbxC/Ml7xL6BBR1HmKPXlTg==",
+    "NETStandard.Library/2.0.3": {
+      "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
-      "path": "netstandard.library/2.0.1",
+      "path": "netstandard.library/2.0.3",
       "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
-        "build/NETStandard.Library.targets",
         "build/netstandard2.0/NETStandard.Library.targets",
         "build/netstandard2.0/ref/Microsoft.Win32.Primitives.dll",
         "build/netstandard2.0/ref/System.AppContext.dll",
@@ -1463,15 +1467,16 @@
         "build/netstandard2.0/ref/netstandard.dll",
         "build/netstandard2.0/ref/netstandard.xml",
         "lib/netstandard1.0/_._",
-        "netstandard.library.2.0.1.nupkg.sha512",
+        "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
     },
     "Newtonsoft.Json/12.0.1": {
-      "sha512": "jmVyoEyk0In8r+AObYQyFKVFm7uSRzE0XSHSbEtBJcZDMV6DqJoyB4FLcHwprPVhAh826so0db3DIKXVnpGoPA==",
+      "sha512": "pBR3wCgYWZGiaZDYP+HHYnalVnPJlpP1q55qvVb+adrDHmFMDc1NAKio61xTwftK3Pw5h7TZJPJEEVMd6ty8rg==",
       "type": "package",
       "path": "newtonsoft.json/12.0.1",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
         "lib/net20/Newtonsoft.Json.dll",
@@ -1506,10 +1511,11 @@
       ]
     },
     "Plugin.Multilingual/1.0.2": {
-      "sha512": "xf74OLz0KRWKTkFbFGnefL9ISqNjxbGg4Zgp4W3Uda6QiUMFe/WvBfYPcox/m8d3yiza9t9BryCyzpNU8ivk/g==",
+      "sha512": "aDPTIQCOCGxCvcFs98nSswcFTHfHUpUSiSltobV5NoRELUQREl4n95dLZSuqey9cIb5G2Ni53YDG6KCnD9ZWYw==",
       "type": "package",
       "path": "plugin.multilingual/1.0.2",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "content/net45/Helpers/TranslateExtension.txt.pp",
         "content/netstandard1.0/Helpers/TranslateExtension.txt.pp",
@@ -1563,10 +1569,11 @@
       ]
     },
     "Plugin.Permissions/3.0.0.12": {
-      "sha512": "R8Rlzfci1byoPBGOiJfCMzu0HhhN6Q4Vq4YizlF41W946NEmoL/Mb8U5caP5t5KfSbdPQpzdQ9JfM8fxPG8pfw==",
+      "sha512": "VrYqI/ufk3bH6gTP1JJlLByjhS0CHu3riKmdozhX9/qXA9hlvLolmcqKJdyAqpzmrVC74m3ZtirUBIrBxvT1Lw==",
       "type": "package",
       "path": "plugin.permissions/3.0.0.12",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/monoandroid71/Plugin.Permissions.dll",
         "lib/monoandroid71/Plugin.Permissions.xml",
@@ -1585,10 +1592,11 @@
       ]
     },
     "Portable.BouncyCastle/1.8.4": {
-      "sha512": "XZSewNKNlk9yJGVd6yFco3VrjoTzVAtqJ/Lv/5UqOLK9aLjvWZqASf3I1dNkZL4NTsNvsPyOiomn4wZeKEnVJA==",
+      "sha512": "kleoNuRemLFSGPGM0sOp3MAJTHxXEHTujt+wIEffWJ/CqLEzZv8fgyXoE8LHY61dVGRugovDfKEEnkhtUuB48Q==",
       "type": "package",
       "path": "portable.bouncycastle/1.8.4",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/net40/BouncyCastle.Crypto.dll",
         "lib/net40/BouncyCastle.Crypto.xml",
@@ -1603,10 +1611,11 @@
       ]
     },
     "Rg.Plugins.Popup/1.1.5.188": {
-      "sha512": "3z5Q6Bdvhi8J2e5Cj0lEQ3rseZXXYTCFd3FjWjDlRbBnJ2vtNPRui5DE8bwWjA2PiDyK+GNj/bhvy+enEzISBA==",
+      "sha512": "PE7uHJ/LuI5pSO1HpgjJ+v2KhNfftzqt/L1AoGH/5mX0fP7pcW6lG4FbUHuCFKolrzJfLLotuuET+hfN50Whpg==",
       "type": "package",
       "path": "rg.plugins.popup/1.1.5.188",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid/Rg.Plugins.Popup.Droid.dll",
         "lib/MonoAndroid/Rg.Plugins.Popup.Droid.pdb",
@@ -1823,10 +1832,11 @@
       ]
     },
     "Syncfusion.Licensing/17.1.0.38": {
-      "sha512": "QReB2C8lTQDutmfzyuImqZwkUYXuLul4+KoBT0Oqg8bun3KXm3CGX7Efeusd0avshH4FL16sCmfzgiJi3OCD3w==",
+      "sha512": "dqSI0b4zslc5aU/hBFhT/Kq2UFzrkw7rOss9yaHiBWRkoCoYoegYiy0mmR4FE+zXUGRPoqONTqy19y95qyTVGA==",
       "type": "package",
       "path": "syncfusion.licensing/17.1.0.38",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid10/Syncfusion.Licensing.dll",
         "lib/Xamarin.Mac/Syncfusion.Licensing.dll",
@@ -1849,10 +1859,11 @@
       ]
     },
     "Syncfusion.Xamarin.Core/17.1.0.38": {
-      "sha512": "F0qkvikeJZWZfyfjbsIJ6dv+hJexXWX+hEtyQeBT/tczZJvUOHvwzqjVGGda6qJSRoSkSeMLjs1z8gTh/B0w9w==",
+      "sha512": "Xs52ZzDbqJ829bPxt1wI0qLvQy81oDNeCM6SoWXZwBE3cYwBU7ct6SnDB3Qs/Tm2hIGuOK4swfka3w7T+S8ZYg==",
       "type": "package",
       "path": "syncfusion.xamarin.core/17.1.0.38",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid10/Syncfusion.Core.XForms.Android.dll",
         "lib/MonoAndroid10/Syncfusion.Core.XForms.dll",
@@ -1878,10 +1889,11 @@
       ]
     },
     "Syncfusion.Xamarin.SfAutoComplete/17.1.0.38": {
-      "sha512": "KGaeulHBMAo3qUbgpkqpGSVXIgy/S1kf960/H+YDjvK/xS3Ziy0p7L226TESovayW6eEkxkfvru7JO+cEFzxcg==",
+      "sha512": "BaNVo60UtFRITFuVy+qKepCr810+oSbVVS3nNr0+mF5+9OMtk7Do+ON3n+qNoTNfhX715F2ZlvtYDW/PaqNXSg==",
       "type": "package",
       "path": "syncfusion.xamarin.sfautocomplete/17.1.0.38",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid10/Syncfusion.SfAutoComplete.Android.dll",
         "lib/MonoAndroid10/Syncfusion.SfAutoComplete.XForms.Android.dll",
@@ -2616,10 +2628,11 @@
       ]
     },
     "System.Memory/4.5.0": {
-      "sha512": "ULODiqdq81e9YfQS/GL4P5zgek90jyPykAV4t1Sp4sjID3/Ebi18lbvOKm+81biHR5a5FdFRXSU/JVc6nxr/7A==",
+      "sha512": "m0psCSpUxTGfvwyO0i03ajXVhgBqyXlibXz0Mo1dtKGjaHrXFLnuQ8rNBTmWRqbfRjr4eC6Wah4X5FfuFDu5og==",
       "type": "package",
       "path": "system.memory/4.5.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -2654,10 +2667,11 @@
       ]
     },
     "System.Net.Http/4.3.2": {
-      "sha512": "4HYUu8WuiSCNZifYY2wDn27dESG43gGNOSv0Eg1vdu/wSsRs5Gg90IdWjA+yAaGBGBBKneziNPeVd8mhEz82vg==",
+      "sha512": "y7hv0o0weI0j0mvEcBOdt1F3CAADiWlcw3e54m8TfYiRmBPDIsHElx8QUPDlY4x6yWXKPGN0Z2TuXCTPgkm5WQ==",
       "type": "package",
       "path": "system.net.http/4.3.2",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -2772,10 +2786,11 @@
       ]
     },
     "System.Numerics.Vectors/4.5.0": {
-      "sha512": "nATsBTD2CKr4AYN6eRszhX4sptImWmBJwB/U6XKCWWfnCcrTBw8XSCm3QA9gjppkHTr8OkXUY21MR91D3QZXsw==",
+      "sha512": "QQTlPTl06J/iiDbJCiepZ4H//BVraReU4O4EoRw1U02H5TLUIT7xn3GnDp9AXPSlJUDyFs4uWjWafNX6WrAojQ==",
       "type": "package",
       "path": "system.numerics.vectors/4.5.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -3097,10 +3112,11 @@
       ]
     },
     "System.Runtime.CompilerServices.Unsafe/4.5.0": {
-      "sha512": "kUM0JPMHfdteeGm/r9/tdlsddPV1PUkAzcgUtcU7LXn5ZYKoXUyrPp9OarBCy3JRS5nk7Btwd+XMMEqhSzruNA==",
+      "sha512": "YrzNWduCDHhUaSRBxHxL11UkM2fD6y8hITHis4/LbQZ6vj3vdRjoH3IoPWWC9uDXK2wHIqn+b5gv1Np/VKyM1g==",
       "type": "package",
       "path": "system.runtime.compilerservices.unsafe/4.5.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -3559,10 +3575,11 @@
       ]
     },
     "System.Security.Cryptography.ProtectedData/4.5.0": {
-      "sha512": "s/MFK8BvgtejZj5a8qAPDXEGBtWkpFX98qwQP/wqVa9CgIC7LrKHxDFdlN5x6afGAb0ZVBVGIZlCdBLnO2QjZw==",
+      "sha512": "wLBKzFnDCxP12VL9ANydSYhk59fC4cvOr9ypYQLPnAj48NQIhqnjdD2yhP8yEKyBJEjERWS9DisKL7rX5eU25Q==",
       "type": "package",
       "path": "system.security.cryptography.protecteddata/4.5.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -4161,10 +4178,11 @@
       ]
     },
     "System.Xml.XPath.XmlDocument/4.3.0": {
-      "sha512": "91tvfHWHSrYFPolCwWYqbpo1YaoBUCQ3uNZ/O/zr0ev5BnkoATJoie16ywlMVUaXZtfSfNELxhtG3aqpTfwR4w==",
+      "sha512": "A/uxsWi/Ifzkmd4ArTLISMbfFs6XpRPsXZonrIqyTY70xi8t+mDtvSM5Os0RqyRDobjMBwIDHDL4NOIbkDwf7A==",
       "type": "package",
       "path": "system.xml.xpath.xmldocument/4.3.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -4198,10 +4216,11 @@
       ]
     },
     "Xam.Plugin.Media/4.0.1.5": {
-      "sha512": "PxL0vcTXpS79l2KgtaJBShcPVMRK2HC5J08vG6hKTC7hk5+3RjgFrdX0N6Gd4oF8pxVxV2ia7rhYnjxRCMWZtw==",
+      "sha512": "a5l/M2Tl06BqBX/uhM/pr+q1jDkh2tRQr5Ne9rjAuD9VYn5STE+7kVFTzIUNPMnMr9PZLJkWP5WAr/tBN5oepw==",
       "type": "package",
       "path": "xam.plugin.media/4.0.1.5",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/monoandroid71/Plugin.Media.dll",
         "lib/monoandroid71/Plugin.Media.xml",
@@ -4222,10 +4241,11 @@
       ]
     },
     "Xam.Plugins.Messaging/5.2.0": {
-      "sha512": "usjiQldDRyK28EVW7DJ8gfzuRBFgIJZbWvQMn6H1oGsBU28Et7WirLQLGt4U7H6DyXSCyfLIqZgRlgXbhp5fLg==",
+      "sha512": "oTBg4tZjkkLHuUuXaybC/pwi0SugrJeyZ7Nq60IAxBliO7FMYaPq9mmmPQvCAEwEhtWaZAjbBzwG/I71CcQrmA==",
       "type": "package",
       "path": "xam.plugins.messaging/5.2.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid10/Plugin.Messaging.Abstractions.dll",
         "lib/MonoAndroid10/Plugin.Messaging.Abstractions.pdb",
@@ -4262,10 +4282,11 @@
       ]
     },
     "Xamarin.Essentials/1.1.0": {
-      "sha512": "AGismQb55pszEQ/ZIv9O1U2YyaF2gHdBdAUO79+biHf1s7AL2R++DIvmf7Z+wtfhZrB9wxhXAkOUuYHgpY6oTw==",
+      "sha512": "W0XOt1dNMAE2POcsVotoKDDy5FdAOnR0qULKl6WI4kQEMxQ1sp84DsSU5iacV7oQUMuPhUBAm/3ywks0HO1QrQ==",
       "type": "package",
       "path": "xamarin.essentials/1.1.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/monoandroid60/Xamarin.Essentials.dll",
         "lib/monoandroid60/Xamarin.Essentials.pdb",
@@ -4304,10 +4325,11 @@
       ]
     },
     "Xamarin.Forms/3.5.0.169047": {
-      "sha512": "ybupzRr8C93lEDyeCI4am3XTervm+4nhBVdb8StYS/ZRLQdvjrGyKkAonz/TGbz7Sjln05KDWwQts4moE9HUgg==",
+      "sha512": "bDUiWsvlU949lyf8gw5ROVQ0kRr1dB8daiWATYCXuOXv/iODsbq/8NmNVxhV2WbOo8b8wJMe7SqZG4V/CQlYuQ==",
       "type": "package",
       "path": "xamarin.forms/3.5.0.169047",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "build/Xamarin.Forms.DefaultItems.props",
         "build/Xamarin.Forms.DefaultItems.targets",
@@ -4467,10 +4489,11 @@
       ]
     },
     "Xamarin.Forms.Contacts/1.0.5": {
-      "sha512": "ktLdkIW8FbqQIFTnSrOfd3btKfnq9ubGav59oR7EhwsA9KqMT6H5uzNNtVCmY6hJDSp0lkDScyJJ1D8N6JzMIg==",
+      "sha512": "b6zcl9qSUfWH/PnZlEXphAYkNPsPsL7fhuf5KdgtiirI5N+Rr2d+90LPP6KPw6OJEEo4/XwLolwGG5kgD0DdZQ==",
       "type": "package",
       "path": "xamarin.forms.contacts/1.0.5",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid10/Plugin.ContactService.dll",
         "lib/MonoAndroid10/Plugin.ContactService.xml",
@@ -4485,10 +4508,11 @@
       ]
     },
     "Xamarin.Plugin.FilePicker/2.0.135": {
-      "sha512": "5aRpZYfrW2sp+8TPqeibx6gmj2Ljl2C9sCkjbUCbrqoMMcfav0eUv8mFMSmCt4kAXBcfoBZnuACcLlKqr79hZQ==",
+      "sha512": "NCD5/Xy2RGNlGYBoiSnC2qbiuecb9TZ4lyZZERYEH1Ge6g580yHkv2W7Tj/rf1I3QSI9ClDwHA23dDb6L/khKw==",
       "type": "package",
       "path": "xamarin.plugin.filepicker/2.0.135",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid10/Plugin.FilePicker.Abstractions.dll",
         "lib/MonoAndroid10/Plugin.FilePicker.Abstractions.pdb",
@@ -4531,10 +4555,11 @@
       ]
     },
     "XLabs.Core/2.0.5782": {
-      "sha512": "P9UednVxp04toC0NJBb5Y6Wr6K2n3Jg5S3I3rlwfhSjey92VBB/NsZRQS/UmKj+qEJVYeV7kHVU0ORGa41qJaw==",
+      "sha512": "XLRztFIAjUYfjaaur4aPa/gjBNOwnAoelnmm83v4U0R5dJcWhll5Sci3s8nJWpHv1unwX1TuRsWT0rqMNm0PzA==",
       "type": "package",
       "path": "xlabs.core/2.0.5782",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/Xamarin.iOS10/XLabs.Core.XML",
         "lib/Xamarin.iOS10/XLabs.Core.dll",
@@ -4547,10 +4572,11 @@
       ]
     },
     "XLabs.Forms/2.0.5782": {
-      "sha512": "Uff8iD3stDf7QamEpR2w+1mbW57VdVIhKUPR9WW2S+/QVVUGkHw7WKzCOF6lr0yZVADyMzJSA37cy9HS9aYZkQ==",
+      "sha512": "ky3fCcqK1jaSMyIavo8g4Jb/KWhMGH7AlDzFtmP/vNNxiYWHnkmCz1kIvuBNodEwbqJgINpPUcvfW5IbBxbVYg==",
       "type": "package",
       "path": "xlabs.forms/2.0.5782",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid/XLabs.Forms.Droid.XML",
         "lib/MonoAndroid/XLabs.Forms.Droid.dll",
@@ -4575,10 +4601,11 @@
       ]
     },
     "XLabs.IoC/2.0.5782": {
-      "sha512": "JQEKWFHQygnRNdvwEqudm1nfpAMFKDC2mwX1Ok8ykNfGaRRHOApK1TzsYaSJw5ptpQZZLLbh8pabtRiP6+tZ4Q==",
+      "sha512": "lFhk1z7pJSlwz2OnxGsZexpzrq5pmH1jvu07oX92ZZEMbJzmvlK9s76G54yE6hQwpv3DVrNtcZ4ubVT1/makRA==",
       "type": "package",
       "path": "xlabs.ioc/2.0.5782",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1/XLabs.Ioc.XML",
         "lib/portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1/XLabs.Ioc.dll",
@@ -4589,10 +4616,11 @@
       ]
     },
     "XLabs.Platform/2.0.5782": {
-      "sha512": "UL5iO/PogYlZsoRdViiu6bBb95qY0s4EotMUR3alfrzCWeQ0eEqZOZObMdOCwcMtkeFvuqgo0o8/lwdC2wcwOg==",
+      "sha512": "n5ZgLrh4Ut7EflUKmVii4feQ5xsLQTyTPYf8IDuldOi2furuxSPfHr2H4dpGTbmDxiB21sS0ZA6tdhoQQM27uA==",
       "type": "package",
       "path": "xlabs.platform/2.0.5782",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/MonoAndroid/XLabs.Platform.Droid.XML",
         "lib/MonoAndroid/XLabs.Platform.Droid.dll",
@@ -4623,10 +4651,11 @@
       ]
     },
     "XLabs.Serialization/2.0.5782": {
-      "sha512": "gW7zI5CJhQNmUZYzjHyNlO8fMViuoOM79L/STraVsJ/P4BtaJ9yDYzBIfnSgE8sVIwipEVmyGcTZIKMq0hsrkw==",
+      "sha512": "lObYD+cpUv6pnUd9IsWYj5i0sSO8EUT60KaiDKxv2VHr1oAsNC37HpWcetGezYO2nfQN5AZzVtE8ENbYOqx2Dg==",
       "type": "package",
       "path": "xlabs.serialization/2.0.5782",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/Xamarin.iOS10/XLabs.Serialization.XML",
         "lib/Xamarin.iOS10/XLabs.Serialization.dll",
@@ -4647,7 +4676,7 @@
     ".NETStandard,Version=v2.0": [
       "Acr.UserDialogs >= 7.0.1",
       "HtmlAgilityPack >= 1.11.1",
-      "NETStandard.Library >= 2.0.1",
+      "NETStandard.Library >= 2.0.3",
       "Newtonsoft.Json >= 12.0.1",
       "Plugin.Multilingual >= 1.0.2",
       "Rg.Plugins.Popup >= 1.1.5.188",
@@ -4686,8 +4715,7 @@
         "netstandard2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "I:\\Safester\\C#\\CryptoLibrary\\bin\\Release": {},
+        "I:\\_dev_awake\\aceql-http-main\\C#\\NuGet.Local": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4715,7 +4743,7 @@
           "NETStandard.Library": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[2.0.1, )",
+            "version": "[2.0.3, )",
             "autoReferenced": true
           },
           "Newtonsoft.Json": {
@@ -4768,10 +4796,16 @@
           }
         },
         "imports": [
-          "net461"
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
         ],
         "assetTargetFallback": true,
-        "warn": true
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -4780,7 +4814,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'ExifLib.PCL 1.0.1' a été restauré en utilisant '.NETFramework,Version=v4.6.1' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Le package 'ExifLib.PCL 1.0.1' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
       "libraryId": "ExifLib.PCL",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -4790,7 +4824,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'XLabs.Core 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Le package 'XLabs.Core 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
       "libraryId": "XLabs.Core",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -4800,7 +4834,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'XLabs.Forms 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Le package 'XLabs.Forms 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
       "libraryId": "XLabs.Forms",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -4810,7 +4844,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'XLabs.IoC 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Le package 'XLabs.IoC 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
       "libraryId": "XLabs.IoC",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -4820,7 +4854,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'XLabs.Platform 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Le package 'XLabs.Platform 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
       "libraryId": "XLabs.Platform",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -4830,7 +4864,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'XLabs.Serialization 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Le package 'XLabs.Serialization 2.0.5782' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' au lieu du framework cible du projet '.NETStandard,Version=v2.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
       "libraryId": "XLabs.Serialization",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"

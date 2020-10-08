@@ -11,6 +11,7 @@ namespace Safester.Models
         Compose = 0,
         Inbox,
         Sent,
+        Starred,
         Search,
         Drafts,
         Trash,

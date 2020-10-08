@@ -12,6 +12,7 @@ using Android.Text;
 using Android.Text.Method;
 using Android.Views;
 using Android.Widget;
+using Safester.Controls;
 using Safester.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -39,16 +40,21 @@ namespace Safester.Droid.Renderers
                 nativeEditText.ScrollBarStyle = ScrollbarStyles.InsideInset;
                 nativeEditText.SetTextIsSelectable(true);
                 nativeEditText.SetOnTouchListener(new DroidTouchListner());
-                /*
-                //For Scrolling in Editor innner area
-                Control.VerticalScrollBarEnabled = true;
-                Control.SetTextIsSelectable(true);
-                Control.MovementMethod = ScrollingMovementMethod.Instance;
-                Control.ScrollBarStyle = Android.Views.ScrollbarStyles.InsideInset;
-                //Force scrollbars to be displayed
-                Android.Content.Res.TypedArray a = Control.Context.Theme.ObtainStyledAttributes(new int[0]);
-                InitializeScrollbars(a);
-                a.Recycle();*/
+            }
+
+            if (e.NewElement != null)
+            {
+                if (e.NewElement is CustomEditor)
+                {
+                    (e.NewElement as CustomEditor).SetStartPosition += () =>
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            var nativeEditText = (global::Android.Widget.EditText)Control;
+                            nativeEditText.SetSelection(0);
+                        });
+                    };
+                }
             }
         }
     }

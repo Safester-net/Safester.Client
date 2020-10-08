@@ -38,7 +38,10 @@ namespace Safester.Views {
         private global::Xamarin.Forms.Label lblSubject;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
-        private global::Xamarin.Forms.Entry entrySubject;
+        private global::Safester.Controls.TransparentEntry entrySubject;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::Xamarin.Forms.BoxView subjectLine;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private global::Xamarin.Forms.StackLayout layoutAttachment;
@@ -47,7 +50,7 @@ namespace Safester.Views {
         private global::Xamarin.Forms.ListView listAttachment;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
-        private global::Xamarin.Forms.Editor editorBody;
+        private global::Safester.Controls.CustomEditor editorBody;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private void InitializeComponent() {
@@ -59,10 +62,11 @@ namespace Safester.Views {
             lblMailBcc = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "lblMailBcc");
             suggestBoxBcc = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Syncfusion.SfAutoComplete.XForms.SfAutoComplete>(this, "suggestBoxBcc");
             lblSubject = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "lblSubject");
-            entrySubject = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "entrySubject");
+            entrySubject = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Safester.Controls.TransparentEntry>(this, "entrySubject");
+            subjectLine = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.BoxView>(this, "subjectLine");
             layoutAttachment = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.StackLayout>(this, "layoutAttachment");
             listAttachment = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ListView>(this, "listAttachment");
-            editorBody = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Editor>(this, "editorBody");
+            editorBody = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Safester.Controls.CustomEditor>(this, "editorBody");
         }
     }
 }

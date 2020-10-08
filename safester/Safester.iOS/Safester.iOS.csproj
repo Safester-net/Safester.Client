@@ -86,6 +86,7 @@
     <Compile Include="Renderer\CustomTextFieldRenderer.cs" />
     <Compile Include="Renderer\CustomSwitchRenderer.cs" />
     <Compile Include="Renderer\ExtendedViewCellRenderer.cs" />
+    <Compile Include="Renderer\TransparentEntryRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -158,6 +159,8 @@
     <BundleResource Include="Resources\icon_txt.png" />
     <BundleResource Include="Resources\keys.png" />
     <BundleResource Include="Resources\logo_black.png" />
+    <BundleResource Include="Resources\star_black.png" />
+    <BundleResource Include="Resources\star_yellow.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

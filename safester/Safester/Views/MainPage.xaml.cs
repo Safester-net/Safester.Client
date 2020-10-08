@@ -37,6 +37,7 @@ namespace Safester.Views
         public async Task NavigateFromMenu(HomeMenuItem item)
         {
             IsPresented = false;
+            bool isPageInbox = true;
 
             switch (item.Id)
             {
@@ -48,6 +49,16 @@ namespace Safester.Views
                     break;
                 case MenuItemType.Sent:
                     Detail = new NavigationPage(new ItemsPage(MenuItemType.Sent, AppResources.Sent));
+                    break;
+                case MenuItemType.Starred:
+                    if (Detail != null && Detail is NavigationPage)
+                    {
+                        var currentPage = Detail as NavigationPage;
+                        if (currentPage.CurrentPage is ItemsPage)
+                            isPageInbox = (currentPage.CurrentPage as ItemsPage).ItemType != MenuItemType.Sent;
+                    }
+
+                    Detail = new NavigationPage(new ItemsPage(MenuItemType.Starred, AppResources.Starred, isPageInbox));
                     break;
                 case MenuItemType.Search:
                     await Navigation.PushAsync(new SearchPage(MenuItemType.Inbox));

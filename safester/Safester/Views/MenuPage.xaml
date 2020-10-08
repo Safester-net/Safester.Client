@@ -18,14 +18,14 @@
                     HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
+                    <controls:ExtendedViewCell>
                         <ViewCell.View>
                             <StackLayout Orientation="Horizontal" Padding="10" Spacing="10">
                                 <Image Source="{Binding Image}" WidthRequest="24" HeightRequest="24" />
                                 <Label Text="{Binding Title}" TextColor="White" FontSize="18"/>
                             </StackLayout>                            
                         </ViewCell.View>
-                    </ViewCell>
+                    </controls:ExtendedViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

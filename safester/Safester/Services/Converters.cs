@@ -65,7 +65,12 @@ namespace Safester.Services.Converters
                 Console.WriteLine("Date Converter Exception - {0}", ex);
             }
 
-            return dt.ToString("g");
+            if (string.IsNullOrEmpty(App.CurrentLanguage) == false && App.CurrentLanguage.Equals("fr", StringComparison.OrdinalIgnoreCase))
+            {
+                return dt.ToString("dd/MM/yyyy HH:mm");
+            }
+            
+            return dt.ToString("M/d/yyyy h:mm tt");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -82,22 +87,22 @@ namespace Safester.Services.Converters
             {
                 double size = (long)value;
                 if (size < 1024)
-                    return "1KB";
+                    return "1" + AppResources.KB;
 
                 size /= 1024;
                 if (size < 1024) // 1MB
-                    return (int)size + "KB";
+                    return (int)size + AppResources.KB;
 
                 size /= 1024;
                 if (size < 1024) // 1GB
-                    return string.Format("{0:f2}MB", size);
+                    return string.Format("{0:f2}", size) + AppResources.MB;
 
                 size /= 1024;
                 if (size < 1024) // 1TB
-                    return string.Format("{0:f2}GB", size);
+                    return string.Format("{0:f2}", size) + AppResources.GB;
 
                 size /= 1024;
-                return string.Format("{0:f2}TB", size);
+                return string.Format("{0:f2}", size) + AppResources.TB;
             }
             catch (Exception ex)
             {
@@ -173,6 +178,19 @@ namespace Safester.Services.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
+        }
+    }
+
+    public class BooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !((bool)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
         }
     }
 

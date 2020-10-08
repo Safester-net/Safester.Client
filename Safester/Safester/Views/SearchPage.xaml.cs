@@ -39,6 +39,8 @@ namespace Safester.Views
             base.OnAppearing();
 
             ChangeTheme();
+
+            entrySearchText.Focus();
         }
 
         async void Search_Clicked(object sender, System.EventArgs e)

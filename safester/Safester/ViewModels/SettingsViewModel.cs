@@ -25,7 +25,7 @@ namespace Safester.ViewModels
         public Command<string> StoreCouponCommand { get; set; }
 
         public Action<bool> ResponseAction { get; set; }
-        public Action<bool, string> ResponseCouponAction { get; set; }
+        public Action<bool, bool, string> ResponseCouponAction { get; set; }
 
         public SettingsViewModel()
         {
@@ -89,11 +89,11 @@ namespace Safester.ViewModels
                 var couponInfo = await ApiManager.SharedInstance().GetUserCoupon(App.CurrentUser.UserEmail, App.CurrentUser.Token);
                 if (couponInfo != null)
                 {
-                    ResponseCouponAction?.Invoke(true, couponInfo.coupon);
+                    ResponseCouponAction?.Invoke(true, true, couponInfo.coupon);
                 }
                 else
                 {
-                    ResponseCouponAction?.Invoke(false, string.Empty);
+                    ResponseCouponAction?.Invoke(true, false, string.Empty);
                 }
             }
             catch (Exception ex)
@@ -111,11 +111,11 @@ namespace Safester.ViewModels
                 {
                     if (result.Equals("ok", StringComparison.OrdinalIgnoreCase))
                     {
-                        ResponseCouponAction?.Invoke(true, coupon);
+                        ResponseCouponAction?.Invoke(false, true, coupon);
                     }
                     else
                     {
-                        ResponseCouponAction?.Invoke(false, string.Empty);
+                        ResponseCouponAction?.Invoke(false, false, string.Empty);
                     }
                 }
             }

@@ -51,6 +51,9 @@ namespace Safester.Droid.Renderers
                 element.LongClicked?.Invoke(true);
             };
 
+            Control.LinksClickable = true;
+            Control.AutoLinkMask = Android.Text.Util.MatchOptions.All;
+
             UpdateText();
             UpdateMaxLines();
         }

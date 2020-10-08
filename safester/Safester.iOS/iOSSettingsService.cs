@@ -31,7 +31,7 @@ namespace Safester.iOS
 
         public string GetAppVersionName()
         {
-            return "2.1.1"; //NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleVersion").ToString();
+            return "2.2.0"; //NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleVersion").ToString();
         }
 
         public void AskContactsPermission(Action ContactsGrantedAction)

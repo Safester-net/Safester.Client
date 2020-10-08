@@ -63,6 +63,9 @@
   <data name="Sent" xml:space="preserve">
     <value>Envoyés</value>
   </data>
+  <data name="Starred" xml:space="preserve">
+      <value>Messages suivis</value>
+  </data>
   <data name="Drafts" xml:space="preserve">
     <value>Brouillons</value>
   </data>
@@ -303,6 +306,12 @@
   <data name="AllowNotification" xml:space="preserve">
     <value>Autoriser Notifications :</value>
   </data>
+  <data name="ConfirmSending" xml:space="preserve">
+      <value>Confirmer avant envoi :</value>
+  </data>
+  <data name="AllowConfirmSending" xml:space="preserve">
+      <value>Activer cette option pour confirmer les envois :</value>
+  </data>
   <data name="MessagePerScroll" xml:space="preserve">
     <value>Messages affichés par scroll :</value>
   </data>
@@ -384,17 +393,26 @@
     <data name="Language" xml:space="preserve">
         <value>Langue :</value>
     </data>
+    <data name="KB" xml:space="preserve">
+        <value> Ko</value>
+    </data>
     <data name="MB" xml:space="preserve">
         <value> Mo</value>
     </data>
     <data name="GB" xml:space="preserve">
         <value> Go</value>
     </data>
+    <data name="TB" xml:space="preserve">
+        <value> To</value>
+    </data>
     <data name="Users" xml:space="preserve">
         <value>Comptes Safester</value>
     </data>
     <data name="ChangeAccount" xml:space="preserve">
         <value>Voulez-vous changer de compte avec </value>
+    </data>
+    <data name="ConfirmSendingMail" xml:space="preserve">
+        <value>Êtes-vous sûr de vouloir envoyer ce message ?</value>
     </data>
     <data name="Connect" xml:space="preserve">
         <value>Connexion</value>
@@ -425,5 +443,11 @@
     </data>
     <data name="MarkItem" xml:space="preserve">
         <value>Marquer comme Lu/Non lu</value>
+    </data>
+    <data name="ModifyCoupon" xml:space="preserve">
+        <value>Etes-vous certain de vouloir modifier le Coupon ?</value>
+    </data>
+    <data name="InvalidCoupon" xml:space="preserve">
+        <value>Le Coupon est invalide. Veuillez réessayer.</value>
     </data>
 </root>

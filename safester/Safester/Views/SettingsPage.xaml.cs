@@ -17,6 +17,7 @@ namespace Safester.Views
     {
         private SettingsViewModel viewModel { get; set; }
         private string _curLanguage = string.Empty;
+        private bool hasValidCoupon = false;
 
         public SettingsPage()
         {
@@ -53,12 +54,19 @@ namespace Safester.Views
                 PopupNavigation.Instance.PushAsync(popupPage);
             };
 
-            btnSaveCoupon.Clicked += (sender, e) =>
+            btnSaveCoupon.Clicked += async (sender, e) =>
             {
                 if (string.IsNullOrEmpty(entryCoupon.Text))
                 {
                     CustomAlertPage.Show(AppResources.Warning, "Please input coupon first.", AppResources.OK, AppResources.Cancel);
                     return;
+                }
+
+                if (hasValidCoupon)
+                {
+                    var result = await CustomAlertPage.Show(AppResources.Warning, AppResources.ModifyCoupon, AppResources.OK, AppResources.Cancel);
+                    if (result == false)
+                        return;
                 }
 
                 ShowLoading(true);
@@ -176,21 +184,33 @@ namespace Safester.Views
                 }
             };
 
-            viewModel.ResponseCouponAction = (success, coupon) =>
+            viewModel.ResponseCouponAction = (getcoupon, success, coupon) =>
             {
                 ShowLoading(false);
                 if (success == false)
-                    CustomAlertPage.Show(AppResources.Error, AppResources.ErrorOccured, AppResources.OK);
+                {
+                    if (getcoupon == false)
+                        CustomAlertPage.Show(AppResources.Error, AppResources.InvalidCoupon, AppResources.OK);
+                }
                 else
                 {
+                    hasValidCoupon = false;
                     entryCoupon.Text = string.Empty;
 
                     if (string.IsNullOrEmpty(coupon) == false)
                     {
                         if (coupon.Equals("null", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (getcoupon == false)
+                                CustomAlertPage.Show(AppResources.Error, AppResources.InvalidCoupon, AppResources.OK);
+
                             entryCoupon.Text = string.Empty;
+                        }
                         else
+                        {
+                            hasValidCoupon = true;
                             entryCoupon.Text = coupon;
+                        }
                     }
                 }
             };
@@ -220,6 +240,12 @@ namespace Safester.Views
                 else
                     switchSignature.IsToggled = false;
 
+                var enableAllowSending = _settingsService.LoadSettings("enable_allow_sending");
+                if (string.IsNullOrEmpty(enableAllowSending) == false && enableAllowSending.Equals("1"))
+                    switchConfirmSending.IsToggled = true;
+                else
+                    switchConfirmSending.IsToggled = false;
+
                 //entrySignature.Text = _settingsService.LoadSettings("mobile_signature");
             }
             else
@@ -231,6 +257,8 @@ namespace Safester.Views
                 _settingsService.SaveSettings("messages_per_scroll", string.IsNullOrEmpty(entryCountPerScroll.Text) ? "" : entryCountPerScroll.Text);
 
                 _settingsService.SaveSettings("enable_mobile_signature", switchSignature.IsToggled ? "1" : "0");
+
+                _settingsService.SaveSettings("enable_allow_sending", switchConfirmSending.IsToggled ? "1" : "0");
             }
 
             if (switchSignature.IsToggled)
@@ -273,6 +301,10 @@ namespace Safester.Views
             lblNotification.TextColor = ThemeHelper.GetSettingsLabelColor();
             lblAllowNotification.TextColor = ThemeHelper.GetSettingsLabelColor();
             lblMessagePerScroll.TextColor = ThemeHelper.GetSettingsLabelColor();
+
+            lblConfirmSending.TextColor = ThemeHelper.GetSettingsLabelColor();
+            lblAllowConfirmSending.TextColor = ThemeHelper.GetSettingsLabelColor();
+
             lblEmail.TextColor = ThemeHelper.GetSettingsLabelColor();
             lblAddSignature.TextColor = ThemeHelper.GetSettingsLabelColor();
             lblSignature.TextColor = ThemeHelper.GetSettingsLabelColor();
@@ -306,6 +338,7 @@ namespace Safester.Views
             switchDarkMode.ColorChangedEvent?.Invoke();
             switchNotification.ColorChangedEvent?.Invoke();
             switchSignature.ColorChangedEvent?.Invoke();
+            switchConfirmSending.ColorChangedEvent?.Invoke();
         }
     }
 }

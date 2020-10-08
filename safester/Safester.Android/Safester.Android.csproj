@@ -15,7 +15,7 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -118,6 +118,7 @@
     <Compile Include="AndroidBug5497WorkaroundForXamarinAndroid.cs" />
     <Compile Include="Renderers\ExtendedViewCellRenderer.cs" />
     <Compile Include="Renderers\CustomSwitchRenderer.cs" />
+    <Compile Include="Renderers\TransparentEntryRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -170,6 +171,14 @@
     <AndroidResource Include="Resources\drawable\icon_txt.png" />
     <AndroidResource Include="Resources\drawable\keys.png" />
     <AndroidResource Include="Resources\drawable\logo_black.png" />
+    <AndroidResource Include="Resources\drawable\star_black.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\star_yellow.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable-hdpi\" />

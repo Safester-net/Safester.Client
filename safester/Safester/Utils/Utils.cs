@@ -391,11 +391,11 @@ namespace Safester.Utils
             {
                 double size = bytes;
                 if (size < 1024)
-                    return "1KB";
+                    return "1" + AppResources.KB;
 
                 size /= 1024;
                 if (size < 1024) // 1MB
-                    return (int)size + "KB";
+                    return (int)size + AppResources.KB;
 
                 size /= 1024;
                 if (size < 1024) // 1GB
@@ -627,6 +627,26 @@ namespace Safester.Utils
                 return "icon_jpeg.png";
 
             return "icon_file.png";
+        }
+
+        public static string CleanSpecialChars(String buffer)
+        {
+            if (buffer.IndexOf('\u2013') > -1) buffer = buffer.Replace('\u2013', '-');
+            if (buffer.IndexOf('\u2014') > -1) buffer = buffer.Replace('\u2014', '-');
+            if (buffer.IndexOf('\u2015') > -1) buffer = buffer.Replace('\u2015', '-');
+            if (buffer.IndexOf('\u2017') > -1) buffer = buffer.Replace('\u2017', '_');
+            if (buffer.IndexOf('\u2018') > -1) buffer = buffer.Replace('\u2018', '\'');
+            if (buffer.IndexOf('\u2019') > -1) buffer = buffer.Replace('\u2019', '\'');
+            if (buffer.IndexOf('\u201a') > -1) buffer = buffer.Replace('\u201a', ',');
+            if (buffer.IndexOf('\u201b') > -1) buffer = buffer.Replace('\u201b', '\'');
+            if (buffer.IndexOf('\u201c') > -1) buffer = buffer.Replace('\u201c', '\"');
+            if (buffer.IndexOf('\u201d') > -1) buffer = buffer.Replace('\u201d', '\"');
+            if (buffer.IndexOf('\u201e') > -1) buffer = buffer.Replace('\u201e', '\"');
+            if (buffer.IndexOf('\u2026') > -1) buffer = buffer.Replace("\u2026", "...");
+            if (buffer.IndexOf('\u2032') > -1) buffer = buffer.Replace('\u2032', '\'');
+            if (buffer.IndexOf('\u2033') > -1) buffer = buffer.Replace('\u2033', '\"');
+
+            return buffer;
         }
     }
 }

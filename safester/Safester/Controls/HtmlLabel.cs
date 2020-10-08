@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Text;
 using Xamarin.Forms;
+using XLabs.Forms.Controls;
 
 namespace Safester.Controls
 {
-    public class HtmlLabel : Label
+    public class HtmlLabel : HyperLinkLabel
     {
         /// <summary>
         /// MaxLines property for the label

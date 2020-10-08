@@ -18,6 +18,14 @@ namespace Safester.iOS.Renderer
                 e.NewElement.Focused -= Element_Focused;
                 e.NewElement.Focused += Element_Focused;
             }
+
+            if (Control != null)
+            {
+                Control.TextContentType = UITextContentType.OneTimeCode;
+                Control.SmartQuotesType = UITextSmartQuotesType.No;
+                Control.SmartDashesType = UITextSmartDashesType.No;
+                Control.SmartInsertDeleteType = UITextSmartInsertDeleteType.No;
+            }
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)

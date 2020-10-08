@@ -23,9 +23,10 @@ namespace Safester.Views
     {
         public MenuItemType ItemType { get; set; }
         public static bool NeedForceReload { get; set; }
+
         private ItemsViewModel viewModel;
 
-        public ItemsPage(MenuItemType itemType, string title)
+        public ItemsPage(MenuItemType itemType, string title, bool isPageInboxForStarred = true)
         {
             InitializeComponent();
 
@@ -33,6 +34,7 @@ namespace Safester.Views
             ItemType = itemType;
             viewModel.DirectoryId = ItemType;
             viewModel.Title = title;
+            viewModel.IsStarredForInbox = isPageInboxForStarred;
 
             ItemsListView.ItemAppearing += InfiniteListView_ItemAppearing;
 
@@ -60,7 +62,12 @@ namespace Safester.Views
                 return;
 
             viewModel.MarkMessageAsRead(item);
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item, ItemType)));
+
+            var currentPageType = ItemType;
+            if (ItemType == MenuItemType.Starred)
+                currentPageType = (viewModel.IsStarredForInbox ? MenuItemType.Inbox : MenuItemType.Sent);
+
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item, currentPageType)));
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;
@@ -101,6 +108,23 @@ namespace Safester.Views
                 viewModel.LoadItemsCommand.Execute(null);
 
             NeedForceReload = false;
+        }
+
+        async void OnStarClicked(object sender, System.EventArgs e)
+        {
+            if (ItemType != MenuItemType.Inbox && ItemType != MenuItemType.Sent && ItemType != MenuItemType.Starred)
+                return;
+
+            var mi = ((Button)sender);
+
+            UserDialogs.Instance.Loading(AppResources.Pleasewait, null, null, true);
+            var result = await viewModel.MarkStarCommand(mi.CommandParameter as Message);
+            UserDialogs.Instance.Loading().Hide();
+
+            if (result == false)
+            {
+                await CustomAlertPage.Show(AppResources.Warning, AppResources.TryAgain, AppResources.OK);
+            }
         }
 
         async void OnUnread(object sender, System.EventArgs e)

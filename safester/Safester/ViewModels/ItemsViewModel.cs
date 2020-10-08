@@ -21,6 +21,7 @@ namespace Safester.ViewModels
         public Command<int> DeleteCommand { get; set; }
 
         public MenuItemType DirectoryId { get; set; }
+        public bool IsStarredForInbox = true;
 
         public Action<bool> LoadingAction { get; set; }
         public Action LoadingFinished { get; set; }
@@ -52,27 +53,45 @@ namespace Safester.ViewModels
             {
                 Items.Clear();
                 offset = 0;
-                ApiManager.SharedInstance().ListMessages(App.CurrentUser.UserEmail, App.CurrentUser.Token, (int)DirectoryId, limit, offset, (success, result) =>
+
+                int messageType = (int)DirectoryId;
+                if (DirectoryId == MenuItemType.Starred)
                 {
-                    IsBusy = false;
-                    LoadingAction?.Invoke(false);
-
-                    if (success && result != null)
+                    messageType = IsStarredForInbox ? (int)MenuItemType.Inbox : (int)MenuItemType.Sent;
+                    ApiManager.SharedInstance().ListMessagesStarred(App.CurrentUser.UserEmail, App.CurrentUser.Token, messageType, limit, offset, (success, result) =>
                     {
-                        foreach (var item in result.messages)
-                        {
-                            AddMessageToTheList(item);
-                        }
-
-                        LoadingFinished?.Invoke();
-                        OnPropertyChanged("Items");
-                        offset = Items.Count;
-                    }
-                });
+                        ProcessResult(success, result);
+                    });
+                }
+                else
+                {
+                    ApiManager.SharedInstance().ListMessages(App.CurrentUser.UserEmail, App.CurrentUser.Token, (int)DirectoryId, limit, offset, (success, result) =>
+                    {
+                        ProcessResult(success, result);
+                    });
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+            }
+        }
+
+        private void ProcessResult(bool success, MessagesResultInfo result)
+        {
+            IsBusy = false;
+            LoadingAction?.Invoke(false);
+
+            if (success && result != null)
+            {
+                foreach (var item in result.messages)
+                {
+                    AddMessageToTheList(item);
+                }
+
+                LoadingFinished?.Invoke();
+                OnPropertyChanged("Items");
+                offset = Items.Count;
             }
         }
 
@@ -86,22 +105,22 @@ namespace Safester.ViewModels
 
             try
             {
-                ApiManager.SharedInstance().ListMessages(App.CurrentUser.UserEmail, App.CurrentUser.Token, (int)DirectoryId, limit, offset, (success, result) =>
+                int messageType = (int)DirectoryId;
+                if (DirectoryId == MenuItemType.Starred)
                 {
-                    IsBusy = false;
-                    LoadingAction?.Invoke(false);
-                    if (success && result != null)
+                    messageType = IsStarredForInbox ? (int)MenuItemType.Inbox : (int)MenuItemType.Sent;
+                    ApiManager.SharedInstance().ListMessagesStarred(App.CurrentUser.UserEmail, App.CurrentUser.Token, messageType, limit, offset, (success, result) =>
                     {
-                        foreach (var item in result.messages)
-                        {
-                            AddMessageToTheList(item);
-                        }
-
-                        LoadingFinished?.Invoke();
-                        OnPropertyChanged("Items");
-                        offset = Items.Count;
-                    }
-                });
+                        ProcessResult(success, result);
+                    });
+                }
+                else
+                {
+                    ApiManager.SharedInstance().ListMessages(App.CurrentUser.UserEmail, App.CurrentUser.Token, (int)DirectoryId, limit, offset, (success, result) =>
+                    {
+                        ProcessResult(success, result);
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -133,6 +152,31 @@ namespace Safester.ViewModels
 
                 if (string.IsNullOrEmpty(result) == false && result.Equals("success", StringComparison.OrdinalIgnoreCase))
                     return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            return false;
+        }
+
+        public async Task<bool> MarkStarCommand(Message message)
+        {
+            try
+            {
+                var result = await ApiManager.SharedInstance().SetMessageStar(App.CurrentUser.UserEmail, App.CurrentUser.Token,
+                    message.senderEmailAddr, (int)message.messageId, !message.IsStarred);
+
+                if (string.IsNullOrEmpty(result) == false && result.Equals("success", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (DirectoryId == MenuItemType.Starred)
+                        Items.Remove(message);
+
+                    message.IsStarred = !message.IsStarred;
+
+                    return true;
+                }
             }
             catch (Exception ex)
             {

@@ -45,7 +45,7 @@ namespace Safester.Views
         private async void BtnDeleteAccount_Clicked(object sender, EventArgs e)
         {
             var msg = AppResources.DeleteAccount + " \"" + App.CurrentUser.UserEmail + "\"";
-            bool result = await CustomAlertPage.Show(AppResources.Warning, msg, AppResources.Yes, AppResources.Cancel);
+            bool result = await CustomAlertPage.Show(AppResources.Warning, msg, AppResources.OK, AppResources.Cancel, "[yes/no]: ", "no", "yes");
             if (result)
             {
                 try

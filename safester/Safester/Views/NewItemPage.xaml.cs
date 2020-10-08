@@ -89,6 +89,8 @@ namespace Safester.Views
                 UpdateDraftData();
 
                 editorBody.Focus();
+
+                editorBody.SetStartPosition?.Invoke();
             }
 
             ChangeTheme();
@@ -182,10 +184,19 @@ namespace Safester.Views
             ClosePage();
         }
 
-        void Send_Clicked(object sender, EventArgs e)
+        async void Send_Clicked(object sender, EventArgs e)
         {
             if (isSending == true)
                 return;
+
+            var _settingsService = DependencyService.Get<SettingsService>();
+            var enableAllowSending = _settingsService.LoadSettings("enable_allow_sending");
+            if (string.IsNullOrEmpty(enableAllowSending) == false && enableAllowSending.Equals("1"))
+            {
+                bool result = await CustomAlertPage.Show(AppResources.Warning, AppResources.ConfirmSendingMail, AppResources.Yes, AppResources.Cancel);
+                if (result == false)
+                    return;
+            }
 
             SyncSuggestDataWithVM();
 
@@ -571,6 +582,7 @@ namespace Safester.Views
             suggestBoxCc.BorderColor = ThemeHelper.GetSearchEntryBorderColor();
             suggestBoxBcc.BorderColor = ThemeHelper.GetSearchEntryBorderColor();
 
+            subjectLine.Color = ThemeHelper.GetSearchEntryBorderColor();
             entrySubject.BackgroundColor = ThemeHelper.GetReadMailBGColor();
         }
     }

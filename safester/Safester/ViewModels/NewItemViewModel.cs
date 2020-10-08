@@ -91,10 +91,28 @@ namespace Safester.ViewModels
                     }
                 }
 
+                // Subject Quote
+                if (string.IsNullOrEmpty(Subject) == false)
+                {
+                    Subject = Subject.Replace("´", " ");
+                    Subject = Subject.Replace("‘", " ");
+                    Subject = Subject.Replace("‘", " ");
+
+                    Subject = Utils.Utils.CleanSpecialChars(Subject);
+                }
+
                 if (string.IsNullOrEmpty(Body))
                     Body = string.Empty;
                 else
                     Body = Body.Replace("\n", "<br>");
+
+                // Content Quote
+                if (string.IsNullOrEmpty(Body) == false)
+                {
+                    Body = Body.Replace("´", "'");
+                    Body = Body.Replace("‘", "'");
+                    Body = Body.Replace("‘", "'");
+                }
 
                 var jsonData = new SenderMailMessage
                 {

@@ -41,6 +41,15 @@ namespace Safester.Views {
         private global::Xamarin.Forms.Label entryMailBoxSize;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::Xamarin.Forms.Label lblConfirmSending;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::Xamarin.Forms.Label lblAllowConfirmSending;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::Safester.Controls.CustomSwitch switchConfirmSending;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private global::Xamarin.Forms.Label lblNotification;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
@@ -114,6 +123,9 @@ namespace Safester.Views {
             entryCrypto = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "entryCrypto");
             lblBoxSize = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "lblBoxSize");
             entryMailBoxSize = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "entryMailBoxSize");
+            lblConfirmSending = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "lblConfirmSending");
+            lblAllowConfirmSending = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "lblAllowConfirmSending");
+            switchConfirmSending = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Safester.Controls.CustomSwitch>(this, "switchConfirmSending");
             lblNotification = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "lblNotification");
             lblAllowNotification = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "lblAllowNotification");
             switchNotification = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Safester.Controls.CustomSwitch>(this, "switchNotification");

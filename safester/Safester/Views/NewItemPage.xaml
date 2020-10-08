@@ -4,6 +4,7 @@
              x:Class="Safester.Views.NewItemPage"
              xmlns:local="clr-namespace:Safester.Services.Converters"
              xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:controls="clr-namespace:Safester.Controls"
              xmlns:i18n="clr-namespace:Safester.Utils"
              Title="{i18n:Translate NewMail}">
     
@@ -96,14 +97,15 @@
                 <StackLayout Margin="0" Padding="0" Spacing="5" Orientation="Horizontal">
                     <Grid HorizontalOptions="FillAndExpand">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="70" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                         </Grid.RowDefinitions>
                         <Label x:Name="lblSubject" Text="{i18n:Translate MailSubject}" Grid.Column="0" Grid.Row="0" FontSize="Medium" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"/>
-                        <Entry Text="{Binding Subject}" HeightRequest="40" x:Name="entrySubject" Grid.Column="1" Grid.Row="0" FontSize="Medium" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <controls:TransparentEntry Text="{Binding Subject}"  BackgroundColor="Transparent" HeightRequest="40" x:Name="entrySubject" Grid.Column="1" Grid.Row="0" FontSize="Medium" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <BoxView x:Name="subjectLine" HeightRequest="1" VerticalOptions="EndAndExpand" Grid.Column="1" Grid.Row="0" HorizontalOptions="FillAndExpand" />
                     </Grid>
                 </StackLayout>
                 <BoxView HeightRequest="1" Color="Gray" />
@@ -133,7 +135,7 @@
                     <BoxView HeightRequest="1" Color="Gray" />
                 </StackLayout>
                 <!--<Label Text="Body" FontSize="Medium" />-->
-                <Editor x:Name="editorBody" Placeholder="{i18n:Translate TypeText}" FontSize="Medium" VerticalOptions="FillAndExpand"
+                <controls:CustomEditor x:Name="editorBody" Placeholder="{i18n:Translate TypeText}" FontSize="Medium" VerticalOptions="FillAndExpand"
                         BackgroundColor="Transparent"/>
             </StackLayout>
         </ScrollView>

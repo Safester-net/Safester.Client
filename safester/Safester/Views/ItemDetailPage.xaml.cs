@@ -245,9 +245,13 @@ namespace Safester.Views
 
                 var draftMessage = new DraftMessage { Id = 0 };
                 draftMessage.ToRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+                draftMessage.CcRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+                draftMessage.BccRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
+
                 var recipient = ProcessReplyRecipient(viewModel.FromRecipient);
                 if (recipient == null)
                     return;
+
                 draftMessage.ToRecipients.Add(recipient);
 
                 if (string.IsNullOrEmpty(viewModel.ToRecipients) == false)
@@ -278,7 +282,7 @@ namespace Safester.Views
                             {
                                 recipient = ProcessReplyRecipient(item);
                                 if (recipient != null && !recipient.recipientEmailAddr.Equals(App.CurrentUser.UserEmail, StringComparison.OrdinalIgnoreCase))
-                                    draftMessage.ToRecipients.Add(recipient);
+                                    draftMessage.CcRecipients.Add(recipient);
                             }
                         }
                     }
@@ -295,14 +299,12 @@ namespace Safester.Views
                             {
                                 recipient = ProcessReplyRecipient(item);
                                 if (recipient != null && !recipient.recipientEmailAddr.Equals(App.CurrentUser.UserEmail, StringComparison.OrdinalIgnoreCase))
-                                    draftMessage.ToRecipients.Add(recipient);
+                                    draftMessage.BccRecipients.Add(recipient);
                             }
                         }
                     }
                 }
 
-                draftMessage.CcRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
-                draftMessage.BccRecipients = new System.Collections.ObjectModel.ObservableCollection<Recipient>();
                 draftMessage.attachments = null;
                 draftMessage.subject = "Re:" + viewModel.Subject;
                 draftMessage.body = "\n\n----- original message --------\n" + htmlLabel.PlainText;

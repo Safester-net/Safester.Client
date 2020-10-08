@@ -63,6 +63,9 @@
     <data name="Sent" xml:space="preserve">
         <value>Sent</value>
     </data>
+    <data name="Starred" xml:space="preserve">
+        <value>Starred</value>
+    </data>
     <data name="Drafts" xml:space="preserve">
         <value>Drafts</value>
     </data>
@@ -311,6 +314,12 @@
     <data name="AllowNotification" xml:space="preserve">
         <value>Allow Notifications:</value>
     </data>
+    <data name="ConfirmSending" xml:space="preserve">
+        <value>Confirm Before Sending:</value>
+    </data>
+    <data name="AllowConfirmSending" xml:space="preserve">
+        <value>Please allow this option to confirm before sending:</value>
+    </data>
     <data name="MessagePerScroll" xml:space="preserve">
         <value>Messages displayed per scroll:</value>
     </data>
@@ -393,17 +402,26 @@
     <data name="Language" xml:space="preserve">
         <value>Language:</value>
     </data>
+    <data name="KB" xml:space="preserve">
+        <value>KB</value>
+    </data>
     <data name="MB" xml:space="preserve">
         <value>MB</value>
     </data>
     <data name="GB" xml:space="preserve">
         <value>GB</value>
     </data>
+    <data name="TB" xml:space="preserve">
+        <value>TB</value>
+    </data>
     <data name="Users" xml:space="preserve">
         <value>Accounts</value>
     </data>
     <data name="ChangeAccount" xml:space="preserve">
         <value>Do you want to change account with this </value>
+    </data>
+    <data name="ConfirmSendingMail" xml:space="preserve">
+        <value>Are you sure you want to send this message?</value>
     </data>
     <data name="Connect" xml:space="preserve">
         <value>Connect</value>
@@ -434,5 +452,11 @@
     </data>
     <data name="MarkItem" xml:space="preserve">
         <value>Mark as Read/Unread</value>
+    </data>
+    <data name="ModifyCoupon" xml:space="preserve">
+        <value>Are you sure you want to modify the Coupon?</value>
+    </data>
+    <data name="InvalidCoupon" xml:space="preserve">
+        <value>Invalid Coupon. Please try again.</value>
     </data>
 </root>

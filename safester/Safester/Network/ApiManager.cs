@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Safester.CryptoLibrary.Api;
 using Safester.Models;
 using Safester.Utils;
+using Xamarin.Forms;
 
 namespace Safester.Network
 {
@@ -39,6 +40,19 @@ namespace Safester.Network
 
                     client.MaxResponseContentBufferSize = int.MaxValue - 1; // no limit for the download size
                     client.Timeout = TimeSpan.FromSeconds(60 * 60 * 5); // 5 hours timeout
+
+                    // Set Agent
+                    String userAgent = string.Empty;
+                    if (Device.RuntimePlatform == Device.iOS)
+                    {
+                        userAgent = "iPhone";
+                    }
+                    else if (Device.RuntimePlatform == Device.Android)
+                    {
+                        userAgent = "Android";
+                    }
+
+                    client.DefaultRequestHeaders.Add("User-Agent", userAgent);
                 }
                 return client;
             }
@@ -211,6 +225,40 @@ namespace Safester.Network
             }
         }
 
+        public async void ListMessagesStarred(string userName, string token, int directoryId, int limit, int offset, Action<bool, MessagesResultInfo> callback)
+        {
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("username", userName));
+            postData.Add(new KeyValuePair<string, string>("token", token));
+            postData.Add(new KeyValuePair<string, string>("directoryId", directoryId.ToString()));
+            postData.Add(new KeyValuePair<string, string>("limit", limit.ToString()));
+            postData.Add(new KeyValuePair<string, string>("offset", offset.ToString()));
+
+            string result = string.Empty;
+            result = await CallWithPostAsync("api/listMessagesStarred", postData);
+
+            if (string.IsNullOrEmpty(result) == true)
+                callback(false, new MessagesResultInfo { errorMessage = AppResources.CANNOT_CONNECT_SERVER });
+            else
+            {
+                try
+                {
+                    var ret = (MessagesResultInfo)JsonConvert.DeserializeObject(result, typeof(MessagesResultInfo));
+                    if (Errors.IsApiSuccess(ret.status))
+                    {
+                        callback(true, ret);
+                    }
+                    else
+                        callback(false, ret);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    callback(false, null);
+                }
+            }
+        }
+
         public async Task<bool> DeleteMessage(string userName, string token, int messageId, int directoryId)
         {
             var postData = new List<KeyValuePair<string, string>>();
@@ -324,6 +372,39 @@ namespace Safester.Network
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex);                    
+                }
+            }
+
+            return string.Empty;
+        }
+
+        public async Task<string> SetMessageStar(string userName, string token, string senderEmail, int messageId, bool starred)
+        {
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("username", userName));
+            postData.Add(new KeyValuePair<string, string>("token", token));
+            postData.Add(new KeyValuePair<string, string>("messageId", messageId.ToString()));
+            postData.Add(new KeyValuePair<string, string>("senderEmailAddress", senderEmail));
+            postData.Add(new KeyValuePair<string, string>("messageIsStarred", starred ? "true" : "false"));
+
+            string result = string.Empty;
+            result = await CallWithPostAsync("api/setMessageStar", postData);
+
+            if (string.IsNullOrEmpty(result) == false)
+            {
+                try
+                {
+                    var ret = (BaseResult)JsonConvert.DeserializeObject(result, typeof(BaseResult));
+                    if (Errors.IsErrorExist(ret.status))
+                    {
+                        return ret.errorMessage;
+                    }
+                    else
+                        return "success";
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
                 }
             }
 

@@ -25,6 +25,7 @@
             <local:SizeConverter x:Key="sizeToString" />
             <local:BoolToFontAttrConverter x:Key="boolToFontAttr" />
             <local:TextColorConverter x:Key="textColorConverter" />
+            <local:BooleanConverter x:Key="invertConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -49,6 +50,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <Image x:Name="imgAttachment" Source="clipyellow.png" 
                                     Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
@@ -86,7 +88,23 @@
                                     FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
                                     TextColor="{Binding ., Converter={StaticResource textColorConverter}, ConverterParameter={x:Reference imgAttachment}}"
                                     FontSize="14" />
-                              </StackLayout>
+                            </StackLayout>
+                            <Image x:Name="imgStarring" Source="star_black.png"
+                                   Margin="5, 0, 0, 0"
+                                    Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                                    IsVisible="{Binding IsStarred, Converter={StaticResource invertConverter}}"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" />
+                            <Image x:Name="imgStarringYellow" Source="star_yellow.png" 
+                                   Margin="5, 0, 0, 0"
+                                    Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                                    IsVisible="{Binding IsStarred}"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" />
+                            <Button HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="FillAndExpand"
+                                    BackgroundColor="Transparent"
+                                    Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Clicked="OnStarClicked" CommandParameter="{Binding .}"/>
                         </Grid>
                         <ViewCell.ContextActions>
                             <MenuItem Clicked="OnUnread" CommandParameter="{Binding .}"

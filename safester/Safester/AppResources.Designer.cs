@@ -149,6 +149,12 @@ namespace Safester {
             }
         }
         
+        internal static string Starred {
+            get {
+                return ResourceManager.GetString("Starred", resourceCulture);
+            }
+        }
+        
         internal static string Drafts {
             get {
                 return ResourceManager.GetString("Drafts", resourceCulture);
@@ -629,6 +635,18 @@ namespace Safester {
             }
         }
         
+        internal static string ConfirmSending {
+            get {
+                return ResourceManager.GetString("ConfirmSending", resourceCulture);
+            }
+        }
+        
+        internal static string AllowConfirmSending {
+            get {
+                return ResourceManager.GetString("AllowConfirmSending", resourceCulture);
+            }
+        }
+        
         internal static string MessagePerScroll {
             get {
                 return ResourceManager.GetString("MessagePerScroll", resourceCulture);
@@ -791,6 +809,12 @@ namespace Safester {
             }
         }
         
+        internal static string KB {
+            get {
+                return ResourceManager.GetString("KB", resourceCulture);
+            }
+        }
+        
         internal static string MB {
             get {
                 return ResourceManager.GetString("MB", resourceCulture);
@@ -803,6 +827,12 @@ namespace Safester {
             }
         }
         
+        internal static string TB {
+            get {
+                return ResourceManager.GetString("TB", resourceCulture);
+            }
+        }
+        
         internal static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
@@ -812,6 +842,12 @@ namespace Safester {
         internal static string ChangeAccount {
             get {
                 return ResourceManager.GetString("ChangeAccount", resourceCulture);
+            }
+        }
+        
+        internal static string ConfirmSendingMail {
+            get {
+                return ResourceManager.GetString("ConfirmSendingMail", resourceCulture);
             }
         }
         
@@ -872,6 +908,18 @@ namespace Safester {
         internal static string MarkItem {
             get {
                 return ResourceManager.GetString("MarkItem", resourceCulture);
+            }
+        }
+        
+        internal static string ModifyCoupon {
+            get {
+                return ResourceManager.GetString("ModifyCoupon", resourceCulture);
+            }
+        }
+        
+        internal static string InvalidCoupon {
+            get {
+                return ResourceManager.GetString("InvalidCoupon", resourceCulture);
             }
         }
     }

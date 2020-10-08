@@ -138,22 +138,29 @@ namespace Safester.iOS.Renderer
             });
 
             // Sets up a Gesture recognizer:
-            if (links.Count <= 0) return;
+            //if (links.Count <= 0) return;
             control.UserInteractionEnabled = true;
             var tapGesture = new UITapGestureRecognizer((tap) =>
             {
-                var url = DetectTappedUrl(tap, (UILabel)tap.View, links);
-                if (url == null) return;
+                try
+                {
+                    var url = DetectTappedUrl(tap, (UILabel)tap.View, links);
+                    if (url == null) return;
 
-                var label = (HtmlLabel)Element;
-                var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = url }, url);
-                label.SendNavigating(args);
+                    var label = (HtmlLabel)Element;
+                    var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = url }, url);
+                    label.SendNavigating(args);
 
-                if (args.Cancel)
-                    return;
+                    if (args.Cancel)
+                        return;
 
-                Device.OpenUri(new Uri(url));
-                label.SendNavigated(args);
+                    Device.OpenUri(new Uri(url));
+                    label.SendNavigated(args);
+                }
+                catch (Exception ex)
+                {
+
+                }
             });
             control.AddGestureRecognizer(tapGesture);
         }
@@ -217,7 +224,7 @@ namespace Safester.iOS.Renderer
             {
                 scaledIndexOfCharacter = (nint)(indexOfCharacter * 1.02);
             }
-
+            /*
             foreach (var link in linkList)
             {
                 var rangeLength = link.Range.Length;
@@ -242,7 +249,38 @@ namespace Safester.iOS.Renderer
                 {
                     return link.Url;
                 }
+            }*/
+            if (scaledIndexOfCharacter == 0)
+                scaledIndexOfCharacter = indexOfCharacter;
+
+            var plainText = (Element as HtmlLabel).PlainText;
+            if (indexOfCharacter >= plainText.Length - 1)
+                return null;
+
+            int currentPosition = (int)scaledIndexOfCharacter;
+            int startIdx = currentPosition;
+            while (plainText[startIdx] != ' ' && plainText[startIdx] != '\r' && plainText[startIdx] != '\n')
+            {
+                if (startIdx == 0)
+                    break;
+                startIdx--;
             }
+
+            int endIdx = currentPosition;
+            while (plainText[endIdx] != ' ' && plainText[endIdx] != '\r' && plainText[endIdx] != '\n')
+            {
+                if (endIdx == plainText.Length - 1)
+                    break;
+                endIdx++;
+            }
+
+            var selectedString = plainText.Substring(startIdx, endIdx - startIdx + 1).Trim();
+            if (selectedString.StartsWith("http:", StringComparison.OrdinalIgnoreCase) ||
+                selectedString.StartsWith("https:", StringComparison.OrdinalIgnoreCase))
+            {
+                return selectedString;
+            }
+
             return null;
         }
     }
