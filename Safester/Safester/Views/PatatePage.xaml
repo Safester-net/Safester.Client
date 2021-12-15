@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Safester.Views.PatatePage"
+             xmlns:cc="clr-namespace:Safester.Controls"
+             xmlns:i18n="clr-namespace:Safester.Utils"
+             Title="{i18n:Translate RegisterUser}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{i18n:Translate Create}" Clicked="Save_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="save.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView VerticalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="50, 30, 50, 30" Spacing="20">
+                <Label Text="{i18n:Translate RegisterUserHint}" 
+                       TextColor="White"
+                       Margin="0, 0, 0, 10"/>
+                <cc:RoundedBorderEntry x:Name="entryName" 
+                                       TextColor="Black" 
+                                       PlaceholderColor="#CCCCCC" 
+                                       Placeholder="{i18n:Translate Name1}"
+                                       FontSize="15" 
+                                       HeightRequest="40" 
+                                       HorizontalOptions="FillAndExpand"
+                                       />
+                <cc:RoundedBorderEntry x:Name="entryEmail" 
+                                       TextColor="Black" 
+                                       PlaceholderColor="#CCCCCC" 
+                                       Placeholder="{i18n:Translate RegisterUserHint1}"
+                                       FontSize="15" 
+                                       HeightRequest="40" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       Keyboard="Email"/>
+                <cc:RoundedBorderEntry x:Name="entryPassword" 
+                                       TextColor="Black" 
+                                       PlaceholderColor="#CCCCCC" 
+                                       Placeholder="{i18n:Translate Passphrase}"
+                                       FontSize="15" 
+                                       HeightRequest="40" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       IsPassword="true"
+                                       />
+                <cc:RoundedBorderEntry x:Name="entryConfirmPassword" 
+                                       TextColor="Black" 
+                                       PlaceholderColor="#CCCCCC" 
+                                       Placeholder="{i18n:Translate ConfirmPassphrase}"
+                                       FontSize="15" 
+                                       HeightRequest="40" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       IsPassword="true"/>
+                <StackLayout
+                    Orientation="Vertical"                    
+                    Margin="0, 15, 0, 0"
+                    Spacing="5"
+                    HorizontalOptions="CenterAndExpand">
+                    <Label Text="{i18n:Translate Warning}" 
+                           TextColor="White"
+                           HorizontalTextAlignment="Center"
+                           FontAttributes="Bold,Italic"/>
+                    <Label Text="{i18n:Translate WarningForgetPhrase}" 
+                           TextColor="White"
+                           HorizontalTextAlignment="Center"
+                           FontAttributes="Bold"/>
+                </StackLayout>
+                <!--
+                <cc:RoundedBorderEntry x:Name="entryCoupon" 
+                                       TextColor="Black" 
+                                       PlaceholderColor="#CCCCCC" 
+                                       Placeholder="{i18n:Translate Coupon}"
+                                       FontSize="15" 
+                                       HeightRequest="40" 
+                                       HorizontalOptions="FillAndExpand" />-->
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
