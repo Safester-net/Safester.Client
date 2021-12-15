@@ -25,7 +25,8 @@
             <local:SizeConverter x:Key="sizeToString" />
             <local:BoolToFontAttrConverter x:Key="boolToFontAttr" />
             <local:TextColorConverter x:Key="textColorConverter" />
-            <local:BooleanConverter x:Key="invertConverter" />
+            <local:StarBooleanConverter x:Key="invertConverter" />
+            <local:UnStarNameConverter x:Key="unstarNameConverter" />            
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -64,7 +65,7 @@
                                    FontAttributes="{Binding IsRead, Converter={StaticResource boolToFontAttr}}"
                                     TextColor="{Binding ., Converter={StaticResource textColorConverter}}"
                                     FontSize="16" />
-                                <Label Text="{Binding date, Converter={StaticResource longToDate}}"
+                                <Label Text="{Binding date, Converter={StaticResource longToDate}, ConverterParameter='shortDate'}"
                                     LineBreakMode="TailTruncation"
                                     HorizontalOptions="End"
                                     WidthRequest="150"
@@ -89,7 +90,7 @@
                                     TextColor="{Binding ., Converter={StaticResource textColorConverter}, ConverterParameter={x:Reference imgAttachment}}"
                                     FontSize="14" />
                             </StackLayout>
-                            <Image x:Name="imgStarring" Source="star_black.png"
+                            <Image x:Name="imgStarring" Source="{Binding ., Converter={StaticResource unstarNameConverter}}"
                                    Margin="5, 0, 0, 0"
                                     Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
                                     IsVisible="{Binding IsStarred, Converter={StaticResource invertConverter}}"

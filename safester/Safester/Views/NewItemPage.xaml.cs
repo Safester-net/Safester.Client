@@ -332,7 +332,11 @@ namespace Safester.Views
                 }
                 catch (Exception ex)
                 {
-                    await CustomAlertPage.Show(AppResources.Warning, AppResources.FileAttachNameError, AppResources.OK);
+                    if (ex is UnauthorizedAccessException)
+                        await CustomAlertPage.Show(AppResources.Warning, AppResources.FileAccessError, AppResources.OK);
+                    else
+                        await CustomAlertPage.Show(AppResources.Warning, AppResources.FileAttachNameError, AppResources.OK);
+
                     return;
                 }
             }

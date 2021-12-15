@@ -48,6 +48,9 @@
   <data name="Save" xml:space="preserve">
     <value>Sauver</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copier</value>
+  </data>
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
   </data>
@@ -88,25 +91,37 @@
     <value>Texte</value>
   </data>
   <data name="ErrorInputUserName" xml:space="preserve">
-    <value>Veuillez saisir votre identifiant (adresse email)</value>
+    <value>Veuillez saisir votre identifiant (adresse email).</value>
   </data>
   <data name="ErrorInputUserPassPhrase" xml:space="preserve">
-    <value>Veuillez saisir la Passphrase</value>
+    <value>Veuillez saisir la Passphrase.</value>
   </data>
   <data name="ErrorInputUserPassPhrase1" xml:space="preserve">
-    <value>La Passphrase ne correspond pas. Veuillez vérifier à nouveau</value>
+    <value>La Passphrase ne correspond pas. Veuillez vérifier à nouveau.</value>
   </data>
   <data name="ErrorInputUserPassPhrase2" xml:space="preserve">
     <value>La Passphrase doit comporter au moins 10 caractères.</value>
   </data>
+  <data name="WarningForgetPhrase" xml:space="preserve">
+    <value>Nous ne pouvons pas récupérer votre passphrase en cas de perte.</value>
+  </data>
+  <data name="WarningShowPhrase" xml:space="preserve">
+    <value>Voulez-vous afficher maintenant la passphrase pour une future récupération ?</value>
+  </data>
+  <data name="WarningShowPhraseHint" xml:space="preserve">
+    <value>DERNIÈRE CHANCE avant la création du compte : copiez et collez votre passphrase dans une zone de stockage sécurisée.</value>
+  </data>
+  <data name="CopyHint" xml:space="preserve">
+    <value>Copier la passphrase dans le presse-papier</value>
+  </data>
   <data name="ErrorInputUserEmail" xml:space="preserve">
-    <value>Veuillez saisir l'adresse e-mail</value>
+    <value>Veuillez saisir l'adresse e-mail.</value>
   </data>
   <data name="ErrorInputUserEmail1" xml:space="preserve">
-    <value>L'adresse email ne doit pas contenir d'espaces</value>
+    <value>L'adresse email ne doit pas contenir d'espaces.</value>
   </data>
   <data name="ErrorInputTwoFactorCode" xml:space="preserve">
-    <value>Veuillez saisir le code de validation</value>
+    <value>Veuillez saisir le code de validation.</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version </value>
@@ -118,13 +133,13 @@
     <value>Envoyé depuis IOS</value>
   </data>
   <data name="CANNOT_CONNECT_SERVER" xml:space="preserve">
-    <value>Impossible de se connecter au serveur. Veuillez réessayer</value>
+    <value>Impossible de se connecter au serveur. Veuillez réessayer.</value>
   </data>
   <data name="ALERT_CONFIRM_EMAIL" xml:space="preserve">
-    <value>Veuillez confirmer votre inscription pour pouvoir vous connecter. \n\n{0}\n Vous devez cliquer sur le lien de confirmation d'un email envoyé par Safester.</value>
+    <value>Merci de confirmer votre inscription pour vous connecter. \n\nVÈrifiez votre boite de rÈception pour l'adresse {0}:\nVous devrez cliquer sur un lien de confirmation dans un courrier Èlectronique entrant envoyÈ par Safester.</value>
   </data>
   <data name="ALERT_INVALID_2FACODE" xml:space="preserve">
-    <value>Code 2FA invalide. Veuillez réessayer</value>
+    <value>Code 2FA invalide. Veuillez réessayer.</value>
   </data>
   <data name="ALERT_ACCOUNT_EXIST" xml:space="preserve">
     <value>Cet email est déjà lié à un compte Safester.</value>
@@ -139,10 +154,10 @@
     <value>Le coupon est invalide. Veuillez entrer un coupon valide.</value>
   </data>
   <data name="ALERT_NOEMAILAPP" xml:space="preserve">
-    <value>Aucune application pour envoyer un mail</value>
+    <value>Aucune application pour envoyer un mail.</value>
   </data>
   <data name="ALERT_NODEFAULTAPP" xml:space="preserve">
-    <value>Pas de gestionnaire pour ce type de fichier</value>
+    <value>Pas de gestionnaire pour ce type de fichier.</value>
   </data>
   <data name="TwoFactorCodeRequired" xml:space="preserve">
     <value>Code de validation obligatoire</value>
@@ -157,7 +172,7 @@
     <value>A propos</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value>Copyright© KawanSoft 2019</value>
+    <value>Copyright© Safester 2021</value>
   </data>
   <data name="SupportReportBug" xml:space="preserve">
     <value>Support / Signaler un Bug : </value>
@@ -190,7 +205,10 @@
     <value>Ouvrir le fichier</value>
   </data>
   <data name="ClipboardSuccess" xml:space="preserve">
-    <value>Texte copié dans le presse-papier</value>
+    <value>Texte copié dans le presse-papier.</value>
+  </data>
+  <data name="ClipboardPassPhraseSuccess" xml:space="preserve">
+    <value>La passphrase a été copiée.</value>
   </data>
   <data name="FileDownloadFailure" xml:space="preserve">
     <value>Le téléchargement a échoué</value>
@@ -202,10 +220,16 @@
     <value>Fichier correctement \ntéléchargé et déchiffré \ndans le dossier Sur mon iPhone /Downloads Téléchargements</value>
   </data>
   <data name="DeleteMail" xml:space="preserve">
-    <value>Voulez-vous supprimer ce mail ?</value>
+    <value>Voulez-vous supprimer ce message ?</value>
   </data>
    <data name="DeleteAccount" xml:space="preserve">
     <value>Voulez-vous supprimer ce Compte ?</value>
+  </data>
+  <data name="DeleteForEveryone" xml:space="preserve">
+    <value>Supprimer pour tous</value>
+  </data>
+  <data name="DeleteForMe" xml:space="preserve">
+    <value>Supprimer pour moi seulement</value>
   </data>
   <data name="TryAgain" xml:space="preserve">
     <value>Veuillez réessayer</value>

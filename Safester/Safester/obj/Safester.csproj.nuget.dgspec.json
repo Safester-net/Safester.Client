@@ -10,25 +10,25 @@
         "projectUniqueName": "I:\\Safester2\\C#\\Safester.Client\\Safester\\Safester\\Safester.csproj",
         "projectName": "Safester",
         "projectPath": "I:\\Safester2\\C#\\Safester.Client\\Safester\\Safester\\Safester.csproj",
-        "packagesPath": "C:\\Users\\Nicolas de Pomereu\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\ndepo\\.nuget\\packages\\",
         "outputPath": "I:\\Safester2\\C#\\Safester.Client\\Safester\\Safester\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Nicolas de Pomereu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ndepo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "I:\\_dev_awake\\aceql-http-main\\C#\\NuGet.Local": {},
+          "http://packagesource.com": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
             "projectReferences": {}
           }
         },
@@ -40,6 +40,7 @@
       },
       "frameworks": {
         "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
           "dependencies": {
             "Acr.UserDialogs": {
               "target": "Package",
@@ -114,7 +115,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -36,7 +36,7 @@ namespace Safester.Droid
 
 		public string GetAppVersionName()
 		{
-            return "2.2.0";
+            return "2.2.4";
 		}
 
         public void AskContactsPermission(Action ContactsGrantedAction)

@@ -23,6 +23,8 @@ namespace Safester.ViewModels
         public MenuItemType DirectoryId { get; set; }
         public bool IsStarredForInbox = true;
 
+        public int deleteOption;
+
         public Action<bool> LoadingAction { get; set; }
         public Action LoadingFinished { get; set; }
 
@@ -133,7 +135,7 @@ namespace Safester.ViewModels
             bool result = false;
             try
             {
-                result = await ApiManager.SharedInstance().DeleteMessage(App.CurrentUser.UserEmail, App.CurrentUser.Token, id, (int)DirectoryId);
+                result = await ApiManager.SharedInstance().DeleteMessage(App.CurrentUser.UserEmail, App.CurrentUser.Token, id, (int)DirectoryId, deleteOption);
             }
             catch (Exception ex)
             {

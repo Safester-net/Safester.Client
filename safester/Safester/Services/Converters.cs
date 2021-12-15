@@ -65,12 +65,16 @@ namespace Safester.Services.Converters
                 Console.WriteLine("Date Converter Exception - {0}", ex);
             }
 
+            bool isShortDate = false;
+            if (parameter != null && parameter is string && ((string)parameter).Equals("shortDate"))
+                isShortDate = true;
+
             if (string.IsNullOrEmpty(App.CurrentLanguage) == false && App.CurrentLanguage.Equals("fr", StringComparison.OrdinalIgnoreCase))
             {
-                return dt.ToString("dd/MM/yyyy HH:mm");
+                return dt.ToString(isShortDate ? "dd/MM/yy HH:mm" : "dd/MM/yyyy HH:mm");
             }
             
-            return dt.ToString("M/d/yyyy h:mm tt");
+            return dt.ToString(isShortDate ? "M/d/yy h:mm tt" : "M/d/yyyy h:mm tt");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -181,11 +185,24 @@ namespace Safester.Services.Converters
         }
     }
 
-    public class BooleanConverter : IValueConverter
+    public class StarBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !((bool)value);
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
+    public class UnStarNameConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ThemeHelper.CurrentTheme == ThemeStyle.DARK_THEME ? "star_white.png" : "star_black.png";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

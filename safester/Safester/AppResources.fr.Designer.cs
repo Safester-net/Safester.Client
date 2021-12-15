@@ -119,6 +119,12 @@ namespace Safester {
             }
         }
         
+        internal static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
         internal static string Menu {
             get {
                 return ResourceManager.GetString("Menu", resourceCulture);
@@ -218,6 +224,30 @@ namespace Safester {
         internal static string ErrorInputUserPassPhrase2 {
             get {
                 return ResourceManager.GetString("ErrorInputUserPassPhrase2", resourceCulture);
+            }
+        }
+        
+        internal static string WarningForgetPhrase {
+            get {
+                return ResourceManager.GetString("WarningForgetPhrase", resourceCulture);
+            }
+        }
+        
+        internal static string WarningShowPhrase {
+            get {
+                return ResourceManager.GetString("WarningShowPhrase", resourceCulture);
+            }
+        }
+        
+        internal static string WarningShowPhraseHint {
+            get {
+                return ResourceManager.GetString("WarningShowPhraseHint", resourceCulture);
+            }
+        }
+        
+        internal static string CopyHint {
+            get {
+                return ResourceManager.GetString("CopyHint", resourceCulture);
             }
         }
         
@@ -407,6 +437,12 @@ namespace Safester {
             }
         }
         
+        internal static string ClipboardPassPhraseSuccess {
+            get {
+                return ResourceManager.GetString("ClipboardPassPhraseSuccess", resourceCulture);
+            }
+        }
+        
         internal static string FileDownloadFailure {
             get {
                 return ResourceManager.GetString("FileDownloadFailure", resourceCulture);
@@ -434,6 +470,18 @@ namespace Safester {
         internal static string DeleteAccount {
             get {
                 return ResourceManager.GetString("DeleteAccount", resourceCulture);
+            }
+        }
+        
+        internal static string DeleteForEveryone {
+            get {
+                return ResourceManager.GetString("DeleteForEveryone", resourceCulture);
+            }
+        }
+        
+        internal static string DeleteForMe {
+            get {
+                return ResourceManager.GetString("DeleteForMe", resourceCulture);
             }
         }
         

@@ -7,6 +7,7 @@ using Safester.Controls;
 using Safester.Custom.Effects;
 using Safester.Network;
 using Safester.Utils;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Safester.Views
@@ -33,8 +34,13 @@ namespace Safester.Views
             BackgroundColor = ThemeHelper.GetLoginBGColor();
         }
 
-        void Save_Clicked(object sender, EventArgs e)
+        async void Save_Clicked(object sender, EventArgs e)
         {
+            entryName.Unfocus();
+            entryEmail.Unfocus();
+            entryPassword.Unfocus();
+            entryConfirmPassword.Unfocus();
+
             if (string.IsNullOrEmpty(entryName.Text) == true)
             {
                 CustomAlertPage.Show(AppResources.Error, AppResources.ErrorInputUserName, AppResources.OK);
@@ -77,13 +83,29 @@ namespace Safester.Views
                 return;
             }
 
+            if (Utils.Utils.IsEmailValid(entryEmail.Text) == false)
+            {
+                CustomAlertPage.Show(AppResources.Error, AppResources.ALERT_EMAIL_INVALID, AppResources.OK);
+                return;
+            }
+
             if (_isCreating)
                 return;
 
-            ShowLoading(true);
-
             _userName = HttpUtility.HtmlEncode(entryName.Text);
             _emailAddr = entryEmail.Text.ToLower();
+
+            var informationMsg = AppResources.WarningShowPhraseHint.Replace("\\n", "\n");
+            var isCreate = await CustomAlertPage.Show(ALERTTYPE.Information, "", informationMsg, AppResources.Create, "", entryPassword.Text);
+            if (isCreate == false)
+                return;
+
+            RegisterUser();
+        }
+
+        private void RegisterUser()
+        {
+            ShowLoading(true);
 
             Task.Run(() =>
             {

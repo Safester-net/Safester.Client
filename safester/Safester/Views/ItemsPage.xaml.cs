@@ -75,16 +75,23 @@ namespace Safester.Views
 
         void InfiniteListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
-            var items = ItemsListView.ItemsSource as IList;
-
-            var _settingsService = DependencyService.Get<SettingsService>();
-            var messagesPerScroll = _settingsService.LoadSettings("messages_per_scroll");
-            int limit = Utils.Utils.GetCountPerScroll(messagesPerScroll);
-
-            if (items != null && e.Item == items[items.Count - 1] && items.Count >= limit)
+            try
             {
-                if (viewModel.LoadMoreCommand != null)
-                    viewModel.LoadMoreCommand.Execute(null);
+                var items = ItemsListView.ItemsSource as IList;
+
+                var _settingsService = DependencyService.Get<SettingsService>();
+                var messagesPerScroll = _settingsService.LoadSettings("messages_per_scroll");
+                int limit = Utils.Utils.GetCountPerScroll(messagesPerScroll);
+
+                if (items != null && e.Item == items[items.Count - 1] && items.Count >= limit)
+                {
+                    if (viewModel.LoadMoreCommand != null)
+                        viewModel.LoadMoreCommand.Execute(null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
 
@@ -150,9 +157,10 @@ namespace Safester.Views
 
         async void OnDelete(object sender, System.EventArgs e)
         {
-            bool result = await CustomAlertPage.Show(AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel);
+            bool result = await CustomAlertPage.Show(ALERTTYPE.Picker, AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel, new string[] { AppResources.DeleteForEveryone, AppResources.DeleteForMe });
             if (result)
             {
+                viewModel.deleteOption = CustomAlertPage.GetSelectedIndex();
                 var mi = ((MenuItem)sender);
 
                 UserDialogs.Instance.Loading(AppResources.Pleasewait, null, null, true);

@@ -54,6 +54,20 @@
                                        HeightRequest="40" 
                                        HorizontalOptions="FillAndExpand" 
                                        IsPassword="true"/>
+                <StackLayout
+                    Orientation="Vertical"                    
+                    Margin="0, 15, 0, 0"
+                    Spacing="5"
+                    HorizontalOptions="CenterAndExpand">
+                    <Label Text="{i18n:Translate Warning}" 
+                           TextColor="White"
+                           HorizontalTextAlignment="Center"
+                           FontAttributes="Bold,Italic"/>
+                    <Label Text="{i18n:Translate WarningForgetPhrase}" 
+                           TextColor="White"
+                           HorizontalTextAlignment="Center"
+                           FontAttributes="Bold"/>
+                </StackLayout>
                 <!--
                 <cc:RoundedBorderEntry x:Name="entryCoupon" 
                                        TextColor="Black" 

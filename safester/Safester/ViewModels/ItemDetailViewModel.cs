@@ -40,6 +40,7 @@ namespace Safester.ViewModels
         public long MessageDate { get; set; }
         public String Body { get; set; }
         public String BodyOriginal { get; set; }
+        public int deleteOption { get; set; }
 
         public bool IsBodyLoaded { get; set; }
 
@@ -194,7 +195,7 @@ namespace Safester.ViewModels
             bool result = false;
             try
             {
-                result = await ApiManager.SharedInstance().DeleteMessage(App.CurrentUser.UserEmail, App.CurrentUser.Token, id, (int)ItemType);
+                result = await ApiManager.SharedInstance().DeleteMessage(App.CurrentUser.UserEmail, App.CurrentUser.Token, id, (int)ItemType, deleteOption);
             }
             catch (Exception ex)
             {

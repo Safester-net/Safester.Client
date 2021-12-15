@@ -259,13 +259,14 @@ namespace Safester.Network
             }
         }
 
-        public async Task<bool> DeleteMessage(string userName, string token, int messageId, int directoryId)
+        public async Task<bool> DeleteMessage(string userName, string token, int messageId, int directoryId, int deleteOption)
         {
             var postData = new List<KeyValuePair<string, string>>();
             postData.Add(new KeyValuePair<string, string>("username", userName));
             postData.Add(new KeyValuePair<string, string>("token", token));
             postData.Add(new KeyValuePair<string, string>("messageId", messageId.ToString()));
             postData.Add(new KeyValuePair<string, string>("directoryId", directoryId.ToString()));
+            postData.Add(new KeyValuePair<string, string>("deleteForAll", (deleteOption == 0) ? "true" : "false"));
 
             string result = string.Empty;
             result = await CallWithPostAsync("api/deleteMessage", postData);

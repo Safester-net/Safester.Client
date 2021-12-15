@@ -181,9 +181,11 @@ namespace Safester.Views
 
         private async void DeleteItem_Clicked(object sender, EventArgs e)
         {
-            bool result = await CustomAlertPage.Show(AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel);
+            bool result = await CustomAlertPage.Show(ALERTTYPE.Picker, AppResources.Warning, AppResources.DeleteMail, AppResources.Yes, AppResources.Cancel, new string[] { AppResources.DeleteForEveryone, AppResources.DeleteForMe });
             if (result)
             {
+                viewModel.deleteOption = CustomAlertPage.GetSelectedIndex();
+
                 ShowLoading(true);
                 result = await viewModel.DeleteItemsCommand((int)viewModel.Item.messageId);
                 ShowLoading(false);
