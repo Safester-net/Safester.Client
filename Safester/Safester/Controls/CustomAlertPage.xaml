@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:cc="clr-namespace:Safester.Controls"
+             xmlns:controls="clr-namespace:Safester.Controls"
+             x:Class="Safester.Controls.CustomAlertPage">
+    <ContentPage.Content>
+        <Frame x:Name="mainLayout" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+               CornerRadius="5" Padding="20, 15" Margin="20, 5">
+            <StackLayout Spacing="10" >
+                <Label x:Name="lblTitle" HorizontalOptions="StartAndExpand"
+                       FontSize="20" FontAttributes="Bold"/>
+                <Label x:Name="lblDescription" HorizontalOptions="StartAndExpand"
+                       FontSize="16"/>
+                <StackLayout x:Name="inputLayout" Orientation="Horizontal" Spacing="10" IsVisible="false">
+                    <Label x:Name="lblInputDescription" HorizontalOptions="Start" Text="[Yes/No]:" VerticalOptions="CenterAndExpand"
+                       FontSize="16"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <controls:TransparentEntry x:Name="entryInput" HorizontalOptions="FillAndExpand" Text="No" Grid.Row="0" Grid.Column="0" BackgroundColor="Transparent"/>
+                        <BoxView x:Name="inputLine" HeightRequest="1" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout x:Name="pickerLayout" Orientation="Horizontal" Spacing="10" IsVisible="false">
+                    <Picker x:Name="pickerOptions" HorizontalOptions="FillAndExpand" FontSize="14" />
+                </StackLayout>
+                <StackLayout x:Name="informationLayout" Orientation="Vertical" Spacing="5" IsVisible="false">
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <Image x:Name="ImgCopy" Source="copy.png" Aspect="AspectFit" WidthRequest="24" HeightRequest="24" HorizontalOptions="Start" />
+                        <Label x:Name="lblCopyHint" HorizontalOptions="Start" FontSize="14"/>
+                    </StackLayout>
+                    <cc:RoundedBorderEntry x:Name="lblInformation" HorizontalOptions="FillAndExpand" TextColor="Black" PlaceholderColor="#CCCCCC" FontSize="15" HeightRequest="40" IsPassword="True" Text="" />
+                </StackLayout>
+                <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal"
+                             Margin="0, 10, 0, 0" Spacing="10">
+                    <StackLayout x:Name="cancelLayout" Padding="15, 5" >
+                        <Label x:Name="lblCancel" FontSize="14" />
+                    </StackLayout>
+                    <StackLayout x:Name="closeLayout" Padding="15, 5" >
+                        <Label x:Name="lblClose" FontSize="14" />
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</pages:PopupPage>
