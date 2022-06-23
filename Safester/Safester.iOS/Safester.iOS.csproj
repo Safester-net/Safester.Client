@@ -175,7 +175,7 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Safester.CryptoLibrary">
       <Version>1.0.11</Version>
